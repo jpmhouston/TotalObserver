@@ -1,5 +1,5 @@
 //
-//  TOExAppDelegate.h
+//  AppDelegate.h
 //  TotalObserver
 //
 //  Created by Pierre Houston on 10/14/2015.
@@ -8,8 +8,8 @@
 
 @import UIKit;
 
-@interface TOExAppDelegate : UIResponder <UIApplicationDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate>
 
-@property (strong, nonatomic) UIWindow *window;
+@property (nonatomic) UIWindow *window;
 
 @end

@@ -1,0 +1,19 @@
+PODS:
+  - libextobjc/EXTKeyPathCoding (0.4.1):
+    - libextobjc/RuntimeExtensions
+  - libextobjc/RuntimeExtensions (0.4.1)
+  - TotalObserver (0.1.0)
+
+DEPENDENCIES:
+  - libextobjc/EXTKeyPathCoding
+  - TotalObserver (from `../`)
+
+EXTERNAL SOURCES:
+  TotalObserver:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  libextobjc: a650fc1bf489a3d3a9bc2e621efa3e1006fc5471
+  TotalObserver: 30e46e12a8813716141bb3e6b9f9a84c7d751763
+
+COCOAPODS: 0.39.0

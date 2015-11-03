@@ -1,18 +1,17 @@
 //
-//  TOExAppDelegate.m
+//  AppDelegate.m
 //  TotalObserver
 //
 //  Created by Pierre Houston on 10/14/2015.
 //  Copyright (c) 2015 Pierre Houston. All rights reserved.
 //
 
-#import "TOExAppDelegate.h"
+#import "AppDelegate.h"
 
-@implementation TOExAppDelegate
+@implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Override point for customization after application launch.
     return YES;
 }
 
