@@ -16,6 +16,12 @@
 @property (nonatomic, assign) BOOL observed;
 @end
 
+@interface TOObservation (PrivateMethodExposedForTesting)
++ (NSSet *)associatedObservationsForObserver:(id)observer;
++ (NSSet *)associatedObservationsForObservee:(id)object;
++ (NSSet *)associatedObservationsForObserver:(nullable id)observer object:(nullable id)object;
+@end
+
 @implementation Tests
 
 - (void)setUp
@@ -198,5 +204,60 @@
     XCTAssertEqual(samequeue, self.queue);
 }
 #endif // disabled because addObserver:forKeyPath:.. seems to crash when run in a text case
+
+- (void)testExplicitRemoval
+{
+    TOObservation *observation1 = [self to_observeForNotifications:self.modelObject named:NameChangedNotification withBlock:^(id obj, TOObservation *obs) { }];
+    TOObservation *observation2 = [self to_observeAllNotificationsNamed:NameChangedNotification withBlock:^(id obj, TOObservation *obs) { }];
+    
+    NSSet *observationsBeforeRemoval = [TOObservation associatedObservationsForObserver:self];
+    XCTAssertTrue([observationsBeforeRemoval containsObject:observation1]);
+    XCTAssertTrue([observationsBeforeRemoval containsObject:observation2]);
+    
+    [observation1 remove];
+    
+    NSSet *observationsAfterRemoval = [TOObservation associatedObservationsForObserver:self];
+    XCTAssertFalse([observationsAfterRemoval containsObject:observation1]);
+    XCTAssertTrue([observationsAfterRemoval containsObject:observation2]);
+}
+
+- (void)testIndirectRemoval
+{
+    TOObservation *observation1 = [self to_observeForNotifications:self.modelObject named:NameChangedNotification withBlock:^(id obj, TOObservation *obs) { }];
+    TOObservation *observation2 = [self to_observeAllNotificationsNamed:NameChangedNotification withBlock:^(id obj, TOObservation *obs) { }];
+    
+    NSSet *observationsBeforeRemoval = [TOObservation associatedObservationsForObserver:self];
+    XCTAssertTrue([observationsBeforeRemoval containsObject:observation1]);
+    XCTAssertTrue([observationsBeforeRemoval containsObject:observation2]);
+    
+    BOOL found = [self to_stopObservingForNotifications:self.modelObject named:NameChangedNotification];
+    XCTAssertTrue(found);
+    
+    NSSet *observationsAfterRemoval = [TOObservation associatedObservationsForObserver:self];
+    XCTAssertFalse([observationsAfterRemoval containsObject:observation1]);
+    XCTAssertTrue([observationsAfterRemoval containsObject:observation2]);
+}
+
+- (void)testImplicitRemoval
+{
+    TOObservation *observation1, *observation2;
+    @autoreleasepool {
+        observation1 = [self to_observeForNotifications:self.modelObject named:NameChangedNotification withBlock:^(id obj, TOObservation *obs) { }];
+        observation2 = [self to_observeAllNotificationsNamed:NameChangedNotification withBlock:^(id obj, TOObservation *obs) { }];
+    }
+    
+    NSSet *observationsBeforeRemoval = [TOObservation associatedObservationsForObserver:self object:nil];
+    XCTAssertTrue([observationsBeforeRemoval containsObject:observation1]);
+    XCTAssertTrue([observationsBeforeRemoval containsObject:observation2]);
+    
+    self.modelObject = nil;
+    // something in 'to_observeForNotifications' is doing a retain+autorelease that ARC isn't optimizing away
+    // without use of @autoreleasepool above, the property would have a strong retain by the main autorelease pool until after this method exited
+    // so modelObject's dealloc wouldn't run until then, which would mean observation1 would not be removed here and the first assertion below would fail
+    
+    NSSet *observationsAfterRemoval = [TOObservation associatedObservationsForObserver:self object:nil];
+    XCTAssertFalse([observationsAfterRemoval containsObject:observation1]);
+    XCTAssertTrue([observationsAfterRemoval containsObject:observation2]);
+}
 
 @end

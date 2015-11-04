@@ -24,13 +24,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)invoke;
 
-+ (nullable TOObservation *)observationForHashKey:(NSString *)key withObserver:(id)observer;
++ (TOObservation *)findObservationForObserver:(nullable id)observer object:(nullable id)object matchingTest:(BOOL(^)(TOObservation *observation))testBlock;
+
+// expected to only be useful for test code
++ (NSSet *)associatedObservationsForObserver:(id)observer;
++ (NSSet *)associatedObservationsForObservee:(id)object;
++ (NSSet *)associatedObservationsForObserver:(nullable id)observer object:(nullable id)object;
 @end
 
 @interface TOObservation (PrivateForSubclassesToOverride)
 - (void)registerInternal;
-- (void)removeInternal;
-- (NSString *)hashKey;
+- (void)deregisterInternal;
 @end
 
 #if __has_feature(nullability)

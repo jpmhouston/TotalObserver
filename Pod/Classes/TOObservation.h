@@ -23,7 +23,7 @@ typedef void (^TOObjObservationBlock)(id obj, TOObservation *);
 @interface TOObservation : NSObject
 
 @property (nonatomic, readonly, weak) id observer;
-@property (nonatomic, readonly, weak, nullable) id object;
+@property (nonatomic, readonly, weak, nullable) id object; // aka observee
 
 @property (nonatomic, readonly, nullable) NSOperationQueue *queue;
 
@@ -31,6 +31,7 @@ typedef void (^TOObjObservationBlock)(id obj, TOObservation *);
 @property (nonatomic, readonly, copy, nullable) TOObjObservationBlock objectBlock;
 
 @property (nonatomic, readonly) BOOL registered;
+@property (nonatomic) BOOL removeAutomatically; // ie. when either observer or observee is dealloc'd, default = YES
 
 - (void)remove;
 @end

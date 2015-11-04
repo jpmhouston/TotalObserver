@@ -9,6 +9,8 @@
 #import "TOObservation.h"
 #import "TOObservation-Private.h"
 #import "NSObject+TotalObserver.h"
+#import <objc/runtime.h>
+#import <objc/message.h>
 
 #if __has_feature(nullability)
 NS_ASSUME_NONNULL_BEGIN
@@ -16,12 +18,10 @@ NS_ASSUME_NONNULL_BEGIN
 #define nullable
 #endif
 
-static NSMutableDictionary *sharedObservationDict;
-
 
 @interface TOObservation ()
 @property (nonatomic, readwrite, weak, nullable) id observer;
-@property (nonatomic, readwrite, weak, nullable) id object;
+@property (nonatomic, readwrite, weak, nullable) id object; // some overlap of term 'object' in here, consider naming this 'observee'
 
 @property (nonatomic, readwrite, nullable) NSOperationQueue *queue;
 
@@ -30,6 +30,11 @@ static NSMutableDictionary *sharedObservationDict;
 
 @property (nonatomic, readwrite) BOOL registered;
 @end
+
+static const int TOObservationSetKeyVar;
+static void *TOObservationSetKey = (void *)&TOObservationSetKeyVar;
+
+static NSMutableSet *classesSwizzledSet;
 
 
 #pragma mark -
@@ -52,6 +57,7 @@ static NSMutableDictionary *sharedObservationDict;
     _object = object;
     _queue = queue;
     _block = block;
+    _removeAutomatically = YES;
     return self;
 }
 
@@ -63,6 +69,7 @@ static NSMutableDictionary *sharedObservationDict;
     _object = object;
     _queue = queue;
     _objectBlock = block;
+    _removeAutomatically = YES;
     return self;
 }
 
@@ -72,7 +79,8 @@ static NSMutableDictionary *sharedObservationDict;
         [NSException raise:NSGenericException format:@"Observation already registered, cannot register again"];
     
     [self registerInternal];
-    [[self class] keepObservation:self];
+    [self storeAssociatedObservation];
+    [self adoptAutomaticRemoval];
     self.registered = YES;
 }
 
@@ -81,8 +89,8 @@ static NSMutableDictionary *sharedObservationDict;
     if (!self.registered)
         return;
     
-    [self removeInternal];
-    [[self class] discardObservation:self];
+    [self deregisterInternal];
+    [self removeAssociatedObservation];
     self.registered = NO;
 }
 
@@ -101,7 +109,7 @@ static NSMutableDictionary *sharedObservationDict;
     [NSException raise:NSInternalInconsistencyException format:@"TOObservation registerInternal should not be called"];
 }
 
-- (void)removeInternal
+- (void)deregisterInternal
 {
     [NSException raise:NSInternalInconsistencyException format:@"TOObservation registerInternal should not be called"];
 }
@@ -112,78 +120,166 @@ static NSMutableDictionary *sharedObservationDict;
     return nil;
 }
 
+
 #pragma mark -
 
-+ (NSMutableDictionary *)sharedObservations
+- (void)storeAssociatedObservation
 {
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        sharedObservationDict = [NSMutableDictionary dictionary];
-    });
-    return sharedObservationDict;
+    NSAssert1(self.observer != nil || self.object != nil, @"Nil 'observer' & 'object' properties when storing observation %@", self);
+    // store into *both* observer & observee, although that may not be obvious
+    // of course we want to remove the observation if the observer goes away, but also if the observee does too
+    //
+    if (self.observer != nil)
+        [[self class] storeAssociatedObservation:self intoObject:self.observer];
+    if (self.object != nil)
+        [[self class] storeAssociatedObservation:self intoObject:self.object];
 }
 
-+ (nullable TOObservation *)observationForHashKey:(NSString *)key withObserver:(id)observer
+- (void)removeAssociatedObservation
 {
-    NSMutableDictionary *observations = [self sharedObservations];
-    
-    NSMutableSet *observationsMatchingHash = [observations objectForKey:key];
-    TOObservation *foundObservation = nil;
-    if (observationsMatchingHash != nil) {
-        @synchronized(observationsMatchingHash) {
-            for (TOObservation *observation in observationsMatchingHash) {
-                if (observation.observer == observer) {
-                    foundObservation = observation;
-                    break;
-                }
-            }
+    NSAssert1(self.observer != nil || self.object != nil, @"Nil 'observer' & 'object' properties when removing observation %@", self);
+    if (self.observer != nil)
+        [[self class] removeAssociatedObservation:self fromObject:self.observer];
+    if (self.object != nil)
+        [[self class] removeAssociatedObservation:self fromObject:self.object];
+}
+
++ (void)storeAssociatedObservation:(TOObservation *)observation intoObject:(id)associationTarget
+{
+    NSMutableSet *observationSet = nil;
+    @synchronized(associationTarget) {
+        
+        observationSet = objc_getAssociatedObject(associationTarget, &TOObservationSetKey);
+        if (observationSet == nil) {
+            observationSet = [NSMutableSet set];
+            objc_setAssociatedObject(associationTarget, &TOObservationSetKey, observationSet, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
         }
-        // is there any reason to do this to avoid iterating within the @synchronized block?
-        // making the copy is O(n) anyway so it seems pointless
-//        NSSet *observationsSet;
-//        @synchronized(observationsMatchingHash) {
-//            observationsSet = [observationsMatchingHash copy];
-//        }
-//        for (TOObservation *observation in observationsSet) {
-//            if (observation.observer == observer) {
-//                foundObservation = observation;
-//                break;
-//            }
-//        }
+        
+    }
+    @synchronized(observationSet) {
+        
+        [observationSet addObject:observation];
+        
+    }
+}
+
++ (void)removeAssociatedObservation:(TOObservation *)observation fromObject:(id)associationTarget
+{
+    NSMutableSet *observationSet = nil;
+    @synchronized(associationTarget) {
+        
+        observationSet = objc_getAssociatedObject(associationTarget, &TOObservationSetKey);
+        
+    }
+    if (observationSet != nil) {
+        @synchronized(observationSet) {
+            
+            [observationSet removeObject:observation];
+            // don't bother removing the set when its empty, would have to use another @synchronized(associationTarget) block
+            
+        }
+    }
+}
+
++ (NSSet *)associatedObservationsForObserver:(id)observer
+{
+    return [self associatedObservationsForObject:observer];
+}
+
++ (NSSet *)associatedObservationsForObservee:(id)object
+{
+    return [self associatedObservationsForObject:object];
+}
+
++ (NSSet *)associatedObservationsForObserver:(nullable id)observer object:(nullable id)object
+{
+    NSParameterAssert(observer != nil || object != nil);
+    return [self associatedObservationsForObject:observer != nil ? observer : object]; // observer if its not nil, otherwise object
+}
+
++ (NSSet *)associatedObservationsForObject:(id)associationTarget
+{
+    NSMutableSet *observationSet = nil;
+    @synchronized(associationTarget) {
+        
+        observationSet = objc_getAssociatedObject(associationTarget, &TOObservationSetKey);
+        
+    }
+    if (observationSet != nil) {
+        @synchronized(observationSet) {
+            
+            observationSet = [observationSet copy];
+            
+        }
+    }
+    return observationSet;
+}
+
++ (TOObservation *)findObservationForObserver:(nullable id)observer object:(nullable id)object matchingTest:(BOOL(^)(TOObservation *observation))testBlock
+{
+    TOObservation *foundObservation = nil;
+    NSSet *observationSet = [self associatedObservationsForObserver:observer object:object];
+    
+    for (TOObservation *observation in observationSet) {
+        // note, self here is class of subclass whose class method called this superclass class method
+        // eg. if TONotificationObservation class method called this, then self is TONotificationObservation instead of TOObservation
+        if ([observation isKindOfClass:self] && observer == observation.observer && object == observation.object && testBlock(observation)) {
+            foundObservation = observation;
+            break;
+        }
     }
     return foundObservation;
 }
 
-+ (void)keepObservation:(TOObservation *)observation
+
+#pragma mark -
+
+- (void)adoptAutomaticRemoval
 {
-    NSString *key = [observation hashKey];
-    NSMutableDictionary *observations = [self sharedObservations];
+    NSAssert1(self.observer != nil || self.object != nil, @"Nil 'observer' & 'object' properties when adopting auto-removal for observation %@", self);
+    if (self.observer != nil)
+        [[self class] swizzleDeallocIfNeededForClass:[self.observer class]];
+    if (self.object != nil)
+        [[self class] swizzleDeallocIfNeededForClass:[self.object class]];
+}
+
++ (void)swizzleDeallocIfNeededForClass:(Class)class
+{
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        classesSwizzledSet = [NSMutableSet set];
+    });
     
-    NSMutableSet *observationsMatchingHash = [observations objectForKey:key];
-    if (observationsMatchingHash == nil) {
-        @synchronized(observations) {
-            observationsMatchingHash = [observations objectForKey:key];
-            if (observationsMatchingHash == nil) {
-                observationsMatchingHash = [NSMutableSet set];
-                [observations setObject:observationsMatchingHash forKey:key];
-            }
+    // taken directly from _swizzleObjectClassIfNeeded in https://github.com/mikeash/MAKVONotificationCenter/blob/master/MAKVONotificationCenter.m
+    
+    @synchronized(classesSwizzledSet) {
+        
+        if (![classesSwizzledSet containsObject:class]) {
+            // here be dragons
+            SEL deallocSel = NSSelectorFromString(@"dealloc");
+            Method dealloc = class_getInstanceMethod(class, deallocSel);
+            IMP origImpl = method_getImplementation(dealloc);
+            IMP newImpl = imp_implementationWithBlock(^(void *obj) { // MAKVONotificationCenter casts its block to (__bridge void *), but that's giving error here :(
+                @autoreleasepool {
+                    [TOObservation performAutomaticRemovalForObject:(__bridge id)obj];
+                }
+                ((void (*)(void *, SEL))origImpl)(obj, deallocSel);
+            });
+            
+            class_replaceMethod(class, deallocSel, newImpl, method_getTypeEncoding(dealloc));
+            
+            [classesSwizzledSet addObject:class];
         }
-    }
-    @synchronized(observationsMatchingHash) {
-        [observationsMatchingHash addObject:observation];
+        
     }
 }
 
-+ (void)discardObservation:(TOObservation *)observation
++ (void)performAutomaticRemovalForObject:(id)objectBeingDeallocated
 {
-    NSString *key = [observation hashKey];
-    NSMutableDictionary *observations = [self sharedObservations];
-    
-    NSMutableSet *observationsMatchingHash = [observations objectForKey:key];
-    if (observationsMatchingHash != nil) {
-        @synchronized(observationsMatchingHash) {
-            [observationsMatchingHash removeObject:observation];
-        }
+    NSSet *observationSet = [self associatedObservationsForObject:objectBeingDeallocated]; // observations both by the object & on the object
+    for (TOObservation *observation in observationSet) {
+        if (observation.removeAutomatically)
+            [observation remove];
     }
 }
 

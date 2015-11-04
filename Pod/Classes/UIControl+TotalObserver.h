@@ -19,43 +19,45 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) UIControl *control;
 @property (nonatomic, readonly) UIControlEvents events;
 
-+ (BOOL)removeForObserver:(id)observer control:(UIControl *)control events:(UIControlEvents)events;
+// can use this class method to match a prior observation and remove it, although usually more convenient to
+// use the 'stopObserving' methods below, or save the observation object and call 'remove' on it
++ (BOOL)removeForObserver:(nullable id)observer control:(UIControl *)control events:(UIControlEvents)events;
 @end
 
 
 @interface NSObject (TotalObserverUIControl)
 
-// receiver is observer, object parameter is observee
-- (TOObservation *)to_observeControlForPress:(UIControl *)control withBlock:(TOObjObservationBlock)block;
-
-- (TOObservation *)to_observeControlForValue:(UIControl *)control withBlock:(TOObjObservationBlock)block;
-
-- (TOObservation *)to_observeControl:(UIControl *)control forEvents:(UIControlEvents)events withBlock:(TOObjObservationBlock)block;
+// receiver is observer, object parameter is observee, automatically removed at time of observer's dealloc
+- (TOControlObservation *)to_observeControlForPress:(UIControl *)control withBlock:(TOObjObservationBlock)block;
+- (TOControlObservation *)to_observeControlForValue:(UIControl *)control withBlock:(TOObjObservationBlock)block;
+- (TOControlObservation *)to_observeControl:(UIControl *)control forEvents:(UIControlEvents)events withBlock:(TOObjObservationBlock)block;
 
 // same but with queue parameter
-- (TOObservation *)to_observeControlForPress:(UIControl *)control onQueue:(NSOperationQueue *)queue withBlock:(TOObjObservationBlock)block;
+- (TOControlObservation *)to_observeControlForPress:(UIControl *)control onQueue:(NSOperationQueue *)queue withBlock:(TOObjObservationBlock)block;
+- (TOControlObservation *)to_observeControlForValue:(UIControl *)control onQueue:(NSOperationQueue *)queue withBlock:(TOObjObservationBlock)block;
+- (TOControlObservation *)to_observeControl:(UIControl *)control forEvents:(UIControlEvents)events onQueue:(NSOperationQueue *)queue withBlock:(TOObjObservationBlock)block;
 
-- (TOObservation *)to_observeControlForValue:(UIControl *)control onQueue:(NSOperationQueue *)queue withBlock:(TOObjObservationBlock)block;
-
-- (TOObservation *)to_observeControl:(UIControl *)control forEvents:(UIControlEvents)events onQueue:(NSOperationQueue *)queue withBlock:(TOObjObservationBlock)block;
+- (BOOL)to_stopObservingControlForPress:(UIControl *)control;
+- (BOOL)to_stopObservingControlForValue:(UIControl *)control;
+- (BOOL)to_stopObservingControl:(UIControl *)control forEvents:(UIControlEvents)events;
 
 @end
 
 @interface UIControl (TotalObserver)
 
-// receiver is observee, no observer specified (not removed automatically, so must call [observer remove] explicitly)
-- (TOObservation *)to_observePressWithBlock:(TOObservationBlock)block;
-
-- (TOObservation *)to_observeValueWithBlock:(TOObservationBlock)block;
-
-- (TOObservation *)to_observeEvents:(UIControlEvents)events withBlock:(TOObservationBlock)block;
+// receiver is observee, no observer, automatically removed at time of receiver's dealloc
+- (TOControlObservation *)to_observePressWithBlock:(TOObservationBlock)block;
+- (TOControlObservation *)to_observeValueWithBlock:(TOObservationBlock)block;
+- (TOControlObservation *)to_observeEvents:(UIControlEvents)events withBlock:(TOObservationBlock)block;
 
 // same but with queue parameter
-- (TOObservation *)to_observePressOnQueue:(NSOperationQueue *)queue withBlock:(TOObservationBlock)block;
+- (TOControlObservation *)to_observePressOnQueue:(NSOperationQueue *)queue withBlock:(TOObservationBlock)block;
+- (TOControlObservation *)to_observeValueOnQueue:(NSOperationQueue *)queue withBlock:(TOObservationBlock)block;
+- (TOControlObservation *)to_observeEvents:(UIControlEvents)events onQueue:(NSOperationQueue *)queue withBlock:(TOObservationBlock)block;
 
-- (TOObservation *)to_observeValueOnQueue:(NSOperationQueue *)queue withBlock:(TOObservationBlock)block;
-
-- (TOObservation *)to_observeEvents:(UIControlEvents)events onQueue:(NSOperationQueue *)queue withBlock:(TOObservationBlock)block;
+- (BOOL)to_stopObservingForPress;
+- (BOOL)to_stopObservingForValue;
+- (BOOL)to_stopObservingForEvents:(UIControlEvents)events;
 
 @end
 
