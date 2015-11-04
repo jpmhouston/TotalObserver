@@ -22,7 +22,7 @@
     
     ViewController __weak *welf = self;
     
-    __unused TOObservation *o1 = [self to_observeForChanges:self.modelObject toKeyPath:@keypath(self.modelObject, name) withBlock:^(typeof(self) obj, TOObservation *obs) {
+    __unused TOObservation *o1 = [self to_observeForChanges:self.modelObject toKeyPath:@keypath(self.modelObject, name) withBlock:^(ViewController *obj, TOObservation *obs) {
         [obj addLineToTextView:@"observed model.name property"];
     }];
     
