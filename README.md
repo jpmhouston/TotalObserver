@@ -4,13 +4,15 @@
 [![License](https://img.shields.io/cocoapods/l/TotalObserver.svg?style=flat)](http://cocoapods.org/pods/TotalObserver)
 [![Platform](https://img.shields.io/cocoapods/p/TotalObserver.svg?style=flat)](http://cocoapods.org/pods/TotalObserver)
 
-A simplified API for unifying NSNotifications and KVO style observer patterns into a consistent API.
+A simplified Objective-C API for using NSNotifications and KVO with consistent terminology and useful convenience features.
 
 Uses blocks exclusively, but unlike NSNotification's blocks API, allows removal using matching parameters instead of requiring storage of an observation object. Supports automatic removal when either observer or observee is deallocated.
 
 Extensible to other styles of observers, an included example is a wrapper for UIControl event actions.
 
 Heavily influenced by [MAKVONotificationCenter](http://github.com/mikeash/MAKVONotificationCenter), adapting its rock-solid solution for automatic removal.
+
+Swift and OS X support to come, as is optionally omitting the “to_” prefix. Pull requests welcome.
 
 ## Usage
 
