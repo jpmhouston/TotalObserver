@@ -19,7 +19,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readwrite, copy) NSString *name;
 
 @property (nonatomic, readwrite) NSNotification *notification;
-@property (nonatomic, readwrite) NSDictionary *userInfo;
+@property (nonatomic, readwrite, nullable) id postedObject;
+@property (nonatomic, readwrite, nullable) NSDictionary *userInfo;
 
 - (instancetype)initWithObserver:(nullable id)observer object:(nullable id)object name:(NSString *)name onQueue:(nullable NSOperationQueue *)queue withBlock:(TOObservationBlock)block;
 - (instancetype)initWithObserver:(nullable id)observer object:(nullable id)object name:(NSString *)name onQueue:(nullable NSOperationQueue *)queue withObjBlock:(TOObjObservationBlock)block;
@@ -33,9 +34,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readwrite) NSDictionary *changeDict;
 @property (nonatomic, readwrite) NSUInteger kind;
 @property (nonatomic, readwrite, getter=isPrior) BOOL prior;
-@property (nonatomic, readwrite) id changedValue;
-@property (nonatomic, readwrite) id oldValue;
-@property (nonatomic, readwrite) NSIndexSet *indexes;
+@property (nonatomic, readwrite, nullable) id changedValue;
+@property (nonatomic, readwrite, nullable) id oldValue;
+@property (nonatomic, readwrite, nullable) NSIndexSet *indexes;
 
 - (instancetype)initWithObserver:(nullable id)observer object:(id)object keyPaths:(NSArray *)keyPaths options:(int)options onQueue:(nullable NSOperationQueue *)queue withBlock:(TOObservationBlock)block;
 - (instancetype)initWithObserver:(nullable id)observer object:(id)object keyPaths:(NSArray *)keyPaths options:(int)options onQueue:(nullable NSOperationQueue *)queue withObjBlock:(TOObjObservationBlock)block;
@@ -288,6 +289,7 @@ static void *TOKVOObservationContext = (void *)&TOKVOObservationContextVar;
     typeof(self) __weak welf = self;
     [[NSNotificationCenter defaultCenter] addObserverForName:self.name object:self.object queue:self.queue usingBlock:^(NSNotification *notification) {
         welf.notification = notification;
+        welf.postedObject = notification.object;
         welf.userInfo = notification.userInfo;
         [welf invoke];
     }];

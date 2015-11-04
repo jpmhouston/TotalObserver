@@ -25,7 +25,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly, copy) NSString *name;
 
 @property (nonatomic, readonly) NSNotification *notification;
-@property (nonatomic, readonly) NSDictionary *userInfo;
+@property (nonatomic, readonly, nullable) id postedObject;
+@property (nonatomic, readonly, nullable) NSDictionary *userInfo;
 
 // can use this class method to match a prior observation and remove it, although usually more convenient to
 // use the 'stopObserving' methods below, or save the observation object and call 'remove' on it
@@ -42,9 +43,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) NSDictionary *changeDict;
 @property (nonatomic, readonly) NSUInteger kind;
 @property (nonatomic, readonly, getter=isPrior) BOOL prior;
-@property (nonatomic, readonly) id changedValue;
-@property (nonatomic, readonly) id oldValue;
-@property (nonatomic, readonly) NSIndexSet *indexes;
+@property (nonatomic, readonly, nullable) id changedValue;
+@property (nonatomic, readonly, nullable) id oldValue;
+@property (nonatomic, readonly, nullable) NSIndexSet *indexes;
 
 // can use this class method to match a prior observation and remove it, although usually more convenient to
 // use the 'stopObserving' methods below, or save the observation object and call 'remove' on it
