@@ -32,9 +32,9 @@ TOObservation *o1 = [self to_observeForChanges:object toKeyPath:@"name" withBloc
 }];
 [self to_stopObservingForChanges:object toKeyPath:@"name"];
 
-[object to_observeChangesToKeyPaths:@[@"name, @"flag"] withBlock:^(TOKVOObservation *observation) {
+[object to_observeChangesToKeyPaths:@[@"name", @"flag"] withBlock:^(TOKVOObservation *obs) {
     // observe many keys at once, easily detect which one it was
-    if ([observation.keyPath isEqualToString:@"flag"])
+    if ([obs.keyPath isEqualToString:@"flag"])
     	;
     // note: this API omits observer, this block may outlive the object whose method made this call!
 }];
