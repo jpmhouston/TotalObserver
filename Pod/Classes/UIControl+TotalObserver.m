@@ -3,7 +3,7 @@
 //  Pods
 //
 //  Created by Pierre Houston on 2015-10-30.
-//
+//  Copyright (c) 2015 Pierre Houston. All rights reserved.
 //
 
 #import "UIControl+TotalObserver.h"

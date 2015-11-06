@@ -3,7 +3,7 @@
 //  TotalObserver
 //
 //  Created by Pierre Houston on 2015-10-15.
-//
+//  Copyright (c) 2015 Pierre Houston. All rights reserved.
 //
 
 #import "TOObservation.h"
@@ -17,7 +17,6 @@ NS_ASSUME_NONNULL_BEGIN
 #else
 #define nullable
 #endif
-
 
 @interface TOObservation ()
 @property (nonatomic, readwrite, weak, nullable) id observer;
@@ -34,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 static const int TOObservationSetKeyVar;
 static void *TOObservationSetKey = (void *)&TOObservationSetKeyVar;
 
-static NSMutableSet *classesSwizzledSet;
+static NSMutableSet *classesSwizzledSet = nil;
 
 
 #pragma mark -
