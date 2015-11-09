@@ -2,11 +2,13 @@ PODS:
   - libextobjc/EXTKeyPathCoding (0.4.1):
     - libextobjc/RuntimeExtensions
   - libextobjc/RuntimeExtensions (0.4.1)
-  - TotalObserver (0.1.0)
+  - TotalObserver/Core (0.1.2)
+  - TotalObserver/Shorthand (0.1.2):
+    - TotalObserver/Core
 
 DEPENDENCIES:
   - libextobjc/EXTKeyPathCoding
-  - TotalObserver (from `../`)
+  - TotalObserver/Shorthand (from `../`)
 
 EXTERNAL SOURCES:
   TotalObserver:
@@ -14,6 +16,6 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   libextobjc: a650fc1bf489a3d3a9bc2e621efa3e1006fc5471
-  TotalObserver: 30e46e12a8813716141bb3e6b9f9a84c7d751763
+  TotalObserver: 8ae892ff01b7f861d11da855680ef8d2ef3b033f
 
 COCOAPODS: 0.39.0

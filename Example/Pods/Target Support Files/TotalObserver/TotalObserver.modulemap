@@ -3,4 +3,7 @@ framework module TotalObserver {
 
   export *
   module * { export * }
+
+  private header "TOObservation-Private.h"
+  private header "SetupShorthand.h"
 }

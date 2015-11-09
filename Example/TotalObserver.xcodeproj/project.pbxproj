@@ -22,6 +22,8 @@
 		6003F5BA195388D20070C39A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6003F5B8195388D20070C39A /* InfoPlist.strings */; };
 		6003F5BC195388D20070C39A /* Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F5BB195388D20070C39A /* Tests.m */; };
 		873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 873B8AEA1B1F5CCA007FD442 /* Main.storyboard */; };
+		8F04535C1BED779A0078BE10 /* ModelObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FAC1A871BCF63AC0017C614 /* ModelObject.m */; };
+		8F0453621BEEC8850078BE10 /* TestShorthand.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F0453611BEEC8850078BE10 /* TestShorthand.m */; };
 		8FAC1A881BCF63AC0017C614 /* ModelObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FAC1A871BCF63AC0017C614 /* ModelObject.m */; };
 		E8191627601828517DAF9E32 /* Pods_TotalObserver_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA41E174C68860D58EA5DE75 /* Pods_TotalObserver_Example.framework */; };
 /* End PBXBuildFile section */
@@ -61,6 +63,7 @@
 		758E7717DA2817AABDD98CAB /* Pods-TotalObserver_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TotalObserver_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TotalObserver_Tests/Pods-TotalObserver_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		873B8AEA1B1F5CCA007FD442 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		8997BB3083288AD2FC906A5A /* Pods-TotalObserver_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TotalObserver_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TotalObserver_Tests/Pods-TotalObserver_Tests.debug.xcconfig"; sourceTree = "<group>"; };
+		8F0453611BEEC8850078BE10 /* TestShorthand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestShorthand.m; sourceTree = "<group>"; };
 		8FAC1A861BCF63AC0017C614 /* ModelObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ModelObject.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		8FAC1A871BCF63AC0017C614 /* ModelObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ModelObject.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		94D1B687E49ED874B146C5C7 /* Pods-TotalObserver_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TotalObserver_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TotalObserver_Example/Pods-TotalObserver_Example.debug.xcconfig"; sourceTree = "<group>"; };
@@ -173,6 +176,7 @@
 			isa = PBXGroup;
 			children = (
 				6003F5BB195388D20070C39A /* Tests.m */,
+				8F0453611BEEC8850078BE10 /* TestShorthand.m */,
 				6003F5B6195388D20070C39A /* Supporting Files */,
 			);
 			path = Tests;
@@ -407,6 +411,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				6003F5BC195388D20070C39A /* Tests.m in Sources */,
+				8F0453621BEEC8850078BE10 /* TestShorthand.m in Sources */,
+				8F04535C1BED779A0078BE10 /* ModelObject.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

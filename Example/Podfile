@@ -2,12 +2,11 @@ source 'https://github.com/CocoaPods/Specs.git'
 use_frameworks!
 
 target 'TotalObserver_Example', :exclusive => true do
-  pod "TotalObserver", :path => "../"
+  pod "TotalObserver/Shorthand", :path => "../"
   pod 'libextobjc/EXTKeyPathCoding'
 end
 
 target 'TotalObserver_Tests', :exclusive => true do
-  pod "TotalObserver", :path => "../"
-  pod 'libextobjc/EXTKeyPathCoding'
+  pod "TotalObserver/Shorthand", :path => "../"
 end
 
