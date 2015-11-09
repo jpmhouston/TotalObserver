@@ -7,11 +7,13 @@
 //
 
 #import "AppDelegate.h"
+#import <TotalObserver/TotalObserverShorthand.h>
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [TOObservation setupShorthandMethods];
     return YES;
 }
 

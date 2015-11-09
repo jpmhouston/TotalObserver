@@ -8,4 +8,6 @@
 
 #import <TotalObserver/TOObservation.h>
 #import <TotalObserver/NSObject+TotalObserver.h>
+#if TARGET_OS_IPHONE
 #import <TotalObserver/UIControl+TotalObserver.h>
+#endif

@@ -7,8 +7,10 @@
 //
 
 #import "ViewController.h"
-#import <TotalObserver/TotalObserver.h>
+//#import <TotalObserver/TotalObserverShorthand.h>
+@import TotalObserver;
 #import <libextobjc/EXTKeyPathCoding.h>
+
 
 @interface TOObservation (PrivateObservationMethods)
 + (NSMutableDictionary *)sharedObservations;
@@ -22,7 +24,7 @@
     
     ViewController __weak *welf = self;
     
-    __unused TOObservation *o1 = [self to_observeForChanges:self.modelObject toKeyPath:@keypath(self.modelObject, name) withBlock:^(ViewController *obj, TOObservation *obs) {
+    __unused TOObservation *o1 = [self observeForChanges:self.modelObject toKeyPath:@keypath(self.modelObject, name) withBlock:^(ViewController *obj, TOObservation *obs) { // to_observeForChanges
         [obj addLineToTextView:@"observed model.name property"];
     }];
     
