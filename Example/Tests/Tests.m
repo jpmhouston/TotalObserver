@@ -22,6 +22,7 @@
 + (NSSet *)associatedObservationsForObserver:(nullable id)observer object:(nullable id)object;
 @end
 
+
 @implementation Tests
 
 - (void)setUp
@@ -53,6 +54,15 @@
     XCTAssertTrue(self.observed);
     XCTAssertEqual(sameobj, self);
     XCTAssertEqual(sameobs, observation);
+}
+
+- (void)testObjectNotificationUsingBlocksObjectParam
+{
+    [self to_observeForNotifications:self.modelObject named:NameChangedNotification withBlock:^(typeof(self) obj, TOObservation *obs) {
+        obj.observed = YES;
+    }];
+    self.modelObject.name = @""; // should trigger notification, see -[ModelObject setName]
+    XCTAssertTrue(self.observed);
 }
 
 - (void)testObjectNotificationOnQueue
