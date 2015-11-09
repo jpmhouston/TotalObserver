@@ -1,6 +1,6 @@
 //
 //  UIControl+TotalObserver.h
-//  Pods
+//  TotalObserver
 //
 //  Created by Pierre Houston on 2015-10-30.
 //  Copyright (c) 2015 Pierre Houston. All rights reserved.
@@ -11,8 +11,9 @@
 
 #if __has_feature(nullability)
 NS_ASSUME_NONNULL_BEGIN
+#define TO_nullable nullable
 #else
-#define nullable
+#define TO_nullable
 #endif
 
 @interface TOControlObservation : TOObservation
@@ -21,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 // can use this class method to match a prior observation and remove it, although usually more convenient to
 // use the 'stopObserving' methods below, or save the observation object and call 'remove' on it
-+ (BOOL)removeForObserver:(nullable id)observer control:(UIControl *)control events:(UIControlEvents)events;
++ (BOOL)removeForObserver:(TO_nullable id)observer control:(UIControl *)control events:(UIControlEvents)events;
 @end
 
 
@@ -63,6 +64,5 @@ NS_ASSUME_NONNULL_BEGIN
 
 #if __has_feature(nullability)
 NS_ASSUME_NONNULL_END
-#else
-#undef nullable
 #endif
+#undef TO_nullable

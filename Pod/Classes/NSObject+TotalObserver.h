@@ -11,8 +11,9 @@
 
 #if __has_feature(nullability)
 NS_ASSUME_NONNULL_BEGIN
+#define TO_nullable nullable
 #else
-#define nullable
+#define TO_nullable
 #endif
 
 // usually don't need to know that TOObservation returned from methods below are either a
@@ -25,13 +26,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly, copy) NSString *name;
 
 @property (nonatomic, readonly) NSNotification *notification;
-@property (nonatomic, readonly, nullable) id postedObject;
-@property (nonatomic, readonly, nullable) NSDictionary *userInfo;
+@property (nonatomic, readonly, TO_nullable) id postedObject;
+@property (nonatomic, readonly, TO_nullable) NSDictionary *userInfo;
 
 // can use this class method to match a prior observation and remove it, although usually more convenient to
 // use the 'stopObserving' methods below, or save the observation object and call 'remove' on it
 // don't call with both observer & object nil
-+ (BOOL)removeForObserver:(nullable id)observer object:(nullable id)object name:(NSString *)name;
++ (BOOL)removeForObserver:(TO_nullable id)observer object:(TO_nullable id)object name:(NSString *)name;
 @end
 
 
@@ -43,13 +44,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) NSDictionary *changeDict;
 @property (nonatomic, readonly) NSUInteger kind;
 @property (nonatomic, readonly, getter=isPrior) BOOL prior;
-@property (nonatomic, readonly, nullable) id changedValue;
-@property (nonatomic, readonly, nullable) id oldValue;
-@property (nonatomic, readonly, nullable) NSIndexSet *indexes;
+@property (nonatomic, readonly, TO_nullable) id changedValue;
+@property (nonatomic, readonly, TO_nullable) id oldValue;
+@property (nonatomic, readonly, TO_nullable) NSIndexSet *indexes;
 
 // can use this class method to match a prior observation and remove it, although usually more convenient to
 // use the 'stopObserving' methods below, or save the observation object and call 'remove' on it
-+ (BOOL)removeForObserver:(nullable id)observer object:(id)object keyPaths:(NSArray *)keyPaths;
++ (BOOL)removeForObserver:(TO_nullable id)observer object:(id)object keyPaths:(NSArray *)keyPaths;
 @end
 
 
@@ -113,6 +114,5 @@ NS_ASSUME_NONNULL_BEGIN
 
 #if __has_feature(nullability)
 NS_ASSUME_NONNULL_END
-#else
-#undef nullable
 #endif
+#undef TO_nullable

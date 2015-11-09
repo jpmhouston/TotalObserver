@@ -1,6 +1,6 @@
 //
 //  TOObservation-Private.h
-//  Pods
+//  TotalObserver
 //
 //  Created by Pierre Houston on 2015-10-23.
 //
@@ -10,8 +10,9 @@
 
 #if __has_feature(nullability)
 NS_ASSUME_NONNULL_BEGIN
+#define TO_nullable nullable
 #else
-#define nullable
+#define TO_nullable
 #endif
 
 @interface TOObservation (PrivateForCallersToUse)
@@ -19,17 +20,17 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface TOObservation (PrivateForSubclassesToUse)
-- (instancetype)initWithObserver:(nullable id)observer object:(id)object queue:(nullable NSOperationQueue *)queue block:(TOObservationBlock)block;
-- (instancetype)initWithObserver:(nullable id)observer object:(id)object queue:(nullable NSOperationQueue *)queue objBlock:(TOObjObservationBlock)block;
+- (instancetype)initWithObserver:(TO_nullable id)observer object:(id)object queue:(TO_nullable NSOperationQueue *)queue block:(TOObservationBlock)block;
+- (instancetype)initWithObserver:(TO_nullable id)observer object:(id)object queue:(TO_nullable NSOperationQueue *)queue objBlock:(TOObjObservationBlock)block;
 
 - (void)invoke;
 
-+ (TOObservation *)findObservationForObserver:(nullable id)observer object:(nullable id)object matchingTest:(BOOL(^)(TOObservation *observation))testBlock;
++ (TOObservation *)findObservationForObserver:(TO_nullable id)observer object:(TO_nullable id)object matchingTest:(BOOL(^)(TOObservation *observation))testBlock;
 
 // expected to only be useful for test code
 + (NSSet *)associatedObservationsForObserver:(id)observer;
 + (NSSet *)associatedObservationsForObservee:(id)object;
-+ (NSSet *)associatedObservationsForObserver:(nullable id)observer object:(nullable id)object;
++ (NSSet *)associatedObservationsForObserver:(TO_nullable id)observer object:(TO_nullable id)object;
 @end
 
 @interface TOObservation (PrivateForSubclassesToOverride)
@@ -39,6 +40,5 @@ NS_ASSUME_NONNULL_BEGIN
 
 #if __has_feature(nullability)
 NS_ASSUME_NONNULL_END
-#else
-#undef nullable
 #endif
+#undef TO_nullable
