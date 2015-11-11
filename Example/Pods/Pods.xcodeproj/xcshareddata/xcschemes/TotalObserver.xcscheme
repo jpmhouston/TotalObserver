@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '13AC862F9488E823C70E04A5'
+               BlueprintIdentifier = 'FC9B80368BBEEC0F2A8C9811'
                BlueprintName = 'TotalObserver'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'TotalObserver.framework'>

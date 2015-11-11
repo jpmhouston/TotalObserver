@@ -16,6 +16,6 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   libextobjc: a650fc1bf489a3d3a9bc2e621efa3e1006fc5471
-  TotalObserver: 8ae892ff01b7f861d11da855680ef8d2ef3b033f
+  TotalObserver: e45a2cf78fdb40b69b64fa0cc37edfa5d36384d4
 
 COCOAPODS: 0.39.0

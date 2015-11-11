@@ -9,11 +9,14 @@
 //  - in your podfile use: pod 'TotalObserver/Shorthand' instead of just pod 'TotalObserver'
 //  - either: use module import directive as normal: @import TotalObserver;
 //    or: import <TotalObserver/TotalObserverShorthand.h> instead of the normal umbrealla header
-//  - also either: in at least one .m file, import <TotalObserver/SetupShorthand.h> (**-see below)
-//    or: call [TOObservation setupShorthandMethods] somewhere, such as application:didFinishLaunching
+//  - then call [TOObservation setupShorthandMethods] somewhere, such as your app delegate's
+//    application:didFinishLaunching..
 //
-//  ** SetupShorthand.h HEADER NOT WORKING YET BECAUSE I HAVEN'T FIGURED OUT HOW TO INCLUDE IT
-//     IN THE MODULE MAP BUT NOT IN THE MODULAR UMBRELLA HEADER
+//  instead of the last step, wanted to be able to this, however SetupShorthand.h etc isn't
+//  working yet:
+//  - in at least one .m file, also include <TotalObserver/SetupShorthand.h>
+//    (if used module import syntax then its important to use #include and not #import)
+//
 
 #import <TotalObserver/TOObservation.h>
 #import <TotalObserver/TOObservation+Shorthand.h>

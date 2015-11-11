@@ -1,1 +1,1 @@
-../../../../../Pod/Classes/UIControl+TotalObserverShorthand.h
+../../../../../Pod/UIControl+TotalObserverShorthand.h

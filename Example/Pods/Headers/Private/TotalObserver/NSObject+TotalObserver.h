@@ -1,1 +1,1 @@
-../../../../../Pod/Classes/NSObject+TotalObserver.h
+../../../../../Pod/NSObject+TotalObserver.h

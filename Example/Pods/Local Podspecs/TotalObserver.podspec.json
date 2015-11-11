@@ -31,33 +31,33 @@
       "name": "Core",
       "ios": {
         "source_files": [
-          "Pod/Classes/TotalObserver.h",
-          "Pod/Classes/TOObservation.{h,m}",
-          "Pod/Classes/TOObservation-Private.h",
-          "Pod/Classes/NSObject+TotalObserver.{h,m}",
-          "Pod/Classes/UIControl+TotalObserver.{h,m}"
+          "Pod/TotalObserver.h",
+          "Pod/TOObservation.{h,m}",
+          "Pod/TOObservation-Private.h",
+          "Pod/NSObject+TotalObserver.{h,m}",
+          "Pod/UIControl+TotalObserver.{h,m}"
         ],
         "public_header_files": [
-          "Pod/Classes/TotalObserver.h",
-          "Pod/Classes/TOObservation.h",
-          "Pod/Classes/NSObject+TotalObserver.h",
-          "Pod/Classes/UIControl+TotalObserver.h"
+          "Pod/TotalObserver.h",
+          "Pod/TOObservation.h",
+          "Pod/NSObject+TotalObserver.h",
+          "Pod/UIControl+TotalObserver.h"
         ]
       },
       "osx": {
         "source_files": [
-          "Pod/Classes/TotalObserver.h",
-          "Pod/Classes/TOObservation.{h,m}",
-          "Pod/Classes/TOObservation-Private.h",
-          "Pod/Classes/NSObject+TotalObserver.{h,m}"
+          "Pod/TotalObserver.h",
+          "Pod/TOObservation.{h,m}",
+          "Pod/TOObservation-Private.h",
+          "Pod/NSObject+TotalObserver.{h,m}"
         ],
         "public_header_files": [
-          "Pod/Classes/TotalObserver.h",
-          "Pod/Classes/TOObservation.h",
-          "Pod/Classes/NSObject+TotalObserver.h"
+          "Pod/TotalObserver.h",
+          "Pod/TOObservation.h",
+          "Pod/NSObject+TotalObserver.h"
         ]
       },
-      "private_header_files": "Pod/Classes/TOObservation-Private.h"
+      "private_header_files": "Pod/TOObservation-Private.h"
     },
     {
       "name": "Shorthand",
@@ -68,33 +68,30 @@
       },
       "ios": {
         "source_files": [
-          "Pod/Classes/TotalObserverShorthand.h",
-          "Pod/Classes/SetupShorthand.h",
-          "Pod/Classes/TOObservation+Shorthand.{h,m}",
-          "Pod/Classes/NSObject+TotalObserverShorthand.h",
-          "Pod/Classes/UIControl+TotalObserverShorthand.h"
+          "Pod/TotalObserverShorthand.h",
+          "Pod/TOObservation+Shorthand.{h,m}",
+          "Pod/NSObject+TotalObserverShorthand.h",
+          "Pod/UIControl+TotalObserverShorthand.h"
         ],
         "public_header_files": [
-          "Pod/Classes/TotalObserverShorthand.h",
-          "Pod/Classes/TOObservation+Shorthand.h",
-          "Pod/Classes/NSObject+TotalObserverShorthand.h",
-          "Pod/Classes/UIControl+TotalObserverShorthand.h"
+          "Pod/TotalObserverShorthand.h",
+          "Pod/TOObservation+Shorthand.h",
+          "Pod/NSObject+TotalObserverShorthand.h",
+          "Pod/UIControl+TotalObserverShorthand.h"
         ]
       },
       "osx": {
         "source_files": [
-          "Pod/Classes/TotalObserverShorthand.h",
-          "Pod/Classes/SetupShorthand.h",
-          "Pod/Classes/TOObservation+Shorthand.{h,m}",
-          "Pod/Classes/NSObject+TotalObserverShorthand.h"
+          "Pod/TotalObserverShorthand.h",
+          "Pod/TOObservation+Shorthand.{h,m}",
+          "Pod/NSObject+TotalObserverShorthand.h"
         ],
         "public_header_files": [
-          "Pod/Classes/TotalObserverShorthand.h",
-          "Pod/Classes/TOObservation+Shorthand.h",
-          "Pod/Classes/NSObject+TotalObserverShorthand.h"
+          "Pod/TotalObserverShorthand.h",
+          "Pod/TOObservation+Shorthand.h",
+          "Pod/NSObject+TotalObserverShorthand.h"
         ]
-      },
-      "private_header_files": "Pod/Classes/SetupShorthand.h"
+      }
     }
   ]
 }

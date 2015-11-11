@@ -7,13 +7,14 @@
 //
 
 #import "AppDelegate.h"
-#import <TotalObserver/TotalObserverShorthand.h>
+
+@import TotalObserver; // or #import <TotalObserver/TotalObserverShorthand.h>
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    [TOObservation setupShorthandMethods];
+    [TOObservation setupShorthandMethods]; // to enable methods that leave off the "to_" prefix
     return YES;
 }
 

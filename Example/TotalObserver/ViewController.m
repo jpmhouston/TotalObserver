@@ -7,10 +7,8 @@
 //
 
 #import "ViewController.h"
-//#import <TotalObserver/TotalObserverShorthand.h>
-@import TotalObserver;
 #import <libextobjc/EXTKeyPathCoding.h>
-
+#import <TotalObserver/TotalObserverShorthand.h> // or @import TotalObserver;
 
 @interface TOObservation (PrivateObservationMethods)
 + (NSMutableDictionary *)sharedObservations;
@@ -24,36 +22,36 @@
     
     ViewController __weak *welf = self;
     
-    __unused TOObservation *o1 = [self observeForChanges:self.modelObject toKeyPath:@keypath(self.modelObject, name) withBlock:^(ViewController *obj, TOObservation *obs) { // to_observeForChanges
+    __unused TOObservation *o1 = [self observeForChanges:self.modelObject toKeyPath:@keypath(self.modelObject, name) withBlock:^(ViewController *obj, TOObservation *obs) {
         [obj addLineToTextView:@"observed model.name property"];
     }];
     
-    __unused TOObservation *o2 = [self to_observeForChanges:self.modelObject toKeyPath:@keypath(self.modelObject, flag) withBlock:^(typeof(self) obj, TOObservation *obs) {
+    __unused TOObservation *o2 = [self observeForChanges:self.modelObject toKeyPath:@keypath(self.modelObject, flag) withBlock:^(typeof(self) obj, TOObservation *obs) {
         [obj addLineToTextView:@"observed model.flag property (1)"];
     }];
     
-    __unused TOObservation *o3 = [self.modelObject to_observeChangesToKeyPath:@keypath(self.modelObject, flag) withBlock:^(TOObservation *obs) {
+    __unused TOObservation *o3 = [self.modelObject observeChangesToKeyPath:@keypath(self.modelObject, flag) withBlock:^(TOObservation *obs) {
         [welf addLineToTextView:@"observed model.flag property (2)"];
     }];
     
-    __unused TOObservation *o4 = [self.modelObject to_observeChangesToKeyPaths:@[@keypath(self.modelObject, name), @keypath(self.modelObject, flag)] withBlock:^(TOObservation *obs) {
+    __unused TOObservation *o4 = [self.modelObject observeChangesToKeyPaths:@[@keypath(self.modelObject, name), @keypath(self.modelObject, flag)] withBlock:^(TOObservation *obs) {
         [welf addLineToTextView:@"observed model.name or flag property"];
     }];
     
-    __unused TOObservation *o5 = [self to_observeForNotifications:self.modelObject named:NameChangedNotification withBlock:^(typeof(self) obj, TOObservation *obs) {
+    __unused TOObservation *o5 = [self observeForNotifications:self.modelObject named:NameChangedNotification withBlock:^(typeof(self) obj, TOObservation *obs) {
         [obj addLineToTextView:@"observed NameChangedNotification (1)"];
     }];
     
-    __unused TOObservation *o6 = [self to_observeNotificationsNamed:NameChangedNotification withBlock:^(TOObservation *obs) {
+    __unused TOObservation *o6 = [self observeNotificationsNamed:NameChangedNotification withBlock:^(TOObservation *obs) {
         [welf addLineToTextView:@"observed NameChangedNotification (2)"];
     }];
     
-    __unused TOObservation *o7 = [self to_observeControlForPress:self.button1 withBlock:^(typeof(self) obj, TOObservation *obs) {
+    __unused TOObservation *o7 = [self observeControlForPress:self.button1 withBlock:^(typeof(self) obj, TOObservation *obs) {
         [obj addLineToTextView:@"observed Button 1, setting model.name"];
         obj.modelObject.name = @"x";
     }];
     
-    __unused TOObservation *o8 = [self.button2 to_observePressWithBlock:^(TOObservation *obs) {
+    __unused TOObservation *o8 = [self.button2 observePressWithBlock:^(TOObservation *obs) {
         [welf addLineToTextView:@"observed Button 2, setting model.flag"];
         welf.modelObject.flag = YES;
     }];

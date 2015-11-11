@@ -70,6 +70,18 @@ it, simply add the following line to your Podfile:
 pod "TotalObserver"
 ```
 
+Alternately, you can enable shorthand methods that leave the `to_` prefix off the catgory method names (inspired by MagicalRecord) by instead adding to your Podfile:
+
+```ruby
+pod "TotalObserver/Shorthand"
+```
+
+and also, somewhere in your app's launching process, such as a `+load` method or your app delegate's `application:didFinishLaunching...` method, add this class method call:
+
+```objective-c
+[TOObservation setupShorthandMethods];
+```
+
 ## Author
 
 Pierre Houston, jpmhouston@gmail.com

@@ -8,36 +8,35 @@
 
 /* Begin PBXBuildFile section */
 		005C74D9C3ACDD143E42B173E745DC07 /* TotalObserver-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 902147E29FD87A974132DD1A68AA01C8 /* TotalObserver-dummy.m */; };
+		04DC7A1F34FF4DC201A653FA81F14A70 /* NSObject+TotalObserverShorthand.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EEB587296D4720C7D3E6F6A0BDB245C /* NSObject+TotalObserverShorthand.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1131B519F0E63D441355162D98C4B19B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E7E5AF37923BFA48D6994B9BFC6535F /* Foundation.framework */; };
-		14228AC846CD13D533B7C0B213CD0209 /* TOObservation+Shorthand.h in Headers */ = {isa = PBXBuildFile; fileRef = 8078C738860384E2E9F46F4F35CEFD4F /* TOObservation+Shorthand.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		257BE7D9F5C61E081DFF06DE3BCABE22 /* TOObservation-Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 8DEA860C0473E38F15F137270AF79370 /* TOObservation-Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		268AA28FC754F5E3E61338544FF533BB /* TOObservation+Shorthand.m in Sources */ = {isa = PBXBuildFile; fileRef = 107EC38B82BA29DDB9F17F7C4003A99C /* TOObservation+Shorthand.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
+		268AA28FC754F5E3E61338544FF533BB /* TOObservation+Shorthand.m in Sources */ = {isa = PBXBuildFile; fileRef = 32B8854F13CE2002C99D26AE53776505 /* TOObservation+Shorthand.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
 		2A70D47DA4E1E48E890185EFEA5DFB2C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E7E5AF37923BFA48D6994B9BFC6535F /* Foundation.framework */; };
+		2F986DAE9DC87BC14AA10A86FD9CBF1C /* NSObject+TotalObserver.h in Headers */ = {isa = PBXBuildFile; fileRef = B0FB3567E94394A31A057CE7C49DF385 /* NSObject+TotalObserver.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3B08F26F035E3037019C5A004F2A1E9B /* libextobjc-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 475CA321A2B3284EB1C5E807D02E83E2 /* libextobjc-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		45A7649925F15A52A805CE77D57DF7B5 /* TotalObserver.h in Headers */ = {isa = PBXBuildFile; fileRef = 3FC6980F33EC3D626187412170BBF601 /* TotalObserver.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4DF441767386B604532FC5B90A5081CE /* EXTRuntimeExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = AF44F490DD2109D1BD295D4DED15AB8F /* EXTRuntimeExtensions.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
 		4E43C54117E6C6224FABA0488BF081FF /* libextobjc-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = D9DD37686209ABA17DF42E623E4DD2E1 /* libextobjc-dummy.m */; };
 		503C6671B1773178CA04E40AA6A1F3D0 /* EXTRuntimeExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A8CD5FC5272F223D1799160BB51FD3C /* EXTRuntimeExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		64458BE66A4D34E5188B3463BEADD743 /* TOObservation.h in Headers */ = {isa = PBXBuildFile; fileRef = AD1CDBEC100654F2D674EDA3E919FA89 /* TOObservation.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		652F84B3C450F79945FEAB8C6975FBA7 /* UIControl+TotalObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C9B0BB0104B50EA7BF58694F9D8DBB3 /* UIControl+TotalObserver.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
+		53D608C5E63F4A6416608F0128D8BF3D /* TotalObserver-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 0F774A71BCC0C3C8B28A127421F54CB9 /* TotalObserver-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5F860B588611BCA4F0FE43504986ED6A /* TOObservation.h in Headers */ = {isa = PBXBuildFile; fileRef = E08C0982C8FA211E56E971B7A981F6AE /* TOObservation.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		652F84B3C450F79945FEAB8C6975FBA7 /* UIControl+TotalObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = BE577CA6EF38177E26D89A3274C58C00 /* UIControl+TotalObserver.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
 		75B819E2CAE8A72B4EE570498AB909C4 /* Pods-TotalObserver_Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 0DE1303C885660F17E51B8534E979D84 /* Pods-TotalObserver_Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7720ED7A02964D2B5500906E14C60DBA /* EXTKeyPathCoding.h in Headers */ = {isa = PBXBuildFile; fileRef = 62B345F46E9E9813E676F8BC7E02961A /* EXTKeyPathCoding.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7ECBEF808D11EF332919D0BB1E386CE8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E7E5AF37923BFA48D6994B9BFC6535F /* Foundation.framework */; };
-		8D7088087F5EBCA23FFAC21979BE80DE /* NSObject+TotalObserver.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F299F3DE8123C8706CB1F29B73727FC /* NSObject+TotalObserver.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		865B7789CC6EA28A1F611455DF5775AD /* TOObservation+Shorthand.h in Headers */ = {isa = PBXBuildFile; fileRef = A1EA260371AE1F11FF9DA04403218D5B /* TOObservation+Shorthand.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		86838D5855D12A846DE4C83960959941 /* TOObservation-Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 740D2A4D344130B6B3E94F42872A3BF3 /* TOObservation-Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		96DCCF10EE39DD3A48C6D6AF0D3C8C90 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3B7BDF5CE5CB8F095FE12DA55D9A9BB /* UIKit.framework */; };
-		A57000703ACC390999F0E18CFECB1E9F /* UIControl+TotalObserverShorthand.h in Headers */ = {isa = PBXBuildFile; fileRef = 190E68BAE5119586F1BD5AD0DFF30124 /* UIControl+TotalObserverShorthand.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9C4F68C1AD0CE837ACEF21CD2618B903 /* TotalObserverShorthand.h in Headers */ = {isa = PBXBuildFile; fileRef = E95A847FD67823CC25F825C88DCA4CC2 /* TotalObserverShorthand.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		ABD03A046F804E8D5B2570E42CC5F8AA /* Pods-TotalObserver_Example-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A6403EB8815179248382347D3C81A82 /* Pods-TotalObserver_Example-dummy.m */; };
-		C5C47C3824D8ACBE5249AB48DB71B778 /* TOObservation.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C75D91BC5272967C02C4889D3C94B03 /* TOObservation.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
+		C5C47C3824D8ACBE5249AB48DB71B778 /* TOObservation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DDE708F8FAD105A489BF26085B82DD /* TOObservation.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
 		C65A556B8EB23B11A37C0BEA7FCBD93E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E7E5AF37923BFA48D6994B9BFC6535F /* Foundation.framework */; };
-		D2818D2ED6104155F67F6C4876F83B22 /* NSObject+TotalObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 772716CA954926A9B17875A2D8D1355A /* NSObject+TotalObserver.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
+		D2818D2ED6104155F67F6C4876F83B22 /* NSObject+TotalObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = F9749F368DC6DA4DBB9B6AAF8F9A7D50 /* NSObject+TotalObserver.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
 		D3868CEBD47DFF1C2D432FD27C440560 /* Pods-TotalObserver_Example-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = A6C19CB772CF4004948605082941D0FC /* Pods-TotalObserver_Example-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D40C39197A86581E8C5972C21C50E43F /* TotalObserver-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 0F774A71BCC0C3C8B28A127421F54CB9 /* TotalObserver-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DC937E055B5E8E99D2C9C126B5CDD9FD /* UIControl+TotalObserverShorthand.h in Headers */ = {isa = PBXBuildFile; fileRef = DC6139AEED2198C58BA59808965C73CB /* UIControl+TotalObserverShorthand.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DDBEC6C5EADC4E9ED872AD5D7A25DDD5 /* metamacros.h in Headers */ = {isa = PBXBuildFile; fileRef = 8EDC944E00EE271FF3D3EBE1A90D204F /* metamacros.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		DFA1DCD089EEBC0F977F5A43C341FBDD /* SetupShorthand.h in Headers */ = {isa = PBXBuildFile; fileRef = E23A0A2C421D3F63AD77DE3C61C4118A /* SetupShorthand.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		E8E284CD0839861DE63BC244AFD62587 /* UIControl+TotalObserver.h in Headers */ = {isa = PBXBuildFile; fileRef = 15EC8397473D21FE088A5730E514AC6C /* UIControl+TotalObserver.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E13B351E16F82B2971E49E7B6C498BE5 /* UIControl+TotalObserver.h in Headers */ = {isa = PBXBuildFile; fileRef = 9C5CE9008788F486AE46BB17D78998DB /* UIControl+TotalObserver.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EF606937DA9DF18C9AF62C315B017EAA /* Pods-TotalObserver_Tests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = DCC9B21E7966FE501A6B5B45ACBBA3B7 /* Pods-TotalObserver_Tests-dummy.m */; };
-		F2809CC8F891DB1B36A50D1FF1F75037 /* TotalObserver.h in Headers */ = {isa = PBXBuildFile; fileRef = FF185436CDF68EAACA32156A8BA199EF /* TotalObserver.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		FC8AFBFCEC8345348C5F3A1CC0DA9A4C /* TotalObserverShorthand.h in Headers */ = {isa = PBXBuildFile; fileRef = 0CABDA6435EEAE210F0CEAC4930F6209 /* TotalObserverShorthand.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		FEB400B7E5D6B36E4762765B3A0B68C2 /* NSObject+TotalObserverShorthand.h in Headers */ = {isa = PBXBuildFile; fileRef = 7FE075C2DC5D195CD5A0D8270A379821 /* NSObject+TotalObserverShorthand.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,62 +65,61 @@
 
 /* Begin PBXFileReference section */
 		0106915035C45F92E56EDDC9A10CDB77 /* TotalObserver.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = TotalObserver.modulemap; sourceTree = "<group>"; };
-		0CABDA6435EEAE210F0CEAC4930F6209 /* TotalObserverShorthand.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = TotalObserverShorthand.h; sourceTree = "<group>"; };
 		0DE1303C885660F17E51B8534E979D84 /* Pods-TotalObserver_Tests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-TotalObserver_Tests-umbrella.h"; sourceTree = "<group>"; };
 		0F774A71BCC0C3C8B28A127421F54CB9 /* TotalObserver-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "TotalObserver-umbrella.h"; sourceTree = "<group>"; };
 		0FF466B25201D8F2E4393E980718FCDB /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		107EC38B82BA29DDB9F17F7C4003A99C /* TOObservation+Shorthand.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "TOObservation+Shorthand.m"; sourceTree = "<group>"; };
 		1489CEADC2B79F981C663C498C634C5D /* Pods-TotalObserver_Example.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "Pods-TotalObserver_Example.modulemap"; sourceTree = "<group>"; };
-		15EC8397473D21FE088A5730E514AC6C /* UIControl+TotalObserver.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "UIControl+TotalObserver.h"; sourceTree = "<group>"; };
-		190E68BAE5119586F1BD5AD0DFF30124 /* UIControl+TotalObserverShorthand.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "UIControl+TotalObserverShorthand.h"; sourceTree = "<group>"; };
 		2163B72684E01F2274A59FBAB83BD0D3 /* libextobjc.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = libextobjc.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2ADA215E33412B8C47DB9DE223A217B6 /* Pods_TotalObserver_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TotalObserver_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2FA49135EA0D5273FAAF0BB409E79AA4 /* libextobjc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = libextobjc.xcconfig; sourceTree = "<group>"; };
+		32B8854F13CE2002C99D26AE53776505 /* TOObservation+Shorthand.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "TOObservation+Shorthand.m"; sourceTree = "<group>"; };
 		3834DC868B5718C2AC646DBCD985335F /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3FC6980F33EC3D626187412170BBF601 /* TotalObserver.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = TotalObserver.h; sourceTree = "<group>"; };
 		475CA321A2B3284EB1C5E807D02E83E2 /* libextobjc-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "libextobjc-umbrella.h"; sourceTree = "<group>"; };
 		4A8CD5FC5272F223D1799160BB51FD3C /* EXTRuntimeExtensions.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = EXTRuntimeExtensions.h; path = extobjc/EXTRuntimeExtensions.h; sourceTree = "<group>"; };
 		4F1E5DC8900D376A9752B31B85852112 /* Pods-TotalObserver_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-TotalObserver_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		58622A4FFB2D0E88658DCEFDDCF2735E /* libextobjc.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = libextobjc.modulemap; sourceTree = "<group>"; };
 		596750AF81AFC8766510323E9AFFB3A8 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5C9B0BB0104B50EA7BF58694F9D8DBB3 /* UIControl+TotalObserver.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "UIControl+TotalObserver.m"; sourceTree = "<group>"; };
 		5EAB95F851E722BFC97F316649210310 /* Pods-TotalObserver_Tests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-TotalObserver_Tests-acknowledgements.markdown"; sourceTree = "<group>"; };
 		62B345F46E9E9813E676F8BC7E02961A /* EXTKeyPathCoding.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = EXTKeyPathCoding.h; path = extobjc/EXTKeyPathCoding.h; sourceTree = "<group>"; };
+		66DDE708F8FAD105A489BF26085B82DD /* TOObservation.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = TOObservation.m; sourceTree = "<group>"; };
 		6E7E5AF37923BFA48D6994B9BFC6535F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		6EEB587296D4720C7D3E6F6A0BDB245C /* NSObject+TotalObserverShorthand.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "NSObject+TotalObserverShorthand.h"; sourceTree = "<group>"; };
 		716C6F207FAD08CA4337CE1D4C52E2DA /* libextobjc-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "libextobjc-prefix.pch"; sourceTree = "<group>"; };
+		740D2A4D344130B6B3E94F42872A3BF3 /* TOObservation-Private.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "TOObservation-Private.h"; sourceTree = "<group>"; };
 		744DAE3DA2D2EAE8A32C6A799B38235B /* Pods-TotalObserver_Tests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "Pods-TotalObserver_Tests.modulemap"; sourceTree = "<group>"; };
-		772716CA954926A9B17875A2D8D1355A /* NSObject+TotalObserver.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "NSObject+TotalObserver.m"; sourceTree = "<group>"; };
 		7A6403EB8815179248382347D3C81A82 /* Pods-TotalObserver_Example-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-TotalObserver_Example-dummy.m"; sourceTree = "<group>"; };
 		7AC0AAB1CD6DE9EE83B7D577D4FE9900 /* TotalObserver-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "TotalObserver-prefix.pch"; sourceTree = "<group>"; };
-		7FE075C2DC5D195CD5A0D8270A379821 /* NSObject+TotalObserverShorthand.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "NSObject+TotalObserverShorthand.h"; sourceTree = "<group>"; };
-		8078C738860384E2E9F46F4F35CEFD4F /* TOObservation+Shorthand.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "TOObservation+Shorthand.h"; sourceTree = "<group>"; };
-		8C75D91BC5272967C02C4889D3C94B03 /* TOObservation.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = TOObservation.m; sourceTree = "<group>"; };
-		8DEA860C0473E38F15F137270AF79370 /* TOObservation-Private.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "TOObservation-Private.h"; sourceTree = "<group>"; };
 		8EDC944E00EE271FF3D3EBE1A90D204F /* metamacros.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = metamacros.h; path = extobjc/metamacros.h; sourceTree = "<group>"; };
 		902147E29FD87A974132DD1A68AA01C8 /* TotalObserver-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "TotalObserver-dummy.m"; sourceTree = "<group>"; };
 		9340985C0F98DB235FB7924A229F1B9D /* Pods-TotalObserver_Example-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-TotalObserver_Example-acknowledgements.plist"; sourceTree = "<group>"; };
-		9F299F3DE8123C8706CB1F29B73727FC /* NSObject+TotalObserver.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "NSObject+TotalObserver.h"; sourceTree = "<group>"; };
+		9C5CE9008788F486AE46BB17D78998DB /* UIControl+TotalObserver.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "UIControl+TotalObserver.h"; sourceTree = "<group>"; };
+		A1EA260371AE1F11FF9DA04403218D5B /* TOObservation+Shorthand.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "TOObservation+Shorthand.h"; sourceTree = "<group>"; };
 		A6C19CB772CF4004948605082941D0FC /* Pods-TotalObserver_Example-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-TotalObserver_Example-umbrella.h"; sourceTree = "<group>"; };
 		AC18F76B0BCF2E6CB48EDB74727C2AC8 /* Pods-TotalObserver_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-TotalObserver_Tests.release.xcconfig"; sourceTree = "<group>"; };
-		AD1CDBEC100654F2D674EDA3E919FA89 /* TOObservation.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = TOObservation.h; sourceTree = "<group>"; };
 		AF17414D61C9B2B7C8636DB2FD7C1011 /* Pods-TotalObserver_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-TotalObserver_Example.release.xcconfig"; sourceTree = "<group>"; };
 		AF44F490DD2109D1BD295D4DED15AB8F /* EXTRuntimeExtensions.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = EXTRuntimeExtensions.m; path = extobjc/EXTRuntimeExtensions.m; sourceTree = "<group>"; };
+		B0FB3567E94394A31A057CE7C49DF385 /* NSObject+TotalObserver.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "NSObject+TotalObserver.h"; sourceTree = "<group>"; };
 		B669B11D3A193818142E7A7422FEF3EB /* Pods-TotalObserver_Tests-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-TotalObserver_Tests-resources.sh"; sourceTree = "<group>"; };
 		BA6428E9F66FD5A23C0A2E06ED26CD2F /* Podfile */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		BBF2C9BDFE4BAD6C01E084EC0908B57C /* Pods-TotalObserver_Example-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-TotalObserver_Example-resources.sh"; sourceTree = "<group>"; };
+		BE577CA6EF38177E26D89A3274C58C00 /* UIControl+TotalObserver.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "UIControl+TotalObserver.m"; sourceTree = "<group>"; };
 		C2DAC2DE9C52D7BA60FEEEA624AB5D53 /* TotalObserver.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = TotalObserver.xcconfig; sourceTree = "<group>"; };
 		C3B7BDF5CE5CB8F095FE12DA55D9A9BB /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.0.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		C5E673D47914197E9850448B2C9A6481 /* Pods-TotalObserver_Tests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-TotalObserver_Tests-frameworks.sh"; sourceTree = "<group>"; };
 		D9DD37686209ABA17DF42E623E4DD2E1 /* libextobjc-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "libextobjc-dummy.m"; sourceTree = "<group>"; };
+		DC6139AEED2198C58BA59808965C73CB /* UIControl+TotalObserverShorthand.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "UIControl+TotalObserverShorthand.h"; sourceTree = "<group>"; };
 		DCC9B21E7966FE501A6B5B45ACBBA3B7 /* Pods-TotalObserver_Tests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-TotalObserver_Tests-dummy.m"; sourceTree = "<group>"; };
 		E04D0430E2EB833AB41FEEE41BA098EB /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E08C0982C8FA211E56E971B7A981F6AE /* TOObservation.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = TOObservation.h; sourceTree = "<group>"; };
 		E0CA04AC239612030F83467F6462193C /* Pods-TotalObserver_Example-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-TotalObserver_Example-frameworks.sh"; sourceTree = "<group>"; };
-		E23A0A2C421D3F63AD77DE3C61C4118A /* SetupShorthand.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = SetupShorthand.h; sourceTree = "<group>"; };
 		E907B8FDA002F64C81AE66F3B33F5913 /* Pods-TotalObserver_Example-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-TotalObserver_Example-acknowledgements.markdown"; sourceTree = "<group>"; };
+		E95A847FD67823CC25F825C88DCA4CC2 /* TotalObserverShorthand.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = TotalObserverShorthand.h; sourceTree = "<group>"; };
 		E98FEF8C8922160909D2CD72BAEBDA9F /* Pods-TotalObserver_Tests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-TotalObserver_Tests-acknowledgements.plist"; sourceTree = "<group>"; };
 		EAA4EEEC91901FA4C9C1D2E001E15BB4 /* TotalObserver.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TotalObserver.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EBDE91960B73B5BD61650C136A946862 /* Pods-TotalObserver_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-TotalObserver_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		F07E452E658E3A3D7F59F48DC57D999A /* Pods_TotalObserver_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TotalObserver_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		FF185436CDF68EAACA32156A8BA199EF /* TotalObserver.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = TotalObserver.h; sourceTree = "<group>"; };
+		F9749F368DC6DA4DBB9B6AAF8F9A7D50 /* NSObject+TotalObserver.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "NSObject+TotalObserver.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -161,6 +159,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		012AE9BEE259F5CEB684983FDBBAE2C9 /* Shorthand */ = {
+			isa = PBXGroup;
+			children = (
+				F9A79C082BBB1FC19D3B7465D159C85C /* Pod */,
+			);
+			name = Shorthand;
+			sourceTree = "<group>";
+		};
 		18340F12838DEE43507667CC74401EB1 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
@@ -168,6 +174,14 @@
 				C3B7BDF5CE5CB8F095FE12DA55D9A9BB /* UIKit.framework */,
 			);
 			name = iOS;
+			sourceTree = "<group>";
+		};
+		1B92A49FC9DDF1E9CBB11272901B5CAF /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				CF9EC68540B98FD182AD842E78A782D9 /* Pod */,
+			);
+			name = Core;
 			sourceTree = "<group>";
 		};
 		28AC34C1ADF872BD4461AAE337164DCB /* EXTKeyPathCoding */ = {
@@ -199,8 +213,8 @@
 		3CB560FAC25FFFE87C018277FF4003CD /* TotalObserver */ = {
 			isa = PBXGroup;
 			children = (
-				E414FAC3C32EB94578ECAB846818D53D /* Core */,
-				A2D0297F977D22AC3074F0A5FFE82210 /* Shorthand */,
+				1B92A49FC9DDF1E9CBB11272901B5CAF /* Core */,
+				012AE9BEE259F5CEB684983FDBBAE2C9 /* Shorthand */,
 				A258F684F4B32FB3FB64A53A44544A1C /* Support Files */,
 			);
 			name = TotalObserver;
@@ -270,14 +284,6 @@
 			path = "Example/Pods/Target Support Files/TotalObserver";
 			sourceTree = "<group>";
 		};
-		A2D0297F977D22AC3074F0A5FFE82210 /* Shorthand */ = {
-			isa = PBXGroup;
-			children = (
-				E969F1BA12309220A5DE04EDB0CF1105 /* Pod */,
-			);
-			name = Shorthand;
-			sourceTree = "<group>";
-		};
 		B9DC5A62F8C1CA5811696B412935C635 /* Targets Support Files */ = {
 			isa = PBXGroup;
 			children = (
@@ -309,40 +315,19 @@
 			path = "../Target Support Files/libextobjc";
 			sourceTree = "<group>";
 		};
-		CAC8A5CF1C57DCF71B27C82225DFCD2B /* Classes */ = {
+		CF9EC68540B98FD182AD842E78A782D9 /* Pod */ = {
 			isa = PBXGroup;
 			children = (
-				9F299F3DE8123C8706CB1F29B73727FC /* NSObject+TotalObserver.h */,
-				772716CA954926A9B17875A2D8D1355A /* NSObject+TotalObserver.m */,
-				AD1CDBEC100654F2D674EDA3E919FA89 /* TOObservation.h */,
-				8C75D91BC5272967C02C4889D3C94B03 /* TOObservation.m */,
-				8DEA860C0473E38F15F137270AF79370 /* TOObservation-Private.h */,
-				FF185436CDF68EAACA32156A8BA199EF /* TotalObserver.h */,
-				15EC8397473D21FE088A5730E514AC6C /* UIControl+TotalObserver.h */,
-				5C9B0BB0104B50EA7BF58694F9D8DBB3 /* UIControl+TotalObserver.m */,
-			);
-			path = Classes;
-			sourceTree = "<group>";
-		};
-		D62F9F16FCE3545E82480B403011E1EC /* Pod */ = {
-			isa = PBXGroup;
-			children = (
-				CAC8A5CF1C57DCF71B27C82225DFCD2B /* Classes */,
+				B0FB3567E94394A31A057CE7C49DF385 /* NSObject+TotalObserver.h */,
+				F9749F368DC6DA4DBB9B6AAF8F9A7D50 /* NSObject+TotalObserver.m */,
+				E08C0982C8FA211E56E971B7A981F6AE /* TOObservation.h */,
+				66DDE708F8FAD105A489BF26085B82DD /* TOObservation.m */,
+				740D2A4D344130B6B3E94F42872A3BF3 /* TOObservation-Private.h */,
+				3FC6980F33EC3D626187412170BBF601 /* TotalObserver.h */,
+				9C5CE9008788F486AE46BB17D78998DB /* UIControl+TotalObserver.h */,
+				BE577CA6EF38177E26D89A3274C58C00 /* UIControl+TotalObserver.m */,
 			);
 			path = Pod;
-			sourceTree = "<group>";
-		};
-		D6E9696E9592C754AAA1AEA1F3CE7ADE /* Classes */ = {
-			isa = PBXGroup;
-			children = (
-				7FE075C2DC5D195CD5A0D8270A379821 /* NSObject+TotalObserverShorthand.h */,
-				E23A0A2C421D3F63AD77DE3C61C4118A /* SetupShorthand.h */,
-				8078C738860384E2E9F46F4F35CEFD4F /* TOObservation+Shorthand.h */,
-				107EC38B82BA29DDB9F17F7C4003A99C /* TOObservation+Shorthand.m */,
-				0CABDA6435EEAE210F0CEAC4930F6209 /* TotalObserverShorthand.h */,
-				190E68BAE5119586F1BD5AD0DFF30124 /* UIControl+TotalObserverShorthand.h */,
-			);
-			path = Classes;
 			sourceTree = "<group>";
 		};
 		DC7FF36CC530823AC49908759899E1E6 /* RuntimeExtensions */ = {
@@ -355,18 +340,14 @@
 			name = RuntimeExtensions;
 			sourceTree = "<group>";
 		};
-		E414FAC3C32EB94578ECAB846818D53D /* Core */ = {
+		F9A79C082BBB1FC19D3B7465D159C85C /* Pod */ = {
 			isa = PBXGroup;
 			children = (
-				D62F9F16FCE3545E82480B403011E1EC /* Pod */,
-			);
-			name = Core;
-			sourceTree = "<group>";
-		};
-		E969F1BA12309220A5DE04EDB0CF1105 /* Pod */ = {
-			isa = PBXGroup;
-			children = (
-				D6E9696E9592C754AAA1AEA1F3CE7ADE /* Classes */,
+				6EEB587296D4720C7D3E6F6A0BDB245C /* NSObject+TotalObserverShorthand.h */,
+				A1EA260371AE1F11FF9DA04403218D5B /* TOObservation+Shorthand.h */,
+				32B8854F13CE2002C99D26AE53776505 /* TOObservation+Shorthand.m */,
+				E95A847FD67823CC25F825C88DCA4CC2 /* TotalObserverShorthand.h */,
+				DC6139AEED2198C58BA59808965C73CB /* UIControl+TotalObserverShorthand.h */,
 			);
 			path = Pod;
 			sourceTree = "<group>";
@@ -400,21 +381,20 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		516F3BD83F4FF8B38E20F3FE79B9C07C /* Headers */ = {
+		2FC099E9DD68391A19497D5604274245 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8D7088087F5EBCA23FFAC21979BE80DE /* NSObject+TotalObserver.h in Headers */,
-				FEB400B7E5D6B36E4762765B3A0B68C2 /* NSObject+TotalObserverShorthand.h in Headers */,
-				DFA1DCD089EEBC0F977F5A43C341FBDD /* SetupShorthand.h in Headers */,
-				14228AC846CD13D533B7C0B213CD0209 /* TOObservation+Shorthand.h in Headers */,
-				257BE7D9F5C61E081DFF06DE3BCABE22 /* TOObservation-Private.h in Headers */,
-				64458BE66A4D34E5188B3463BEADD743 /* TOObservation.h in Headers */,
-				D40C39197A86581E8C5972C21C50E43F /* TotalObserver-umbrella.h in Headers */,
-				F2809CC8F891DB1B36A50D1FF1F75037 /* TotalObserver.h in Headers */,
-				FC8AFBFCEC8345348C5F3A1CC0DA9A4C /* TotalObserverShorthand.h in Headers */,
-				E8E284CD0839861DE63BC244AFD62587 /* UIControl+TotalObserver.h in Headers */,
-				A57000703ACC390999F0E18CFECB1E9F /* UIControl+TotalObserverShorthand.h in Headers */,
+				2F986DAE9DC87BC14AA10A86FD9CBF1C /* NSObject+TotalObserver.h in Headers */,
+				04DC7A1F34FF4DC201A653FA81F14A70 /* NSObject+TotalObserverShorthand.h in Headers */,
+				865B7789CC6EA28A1F611455DF5775AD /* TOObservation+Shorthand.h in Headers */,
+				86838D5855D12A846DE4C83960959941 /* TOObservation-Private.h in Headers */,
+				5F860B588611BCA4F0FE43504986ED6A /* TOObservation.h in Headers */,
+				53D608C5E63F4A6416608F0128D8BF3D /* TotalObserver-umbrella.h in Headers */,
+				45A7649925F15A52A805CE77D57DF7B5 /* TotalObserver.h in Headers */,
+				9C4F68C1AD0CE837ACEF21CD2618B903 /* TotalObserverShorthand.h in Headers */,
+				E13B351E16F82B2971E49E7B6C498BE5 /* UIControl+TotalObserver.h in Headers */,
+				DC937E055B5E8E99D2C9C126B5CDD9FD /* UIControl+TotalObserverShorthand.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -500,7 +480,7 @@
 			buildPhases = (
 				30D52018C7025C6DA9D6354BF8AFF388 /* Sources */,
 				1C17A181304F9B0231EB2DF17F625C5E /* Frameworks */,
-				516F3BD83F4FF8B38E20F3FE79B9C07C /* Headers */,
+				2FC099E9DD68391A19497D5604274245 /* Headers */,
 			);
 			buildRules = (
 			);

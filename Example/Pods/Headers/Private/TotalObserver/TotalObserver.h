@@ -1,1 +1,1 @@
-../../../../../Pod/Classes/TotalObserver.h
+../../../../../Pod/TotalObserver.h

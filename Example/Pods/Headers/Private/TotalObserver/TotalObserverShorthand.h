@@ -1,1 +1,1 @@
-../../../../../Pod/Classes/TotalObserverShorthand.h
+../../../../../Pod/TotalObserverShorthand.h
