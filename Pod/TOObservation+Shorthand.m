@@ -43,7 +43,7 @@ static NSString * const TotalObserverCategoryPrefix = @"to_";
 + (NSArray *)classesToSwizzle
 {
     return @[ [NSObject class],
-#if TARGET_OS_PHONE
+#if TARGET_OS_IPHONE
               [UIControl class]
 #endif
               ];
