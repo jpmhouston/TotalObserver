@@ -10,9 +10,11 @@ Uses blocks exclusively, but unlike NSNotification's blocks API, allows removal 
 
 Extensible to other styles of observers, an included example is a wrapper for UIControl event actions.
 
-Heavily influenced by [MAKVONotificationCenter](http://github.com/mikeash/MAKVONotificationCenter), adapting its rock-solid solution for automatic removal.
+TotalObserver's feature set is heavily influenced by [MAKVONotificationCenter](http://github.com/mikeash/MAKVONotificationCenter), and also adapts its rock-solid solution for automatic removal.
 
-Testing of & fixes for Swift support is coming soon. Pull requests welcome.
+Written in Objective-C but tested to be usable from Swift.
+
+Pull requests welcome.
 
 ## Usage
 
@@ -81,6 +83,11 @@ and also, somewhere in your app's launching process, such as a `+load` method or
 ```objective-c
 [TOObservation setupShorthandMethods];
 ```
+
+#### Running Example
+
+If using `pod try` or manually cloning the source to try out the Example app, first cd into its directory and execute `pod install`, then as directed open `TotalObserver.xcworkspace` and not the `.xcodeproj` file.
+
 
 ## Author
 

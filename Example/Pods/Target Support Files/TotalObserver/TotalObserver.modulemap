@@ -1,8 +1,0 @@
-framework module TotalObserver {
-  umbrella header "TotalObserver-umbrella.h"
-
-  export *
-  module * { export * }
-
-  private header "TOObservation-Private.h"
-}
