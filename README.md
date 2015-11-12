@@ -12,7 +12,7 @@ Extensible to other styles of observers, an included example is a wrapper for UI
 
 TotalObserver's feature set is heavily influenced by [MAKVONotificationCenter](http://github.com/mikeash/MAKVONotificationCenter), and also adapts its rock-solid solution for automatic removal.
 
-Written in Objective-C but tested to be usable from Swift.
+Written in Objective-C but tested to verify it's usable from Swift.
 
 Pull requests welcome.
 
