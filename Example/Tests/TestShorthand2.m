@@ -1,13 +1,14 @@
 //
-//  TestShorthand.m
+//  TestShorthand2.m
 //  TotalObserver
 //
 //  Created by Pierre Houston on 2015-11-07.
 //  Copyright © 2015 Pierre Houston. All rights reserved.
 //
 
+/*
 @import XCTest;
-#import <TotalObserver/TotalObserverShorthand.h>
+@import TotalObserver; // getting "Could not build module 'TotalObserver'" error here :(
 #import "ModelObject.h"
 
 @interface TestShorthand : XCTestCase
@@ -26,7 +27,7 @@
     [super tearDown];
 }
 
-- (void)testShorthandMethodsWithHeaderImport {
+- (void)testShorthandMethodsWithModuleImport {
     ModelObject *modelObject = [[ModelObject alloc] init];
     BOOL __block observed = NO;
     [self observeForNotifications:modelObject named:NameChangedNotification withBlock:^(typeof(self) obj, TOObservation *obs) {
@@ -37,3 +38,4 @@
 }
 
 @end
+*/

@@ -1,5 +1,5 @@
 //
-//  TotalObserverTests.m
+//  Tests.m
 //  TotalObserverTests
 //
 //  Created by Pierre Houston on 10/14/2015.
