@@ -17,4 +17,6 @@
 @property (nonatomic, weak) IBOutlet UIButton *button1;
 @property (nonatomic, weak) IBOutlet UIButton *button2;
 
+- (void)addLineToTextView:(NSString *)string;
+
 @end
