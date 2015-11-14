@@ -7,8 +7,7 @@
 //
 
 #import "AppDelegate.h"
-
-@import TotalObserver; // or #import <TotalObserver/TotalObserverShorthand.h>
+#import <TotalObserver/TotalObserverShorthand.h>
 
 @implementation AppDelegate
 

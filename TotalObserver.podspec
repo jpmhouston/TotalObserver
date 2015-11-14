@@ -31,22 +31,23 @@ Pod::Spec.new do |s|
   
   s.default_subspec = 'Core'
   s.subspec 'Core' do |cs|
-    cs.ios.source_files = "Pod/TotalObserver.h", "Pod/TOObservation.{h,m}", "Pod/TOObservation-Private.h", "Pod/NSObject+TotalObserver.{h,m}", "Pod/UIControl+TotalObserver.{h,m}"
-    cs.osx.source_files = "Pod/TotalObserver.h", "Pod/TOObservation.{h,m}", "Pod/TOObservation-Private.h", "Pod/NSObject+TotalObserver.{h,m}"
+    cs.ios.source_files = "Pod/TotalObserver.h", "Pod/TOObservation.{h,m}", "Pod/TOObservation+Private.h", "Pod/*+TotalObserver.{h,m}"
+    cs.osx.source_files = "Pod/TotalObserver.h", "Pod/TOObservation.{h,m}", "Pod/TOObservation+Private.h", "Pod/NSObject+TotalObserver.{h,m}"
 
-    cs.ios.public_header_files = "Pod/TotalObserver.h", "Pod/TOObservation.h", "Pod/NSObject+TotalObserver.h", "Pod/UIControl+TotalObserver.h"
+    cs.ios.public_header_files = "Pod/TotalObserver.h", "Pod/TOObservation.h", "Pod/*+TotalObserver.h"
     cs.osx.public_header_files = "Pod/TotalObserver.h", "Pod/TOObservation.h", "Pod/NSObject+TotalObserver.h"
-    cs.private_header_files = "Pod/TOObservation-Private.h"
+    cs.private_header_files = "Pod/TOObservation+Private.h"
   end
   
   s.subspec 'Shorthand' do |shs|
     shs.dependency 'TotalObserver/Core'
     
-    shs.ios.source_files = "Pod/TotalObserverShorthand.h", "Pod/TOObservation+Shorthand.{h,m}", "Pod/NSObject+TotalObserverShorthand.h", "Pod/UIControl+TotalObserverShorthand.h"
-    shs.osx.source_files = "Pod/TotalObserverShorthand.h", "Pod/TOObservation+Shorthand.{h,m}", "Pod/NSObject+TotalObserverShorthand.h"
+    shs.ios.source_files = "Pod/*Shorthand.{h,m}"
+    shs.osx.source_files = "Pod/*[^+]*Shorthand.{h,m}", "Pod/NSObject+*Shorthand.h"
     
-    shs.ios.public_header_files = "Pod/TotalObserverShorthand.h", "Pod/TOObservation+Shorthand.h", "Pod/NSObject+TotalObserverShorthand.h", "Pod/UIControl+TotalObserverShorthand.h"
-    shs.osx.public_header_files = "Pod/TotalObserverShorthand.h", "Pod/TOObservation+Shorthand.h", "Pod/NSObject+TotalObserverShorthand.h"
+    shs.ios.public_header_files = "Pod/*Shorthand.h"
+    shs.osx.public_header_files = "Pod/*[^+]*Shorthand.h", "Pod/NSObject+*Shorthand.h"
+    shs.private_header_files = "Pod/SetupShorthand.h"
   end
   
 end

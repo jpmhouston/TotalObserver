@@ -27,7 +27,7 @@ static NSString * const TotalObserverCategoryPrefix = @"to_";
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         
-        NSArray *classes = [self classesToSwizzle]; // how can this be made dynamic?
+        NSArray *classes = [self classesToSwizzle];
         
         [classes enumerateObjectsUsingBlock:^(id object, NSUInteger idx, BOOL *stop) {
             Class objectClass = (Class)object;
@@ -77,7 +77,7 @@ static NSString * const TotalObserverCategoryPrefix = @"to_";
             // add method with the same implementation function
             class_addMethod(objectClass, shorthandSelector, method_getImplementation(method), method_getTypeEncoding(method));
             
-            NSLog(@"Added method %c[%@ %@]", class_isMetaClass(objectClass)?'+':'-', NSStringFromClass(objectClass), shorthandSelectorString);
+            //NSLog(@"Added method %c[%@ %@]", class_isMetaClass(objectClass)?'+':'-', NSStringFromClass(objectClass), shorthandSelectorString);
         }
     }
 }

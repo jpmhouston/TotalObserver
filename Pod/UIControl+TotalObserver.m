@@ -7,7 +7,7 @@
 //
 
 #import "UIControl+TotalObserver.h"
-#import "TOObservation-Private.h"
+#import "TOObservation+Private.h"
 
 #if __has_feature(nullability)
 NS_ASSUME_NONNULL_BEGIN

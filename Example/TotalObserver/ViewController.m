@@ -8,7 +8,7 @@
 
 #import "ViewController.h"
 #import <libextobjc/EXTKeyPathCoding.h>
-#import <TotalObserver/TotalObserverShorthand.h> // or @import TotalObserver;
+#import <TotalObserver/TotalObserverShorthand.h>
 
 @interface TOObservation (PrivateObservationMethods)
 + (NSMutableDictionary *)sharedObservations;

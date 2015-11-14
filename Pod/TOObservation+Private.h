@@ -1,5 +1,5 @@
 //
-//  TOObservation-Private.h
+//  TOObservation+Private.h
 //  TotalObserver
 //
 //  Created by Pierre Houston on 2015-10-23.

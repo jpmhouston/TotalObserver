@@ -7,7 +7,7 @@
 //
 
 #import "TOObservation.h"
-#import "TOObservation-Private.h"
+#import "TOObservation+Private.h"
 #import "NSObject+TotalObserver.h"
 #import <objc/runtime.h>
 #import <objc/message.h>
