@@ -19,6 +19,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface TOControlObservation : TOObservation
 @property (nonatomic, readonly) UIControl *control;
 @property (nonatomic, readonly) UIControlEvents events;
+@property (nonatomic, readonly) id sender;
+@property (nonatomic, readonly) UIEvent *event;
 
 // can use this class method to match a prior observation and remove it, although usually more convenient to
 // use the 'stopObserving' methods below, or save the observation object and call 'remove' on it

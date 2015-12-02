@@ -188,20 +188,31 @@ NS_ASSUME_NONNULL_BEGIN
 {
     NSAssert1(!self.registered, @"Attempted double-register of %@", self);
     NSAssert1(self.object != nil, @"Nil 'object' property when registering observation for %@", self);
-    [(UIControl *)self.object addTarget:self action:@selector(action:) forControlEvents:self.events];
+    [(UIControl *)self.object addTarget:self action:@selector(action:forEvent:) forControlEvents:self.events];
 }
 
-- (void)action:(id)sender
+- (void)action:(id)sender forEvent:(UIEvent *)event
 {
     NSAssert3(sender == self.object, @"Action called with sender %@ doesn't match control %@ for %@", sender, self.object, self);
-    [self invoke];
+    if (self.queue != nil) {
+        [self.queue addOperationWithBlock:^{
+            self.sender = sender;
+            self.event = event;
+            [self invoke];
+        }];
+    }
+    else {
+        self.sender = sender;
+        self.event = event;
+        [self invoke];
+    }
 }
 
 - (void)deregisterInternal
 {
     NSAssert1(self.registered, @"Attempted double-removal of %@", self);
     NSAssert1(self.object != nil, @"Nil 'object' property when deregistering observation for %@", self);
-    [(UIControl *)self.object removeTarget:self action:@selector(action:) forControlEvents:self.events];
+    [(UIControl *)self.object removeTarget:self action:@selector(action:forEvent:) forControlEvents:self.events];
 }
 
 + (BOOL)removeForObserver:(nullable id)observer control:(UIControl *)control events:(UIControlEvents)events
