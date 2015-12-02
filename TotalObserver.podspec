@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'TotalObserver'
-  s.version          = '0.1.4'
+  s.version          = '0.2.0'
   s.summary          = 'Simplified Objective-C blocks API for NSNotifications and KVO.'
   
   s.description      = <<-DESC
