@@ -26,6 +26,7 @@ typedef void (^TOObjObservationBlock)(id obj, TOObservation *);
 @property (nonatomic, readonly, weak, nullable) id object; // aka observee
 
 @property (nonatomic, readonly, nullable) NSOperationQueue *queue;
+@property (nonatomic, readonly, nullable) dispatch_queue_t gcdQueue;
 
 @property (nonatomic, readonly, copy, nullable) TOObservationBlock block; // one of these will be non-null
 @property (nonatomic, readonly, copy, nullable) TOObjObservationBlock objectBlock;

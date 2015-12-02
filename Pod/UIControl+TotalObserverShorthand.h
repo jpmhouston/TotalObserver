@@ -16,6 +16,10 @@
 - (TOControlObservation *)observeControlForValue:(UIControl *)control onQueue:(NSOperationQueue *)queue withBlock:(TOObjObservationBlock)block;
 - (TOControlObservation *)observeControl:(UIControl *)control forEvents:(UIControlEvents)events onQueue:(NSOperationQueue *)queue withBlock:(TOObjObservationBlock)block;
 
+- (TOControlObservation *)observeControlForPress:(UIControl *)control onGCDQueue:(dispatch_queue_t)queue withBlock:(TOObjObservationBlock)block;
+- (TOControlObservation *)observeControlForValue:(UIControl *)control onGCDQueue:(dispatch_queue_t)queue withBlock:(TOObjObservationBlock)block;
+- (TOControlObservation *)observeControl:(UIControl *)control forEvents:(UIControlEvents)events onGCDQueue:(dispatch_queue_t)queue withBlock:(TOObjObservationBlock)block;
+
 - (BOOL)stopObservingControlForPress:(UIControl *)control;
 - (BOOL)stopObservingControlForValue:(UIControl *)control;
 - (BOOL)stopObservingControl:(UIControl *)control forEvents:(UIControlEvents)events;
@@ -31,6 +35,10 @@
 - (TOControlObservation *)observePressOnQueue:(NSOperationQueue *)queue withBlock:(TOObservationBlock)block;
 - (TOControlObservation *)observeValueOnQueue:(NSOperationQueue *)queue withBlock:(TOObservationBlock)block;
 - (TOControlObservation *)observeEvents:(UIControlEvents)events onQueue:(NSOperationQueue *)queue withBlock:(TOObservationBlock)block;
+
+- (TOControlObservation *)observePressOnGCDQueue:(dispatch_queue_t)queue withBlock:(TOObservationBlock)block;
+- (TOControlObservation *)observeValueOnGCDQueue:(dispatch_queue_t)queue withBlock:(TOObservationBlock)block;
+- (TOControlObservation *)observeEvents:(UIControlEvents)events onGCDQueue:(dispatch_queue_t)queue withBlock:(TOObservationBlock)block;
 
 - (BOOL)stopObservingForPress;
 - (BOOL)stopObservingForValue;

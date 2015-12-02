@@ -35,10 +35,15 @@ NS_ASSUME_NONNULL_BEGIN
 - (TOControlObservation *)to_observeControlForValue:(UIControl *)control withBlock:(TOObjObservationBlock)block;
 - (TOControlObservation *)to_observeControl:(UIControl *)control forEvents:(UIControlEvents)events withBlock:(TOObjObservationBlock)block;
 
-// same but with queue parameter
+// same but with operation queue parameter
 - (TOControlObservation *)to_observeControlForPress:(UIControl *)control onQueue:(NSOperationQueue *)queue withBlock:(TOObjObservationBlock)block;
 - (TOControlObservation *)to_observeControlForValue:(UIControl *)control onQueue:(NSOperationQueue *)queue withBlock:(TOObjObservationBlock)block;
 - (TOControlObservation *)to_observeControl:(UIControl *)control forEvents:(UIControlEvents)events onQueue:(NSOperationQueue *)queue withBlock:(TOObjObservationBlock)block;
+
+// same but with dispatch queue parameter
+- (TOControlObservation *)to_observeControlForPress:(UIControl *)control onGCDQueue:(dispatch_queue_t)queue withBlock:(TOObjObservationBlock)block;
+- (TOControlObservation *)to_observeControlForValue:(UIControl *)control onGCDQueue:(dispatch_queue_t)queue withBlock:(TOObjObservationBlock)block;
+- (TOControlObservation *)to_observeControl:(UIControl *)control forEvents:(UIControlEvents)events onGCDQueue:(dispatch_queue_t)queue withBlock:(TOObjObservationBlock)block;
 
 - (BOOL)to_stopObservingControlForPress:(UIControl *)control;
 - (BOOL)to_stopObservingControlForValue:(UIControl *)control;
@@ -53,10 +58,15 @@ NS_ASSUME_NONNULL_BEGIN
 - (TOControlObservation *)to_observeValueWithBlock:(TOObservationBlock)block;
 - (TOControlObservation *)to_observeEvents:(UIControlEvents)events withBlock:(TOObservationBlock)block;
 
-// same but with queue parameter
+// same but with operation queue parameter
 - (TOControlObservation *)to_observePressOnQueue:(NSOperationQueue *)queue withBlock:(TOObservationBlock)block;
 - (TOControlObservation *)to_observeValueOnQueue:(NSOperationQueue *)queue withBlock:(TOObservationBlock)block;
 - (TOControlObservation *)to_observeEvents:(UIControlEvents)events onQueue:(NSOperationQueue *)queue withBlock:(TOObservationBlock)block;
+
+// same but with dispatch queue parameter
+- (TOControlObservation *)to_observePressOnGCDQueue:(dispatch_queue_t)queue withBlock:(TOObservationBlock)block;
+- (TOControlObservation *)to_observeValueOnGCDQueue:(dispatch_queue_t)queue withBlock:(TOObservationBlock)block;
+- (TOControlObservation *)to_observeEvents:(UIControlEvents)events onGCDQueue:(dispatch_queue_t)queue withBlock:(TOObservationBlock)block;
 
 - (BOOL)to_stopObservingForPress;
 - (BOOL)to_stopObservingForValue;

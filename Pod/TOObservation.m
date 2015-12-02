@@ -23,6 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readwrite, weak, nullable) id object; // some overlap of term 'object' in here, consider naming this 'observee'
 
 @property (nonatomic, readwrite, nullable) NSOperationQueue *queue;
+@property (nonatomic, readwrite, nullable) dispatch_queue_t gcdQueue;
 
 @property (nonatomic, readwrite, copy, nullable) TOObservationBlock block; // code enforces one of these will be nonnull
 @property (nonatomic, readwrite, copy, nullable) TOObjObservationBlock objectBlock;
@@ -48,25 +49,27 @@ static NSMutableSet *classesSwizzledSet = nil;
     return nil;
 }
 
-- (instancetype)initWithObserver:(nullable id)observer object:(id)object queue:(nullable NSOperationQueue *)queue block:(TOObservationBlock)block
+- (instancetype)initWithObserver:(nullable id)observer object:(id)object queue:(nullable NSOperationQueue *)queue gcdQueue:(nullable dispatch_queue_t)cgdQueue block:(TOObservationBlock)block
 {
     if (!(self = [super init]))
         return nil;
     _observer = observer;
     _object = object;
     _queue = queue;
+    _gcdQueue = cgdQueue;
     _block = block;
     _removeAutomatically = YES;
     return self;
 }
 
-- (instancetype)initWithObserver:(nullable id)observer object:(id)object queue:(nullable NSOperationQueue *)queue objBlock:(TOObjObservationBlock)block
+- (instancetype)initWithObserver:(nullable id)observer object:(id)object queue:(nullable NSOperationQueue *)queue gcdQueue:(nullable dispatch_queue_t)cgdQueue objBlock:(TOObjObservationBlock)block
 {
     if (!(self = [super init]))
         return nil;
     _observer = observer;
     _object = object;
     _queue = queue;
+    _gcdQueue = cgdQueue;
     _objectBlock = block;
     _removeAutomatically = YES;
     return self;
@@ -99,6 +102,48 @@ static NSMutableSet *classesSwizzledSet = nil;
         self.block(self);
     else if (self.objectBlock != nil)
         self.objectBlock(self.observer, self);
+    else
+        [NSException raise:NSInternalInconsistencyException format:@"Nil 'block' & 'objectBlock' properties when invoking observation %@", self];
+}
+
+- (void)invokeOnQueueAfter:(void(^)(void))setup
+{
+    if (self.block != nil) {
+        if (self.queue != nil) {
+            [self.queue addOperationWithBlock:^{
+                setup();
+                self.block(self);
+            }];
+        }
+        else if (self.gcdQueue != nil) {
+            dispatch_async(self.gcdQueue, ^{
+                setup();
+                self.block(self);
+            });
+        }
+        else {
+            setup();
+            self.block(self);
+        }
+    }
+    else if (self.objectBlock != nil) {
+        if (self.queue != nil) {
+            [self.queue addOperationWithBlock:^{
+                setup();
+                self.objectBlock(self.observer, self);
+            }];
+        }
+        else if (self.gcdQueue != nil) {
+            dispatch_async(self.gcdQueue, ^{
+                setup();
+                self.objectBlock(self.observer, self);
+            });
+        }
+        else {
+            setup();
+            self.objectBlock(self.observer, self);
+        }
+    }
     else
         [NSException raise:NSInternalInconsistencyException format:@"Nil 'block' & 'objectBlock' properties when invoking observation %@", self];
 }

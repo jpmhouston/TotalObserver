@@ -20,10 +20,11 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface TOObservation (PrivateForSubclassesToUse)
-- (instancetype)initWithObserver:(TO_nullable id)observer object:(id)object queue:(TO_nullable NSOperationQueue *)queue block:(TOObservationBlock)block;
-- (instancetype)initWithObserver:(TO_nullable id)observer object:(id)object queue:(TO_nullable NSOperationQueue *)queue objBlock:(TOObjObservationBlock)block;
+- (instancetype)initWithObserver:(TO_nullable id)observer object:(id)object queue:(TO_nullable NSOperationQueue *)queue gcdQueue:(TO_nullable dispatch_queue_t)cgdQeue block:(TOObservationBlock)block;
+- (instancetype)initWithObserver:(TO_nullable id)observer object:(id)object queue:(TO_nullable NSOperationQueue *)queue gcdQueue:(TO_nullable dispatch_queue_t)cgdQeue objBlock:(TOObjObservationBlock)block;
 
 - (void)invoke;
+- (void)invokeOnQueueAfter:(void(^)(void))setup;
 
 + (TOObservation *)findObservationForObserver:(TO_nullable id)observer object:(TO_nullable id)object matchingTest:(BOOL(^)(TOObservation *observation))testBlock;
 
