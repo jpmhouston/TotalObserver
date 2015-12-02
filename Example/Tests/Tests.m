@@ -14,6 +14,7 @@
 @property (nonatomic, strong) ModelObject *modelObject;
 @property (nonatomic, strong) NSOperationQueue *queue;
 @property (nonatomic, assign) BOOL observed;
+@property (nonatomic, assign) BOOL flag;
 @end
 
 @interface TOObservation (PrivateMethodExposedForTesting)
@@ -113,6 +114,36 @@
     XCTAssertEqual(samequeue, self.queue);
 }
 
+- (void)testSelfNotification
+{
+    id __block sameobj = nil;
+    id __block sameobs = nil;
+    TOObservation *observation = [self to_observeForNotifications:self named:@"blah" withBlock:^(typeof(self) obj, TOObservation *obs) {
+        obj.observed = YES;
+        sameobj = obj;
+        sameobs = obs;
+    }];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"blah" object:self]; // should trigger notification
+    XCTAssertTrue(self.observed);
+    XCTAssertEqual(sameobj, self);
+    XCTAssertEqual(sameobs, observation);
+}
+
+- (void)testSelfNotification2
+{
+    id __block sameobj = nil;
+    id __block sameobs = nil;
+    TOObservation *observation = [self to_observeOwnNotificationsNamed:@"blah" withBlock:^(typeof(self) obj, TOObservation *obs) {
+        obj.observed = YES;
+        sameobj = obj;
+        sameobs = obs;
+    }];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"blah" object:self]; // should trigger notification
+    XCTAssertTrue(self.observed);
+    XCTAssertEqual(sameobj, self);
+    XCTAssertEqual(sameobs, observation);
+}
+
 - (void)testAnyNotification
 {
     typeof(self) __weak welf = self;
@@ -183,6 +214,36 @@
     XCTAssertEqual(sameobj, self);
     XCTAssertEqual(sameobs, observation);
     XCTAssertEqual(samequeue, self.queue);
+}
+
+- (void)testKVOSelf
+{
+    id __block sameobj = nil;
+    id __block sameobs = nil;
+    TOObservation *observation = [self to_observeForChanges:self toKeyPath:@"flag" withBlock:^(typeof(self) obj, TOObservation *obs) {
+        obj.observed = YES;
+        sameobj = obj;
+        sameobs = obs;
+    }];
+    self.flag = YES;
+    XCTAssertTrue(self.observed);
+    XCTAssertEqual(sameobj, self);
+    XCTAssertEqual(sameobs, observation);
+}
+
+- (void)testKVOSelf2
+{
+    id __block sameobj = nil;
+    id __block sameobs = nil;
+    TOObservation *observation = [self to_observeForOwnChangesToKeyPath:@"flag" withBlock:^(typeof(self) obj, TOObservation *obs) {
+        obj.observed = YES;
+        sameobj = obj;
+        sameobs = obs;
+    }];
+    self.flag = YES;
+    XCTAssertTrue(self.observed);
+    XCTAssertEqual(sameobj, self);
+    XCTAssertEqual(sameobs, observation);
 }
 
 - (void)testKVOWithNoObserver

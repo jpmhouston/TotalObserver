@@ -95,9 +95,9 @@ static NSMutableSet *classesSwizzledSet = nil;
 
 - (void)invoke
 {
-    if (self.block)
+    if (self.block != nil)
         self.block(self);
-    else if (self.objectBlock)
+    else if (self.objectBlock != nil)
         self.objectBlock(self.observer, self);
     else
         [NSException raise:NSInternalInconsistencyException format:@"Nil 'block' & 'objectBlock' properties when invoking observation %@", self];
@@ -130,7 +130,7 @@ static NSMutableSet *classesSwizzledSet = nil;
     //
     if (self.observer != nil)
         [[self class] storeAssociatedObservation:self intoObject:self.observer];
-    if (self.object != nil)
+    if (self.object != nil && self.object != self.observer)
         [[self class] storeAssociatedObservation:self intoObject:self.object];
 }
 
@@ -139,7 +139,7 @@ static NSMutableSet *classesSwizzledSet = nil;
     NSAssert1(self.observer != nil || self.object != nil, @"Nil 'observer' & 'object' properties when removing observation %@", self);
     if (self.observer != nil)
         [[self class] removeAssociatedObservation:self fromObject:self.observer];
-    if (self.object != nil)
+    if (self.object != nil && self.object != self.observer)
         [[self class] removeAssociatedObservation:self fromObject:self.object];
 }
 
@@ -238,7 +238,7 @@ static NSMutableSet *classesSwizzledSet = nil;
     NSAssert1(self.observer != nil || self.object != nil, @"Nil 'observer' & 'object' properties when adopting auto-removal for observation %@", self);
     if (self.observer != nil)
         [[self class] swizzleDeallocIfNeededForClass:[self.observer class]];
-    if (self.object != nil)
+    if (self.object != nil && self.object != self.observer)
         [[self class] swizzleDeallocIfNeededForClass:[self.object class]];
 }
 
