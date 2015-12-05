@@ -1,0 +1,55 @@
+# Change Log
+
+## [0.2.1](https://github.com/jpmhouston/TotalObserver/tree/0.2.1) (2015-12-05)
+
+- Fixed TOKVOObservation keyPath & keyPaths properties
+
+[Full Changelog](https://github.com/jpmhouston/TotalObserver/compare/0.2.0...0.2.1)
+
+## [0.2.0](https://github.com/jpmhouston/TotalObserver/tree/0.2.0) (2015-12-02)
+
+- Fixes when observer == observee
+- Added methods for more easily observing self
+- Added methods for calling observer on a given dispatch queue
+- Made UIControl observation objects include sender and event
+
+[Full Changelog](https://github.com/jpmhouston/TotalObserver/compare/0.1.4...0.2.0)
+
+## [0.1.4](https://github.com/jpmhouston/TotalObserver/tree/0.1.4) (2015-11-14)
+
+- SetupShorthand.h now a private header
+- Removed Pods from the example project
+
+[Full Changelog](https://github.com/jpmhouston/TotalObserver/compare/0.1.3...0.1.4)
+
+## [0.1.3](https://github.com/jpmhouston/TotalObserver/tree/0.1.3) (2015-11-12)
+
+- Observation objects customize description instead of debugDescription
+- Fixed UIControl shorthand methods not being generated
+- Added some Swift tests
+- Exercize Swift code in the example app
+- Moved files from Pod/Classes up to Pod/
+- Removed Pods directory
+
+[Full Changelog](https://github.com/jpmhouston/TotalObserver/compare/0.1.2...0.1.3)
+
+## [0.1.2](https://github.com/jpmhouston/TotalObserver/tree/0.1.2) (2015-11-09)
+
+- Improved safety of my "nullable" macro
+- Added test case exercizing block's object parameter
+- Added optional shorthand methods that omit the "to_" prefix
+- Created Shorthand subspec that adds the shorthand headers
+
+[Full Changelog](https://github.com/jpmhouston/TotalObserver/compare/0.1.1...0.1.2)
+ 
+## [0.1.1](https://github.com/jpmhouston/TotalObserver/tree/0.1.1) (2015-11-06)
+
+- Fixed import syntax in some headers files
+- Improved podspec summary & description
+- Improved readme file
+
+[Full Changelog](https://github.com/jpmhouston/TotalObserver/compare/0.1.0...0.1.1)
+
+## [0.1.0](https://github.com/jpmhouston/TotalObserver/tree/0.1.0) (2015-11-04)
+
+- First release
