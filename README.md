@@ -18,50 +18,74 @@ Pull requests welcome.
 
 ## Usage
 
+Import using either `#import <TotalObserver/TotalObserver.h>` or `@import TotalObserver;`.
+
+There are 2 general styles of observing methods, one where you pass in an observer (often self), and another where you omit the observer for brevity when its unnecessary. In both cases, the final block parameter is called when the observation is triggered.
+
+You can do nothing and observation is removed automatically when either your observer or the observed object is deallocated. No need to add any code to `dealloc`! You usually can even skip keeping around the `TOObservation` result.
+
+If you want to explicitly remove an observation, you can keep the result after all and call `remove` on it. But you can also use a `stopObserving` method, which (like `-[NSNotificationCenter removeObserver:name:object:]`) repeating the same parameters as the `observe` call, and the correct observation will be found and removed.
+
 ```objective-c
-#import <TotalObserver/TotalObserver.h>
-
-TOObservation *o1 = [self to_observeForChanges:object toKeyPath:@"name" withBlock:^(ViewController *obj, TOKVOObservation *obs) {
-    // first parameter is the observer passed back, which in the common case is self
-    // prevents you from having to create a weak self pointer yourself
-    [obj handleNameChange];
+TOObservation *o1 = [self to_observeForChanges:object toKeyPath:@"name" withBlock:^(id obj, TOKVOObservation *obs) {
+    NSLog(@"observed change to object's name parameter!");
 }];
-[o1 remove];
-// or do nothing and observation is removed automatically when observer is deallocated
-// no need to add any code to -dealloc method
 
-[self to_observeForChanges:object toKeyPath:@"name" withBlock:^(id obj, TOKVOObservation *obs) {
-    // observation object has properties for direct access to new and old values
-    // all the standard keys from the change dictionary
+TOObservation *o2 = [object to_observeChangesToKeyPath:@"flag" withBlock:^(TOKVOObservation *obs) {
+    NSLog(@"observed change to object's flag parameter!");
 }];
+
+TOObservation *o3 = [self to_observeForNotifications:object named:@"Banana" withBlock:^(id obj, TONotificationObservation *obs) {
+    NSLog(@"observed object posting Banana notification");
+}];
+
+TOObservation *o4 = [object to_observeNotificationsNamed:@"Seaweed" withBlock:^(TONotificationObservation *obs) {
+    NSLog(@"observed object posting Seaweed notification");
+}];
+
+...
+
 [self to_stopObservingForChanges:object toKeyPath:@"name"];
+[o4 remove];
+```
 
-[object to_observeChangesToKeyPaths:@[@"name", @"flag"] withBlock:^(TOKVOObservation *obs) {
-    // observe many keys at once, easily detect which one it was
-    if ([obs.keyPath isEqualToString:@"flag"])
-    	;
-    // note: this API omits observer, this block may outlive the object whose method made this call!
-}];
-object = nil; // observation is also removed automatically when target of observation is deallocated
+When you've provided an observer object, that object is passed back as the first parameter to your block. You can use this to avoid having to make your own weak pointer, especially if you specialize the type of that first parameter in your block definition to the correct type.
 
-[self to_observeForNotifications:object named:ObjectUpdatedNotification withBlock:^(id obj, TONotificationObservation *obs) {
-    // easy access to the notification's properties
-    NSLog(@"%@", obs.postedObject, obs.userInfo);
-}];
-[self to_observeNotificationsNamed:SomethingOccurredNotification withBlock:^(TONotificationObservation *obs) {
-    // exhaustive combinations of methods, eg. for posts by any object
-    // object parameter is omitted rather than requiring you to pass object:nil
-}];
-
-// extended with wrapper for UIControl event actions
-// can be easily extended to other flavor of observers too, with same autoremoval behavior
-[self to_observeControlForPress:self.button withBlock:^(id obj, TONotificationObservation *obs) {
-}];
-[self.field to_observeEvents:UIControlEventEditingDidBegin withBlock:^(TOObservation *obs) {
+```objective-c
+[self to_observeForChanges:object toKeyPath:@"name" withBlock:^(ViewController *obj, TOKVOObservation *obs) {
+    [obj handleNameChange];
 }];
 ```
 
-To run the example project, clone the repo, and run `pod install` from the Example directory first.
+The second parameter the block is an observation object, the same as the `observe` method's result. Not ony can you call `remove` on this object, but it has accessors for all observation details, such as the notification object or the change dictionary:
+
+```objective-c
+[self to_observeForChanges:object toKeyPath:@"name" withBlock:^(id obj, TOKVOObservation *obs) {
+    NSLog(@"%@ %d %@ %@", obs.changeDict, (int)obs.kind, obs.oldValue, obs.changedValue);
+}];
+
+[self to_observeForNotifications:object named:@"Cheesecake" withBlock:^(id obj, TONotificationObservation *obs) {
+    NSLog(@"%@ %@ %@", obs.notification, obs.postedObject, obs.userInfo);
+}];
+```
+
+Currently I have another method to observe multiple keypaths at once (a feature `MAKVONotificationCenter` has but I do explicitly instead of with a trick, I might remove it since it adds to the combinatorial nightmare):
+
+```objective-c
+[object to_observeChangesToKeyPaths:@[@"name", @"flag"] withBlock:^(TOKVOObservation *obs) {
+    if ([obs.keyPath isEqualToString:@"flag"]) // observe many keys at once, easily detect which one fired
+    	;
+}];
+```
+
+TotalObserver can be easily extended to other flavor of observers, I added a wrapper for UIControl event actions. Please add more and submit pull requests!
+
+```objective-c
+[self to_observeControlForPress:self.button withBlock:^(id obj, TOControlObservation *obs) {
+}];
+[self.field to_observeEvents:UIControlEventEditingDidBegin withBlock:^(TOControlObservation *obs) {
+}];
+```
 
 ## Installation
 
@@ -83,6 +107,8 @@ and also, somewhere in your app's launching process, such as a `+load` method or
 ```objective-c
 [TOObservation setupShorthandMethods];
 ```
+
+Read the comments in "TotalObserverShorthand.h" for more details.
 
 #### Running Example
 
