@@ -37,10 +37,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 @interface TOKVOObservation : TOObservation
-@property (nonatomic, readonly, copy) NSString *keypath;
+@property (nonatomic, readonly) NSArray *keyPaths;
 @property (nonatomic, readonly) NSKeyValueObservingOptions options;
 
-@property (nonatomic, readonly) NSString *keyPath;
+@property (nonatomic, readonly, copy) NSString *keyPath;
 @property (nonatomic, readonly) NSDictionary *changeDict;
 @property (nonatomic, readonly) NSUInteger kind;
 @property (nonatomic, readonly, getter=isPrior) BOOL prior;
