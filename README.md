@@ -22,9 +22,9 @@ Import using either `#import <TotalObserver/TotalObserver.h>` or `@import TotalO
 
 There are 2 general styles of observing methods, one where you pass in an observer (often self), and another where you omit the observer for brevity when its unnecessary. In both cases, the final block parameter is called when the observation is triggered.
 
-You can do nothing and observation is removed automatically when either your observer or the observed object is deallocated. No need to add any code to `dealloc`! You usually can even skip keeping around the `TOObservation` result.
+You can do nothing and observation is removed automatically when either your observer or the observed object is deallocated. No need to add remove code to `dealloc`, no need to keep the `TOObservation` result from the observe method.
 
-If you want to explicitly remove an observation, you can keep the result after all and call `remove` on it. But you can also use a `stopObserving` method, which (like `-[NSNotificationCenter removeObserver:name:object:]`) repeating the same parameters as the `observe` call, and the correct observation will be found and removed.
+If you want to explicitly remove an observation, you can keep the observe method's result after all and call `remove` on it. But you can also use a `stopObserving` class method, which (like `-[NSNotificationCenter removeObserver:name:object:]`) you call with a repeat of that the same parameters as you the passed to `observe`, and the correct observation will be found and removed.
 
 ```objective-c
 TOObservation *o1 = [self to_observeForChanges:object toKeyPath:@"name" withBlock:^(id obj, TOKVOObservation *obs) {
@@ -49,7 +49,7 @@ TOObservation *o4 = [object to_observeNotificationsNamed:@"Seaweed" withBlock:^(
 [o4 remove];
 ```
 
-When you've provided an observer object, that object is passed back as the first parameter to your block. You can use this to avoid having to make your own weak pointer, especially if you specialize the type of that first parameter in your block definition to the correct type.
+When you've provided an observer object, that object is passed back as the first parameter to your block. You can use this to avoid having to make your own weak self pointer. You specialize the type of that parameter in your block definition to the expected type and avoid unnecessary casting.
 
 ```objective-c
 [self to_observeForChanges:object toKeyPath:@"name" withBlock:^(ViewController *obj, TOKVOObservation *obs) {
@@ -61,7 +61,7 @@ The second parameter the block is an observation object, the same as the `observ
 
 ```objective-c
 [self to_observeForChanges:object toKeyPath:@"name" withBlock:^(id obj, TOKVOObservation *obs) {
-    NSLog(@"%@ %d %@ %@", obs.changeDict, (int)obs.kind, obs.oldValue, obs.changedValue);
+    NSLog(@"%@ %@ %d %@ %@", obs.changeDict, obs.keyPath, (int)obs.kind, obs.oldValue, obs.changedValue);
 }];
 
 [self to_observeForNotifications:object named:@"Cheesecake" withBlock:^(id obj, TONotificationObservation *obs) {
@@ -69,16 +69,14 @@ The second parameter the block is an observation object, the same as the `observ
 }];
 ```
 
-Currently I have another method to observe multiple keypaths at once (a feature `MAKVONotificationCenter` has but I do explicitly instead of with a trick, I might remove it since it adds to the combinatorial nightmare):
+There are additional methods which:
+- accept KVO option parameters
+- observe multiple KVO keypaths at once
+- observe a `NSNotification` posted by any object
+- observe an object's own KVO changes or notifications
+- call the observation block on a specific NSOperationQueue or GCD queue
 
-```objective-c
-[object to_observeChangesToKeyPaths:@[@"name", @"flag"] withBlock:^(TOKVOObservation *obs) {
-    if ([obs.keyPath isEqualToString:@"flag"]) // observe many keys at once, easily detect which one fired
-    	;
-}];
-```
-
-TotalObserver can be easily extended to other flavor of observers, I added a wrapper for UIControl event actions. Please add more and submit pull requests!
+TotalObserver can be easily extended to other flavor of observations. For example, I've added capability to observe UIControl event actions:
 
 ```objective-c
 [self to_observeControlForPress:self.button withBlock:^(id obj, TOControlObservation *obs) {
