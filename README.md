@@ -1,6 +1,7 @@
 # TotalObserver
 
 [![Version](https://img.shields.io/cocoapods/v/TotalObserver.svg?style=flat)](http://cocoapods.org/pods/TotalObserver)
+[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![License](https://img.shields.io/cocoapods/l/TotalObserver.svg?style=flat)](http://cocoapods.org/pods/TotalObserver)
 [![Platform](https://img.shields.io/cocoapods/p/TotalObserver.svg?style=flat)](http://cocoapods.org/pods/TotalObserver)
 
@@ -110,7 +111,7 @@ Read the comments in "TotalObserverShorthand.h" for more details.
 
 #### Running Example
 
-If using `pod try` or manually cloning the source to try out the Example app, first cd into its directory and execute `pod install`, then as directed open `TotalObserver.xcworkspace` and not the `.xcodeproj` file.
+If using `pod try` or manually cloning the source to try out the Example app, to build the CocoaPods target you must first `cd` into the Example directory and execute `pod install`, then as directed open `TotalObserver.xcworkspace` and not the `.xcodeproj` file. Note that the example project also has a second target that builds using static frameworks.
 
 
 ## Author
