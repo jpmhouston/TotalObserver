@@ -1,5 +1,11 @@
 # Change Log
 
+## [0.3.0](https://github.com/jpmhouston/TotalObserver/tree/0.3.0) (2015-12-15)
+
+- Outer project that builds framework for Carthage compatibility
+
+[Full Changelog](https://github.com/jpmhouston/TotalObserver/compare/0.2.1...0.3.0)
+
 ## [0.2.1](https://github.com/jpmhouston/TotalObserver/tree/0.2.1) (2015-12-05)
 
 - Fixed TOKVOObservation keyPath & keyPaths properties
