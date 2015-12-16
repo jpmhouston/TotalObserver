@@ -13,11 +13,11 @@ class ViewControllerSwiftSubclass : ViewController
     override func viewDidLoad() -> () {
         super.viewDidLoad()
         
-        self.modelObject.observeChangesToKeyPath("flag") { obs in
+        self.modelObject.to_observeChangesToKeyPath("flag") { obs in
             self.addLineToTextView("observed model.flag property from swift")
         }
         
-        self.modelObject.observeNotificationsNamed(NameChangedNotification) { obs in
+        self.modelObject.to_observeNotificationsNamed(NameChangedNotification) { obs in
             self.addLineToTextView("observed NameChangedNotification from swift")
         }
     }

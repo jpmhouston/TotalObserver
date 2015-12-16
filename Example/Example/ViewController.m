@@ -7,7 +7,6 @@
 //
 
 #import "ViewController.h"
-#import <libextobjc/EXTKeyPathCoding.h>
 #import <TotalObserver/TotalObserverShorthand.h>
 
 @interface TOObservation (PrivateObservationMethods)
@@ -22,19 +21,19 @@
     
     ViewController __weak *welf = self;
     
-    __unused TOObservation *o1 = [self observeForChanges:self.modelObject toKeyPath:@keypath(self.modelObject, name) withBlock:^(ViewController *obj, TOObservation *obs) {
+    __unused TOObservation *o1 = [self observeForChanges:self.modelObject toKeyPath:@"name" withBlock:^(ViewController *obj, TOObservation *obs) {
         [obj addLineToTextView:@"observed model.name property"];
     }];
     
-    __unused TOObservation *o2 = [self observeForChanges:self.modelObject toKeyPath:@keypath(self.modelObject, flag) withBlock:^(typeof(self) obj, TOObservation *obs) {
+    __unused TOObservation *o2 = [self observeForChanges:self.modelObject toKeyPath:@"flag" withBlock:^(typeof(self) obj, TOObservation *obs) {
         [obj addLineToTextView:@"observed model.flag property (1)"];
     }];
     
-    __unused TOObservation *o3 = [self.modelObject observeChangesToKeyPath:@keypath(self.modelObject, flag) withBlock:^(TOObservation *obs) {
+    __unused TOObservation *o3 = [self.modelObject observeChangesToKeyPath:@"flag" withBlock:^(TOObservation *obs) {
         [welf addLineToTextView:@"observed model.flag property (2)"];
     }];
     
-    __unused TOObservation *o4 = [self.modelObject observeChangesToKeyPaths:@[@keypath(self.modelObject, name), @keypath(self.modelObject, flag)] withBlock:^(TOObservation *obs) {
+    __unused TOObservation *o4 = [self.modelObject observeChangesToKeyPaths:@[@"name", @"flag"] withBlock:^(TOObservation *obs) {
         [welf addLineToTextView:@"observed model.name or flag property"];
     }];
     

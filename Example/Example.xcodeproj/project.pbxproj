@@ -22,6 +22,17 @@
 		873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 873B8AEA1B1F5CCA007FD442 /* Main.storyboard */; };
 		8F04535C1BED779A0078BE10 /* ModelObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FAC1A871BCF63AC0017C614 /* ModelObject.m */; };
 		8F0453621BEEC8850078BE10 /* TestShorthand.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F0453611BEEC8850078BE10 /* TestShorthand.m */; };
+		8F1F4E4D1C20F36D0061E8B9 /* TotalObserver.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F4AFDC91C1AB73E005A334F /* TotalObserver.framework */; };
+		8F4AFDAF1C1AB18D005A334F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F59D195388D20070C39A /* AppDelegate.m */; };
+		8F4AFDB01C1AB18D005A334F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F599195388D20070C39A /* main.m */; };
+		8F4AFDB11C1AB18D005A334F /* ModelObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FAC1A871BCF63AC0017C614 /* ModelObject.m */; };
+		8F4AFDB21C1AB18D005A334F /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F5A6195388D20070C39A /* ViewController.m */; };
+		8F4AFDB41C1AB18D005A334F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58F195388D20070C39A /* CoreGraphics.framework */; };
+		8F4AFDB51C1AB18D005A334F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
+		8F4AFDB61C1AB18D005A334F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
+		8F4AFDB91C1AB18D005A334F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 873B8AEA1B1F5CCA007FD442 /* Main.storyboard */; };
+		8F4AFDBA1C1AB18D005A334F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6003F5A8195388D20070C39A /* Images.xcassets */; };
+		8F4AFDBB1C1AB18D005A334F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6003F596195388D20070C39A /* InfoPlist.strings */; };
 		8F9C60BC1BF40BA9008C789F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F9C60BB1BF40BA9008C789F /* ViewController.swift */; };
 		8F9C60BD1BF40D32008C789F /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F5A6195388D20070C39A /* ViewController.m */; };
 		8F9C60BF1BF4760A008C789F /* TestShorthand2.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F9C60BE1BF4760A008C789F /* TestShorthand2.m */; };
@@ -37,23 +48,44 @@
 			remoteGlobalIDString = 6003F589195388D20070C39A;
 			remoteInfo = TotalObserver;
 		};
+		8F1F4E471C20EF160061E8B9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8F4AFDC31C1AB73E005A334F /* TotalObserver.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8FB32AE61C15F72500FD5041;
+			remoteInfo = TotalObserver_iOS;
+		};
+		8F4AFDC81C1AB73E005A334F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8F4AFDC31C1AB73E005A334F /* TotalObserver.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8FB32AE71C15F72500FD5041;
+			remoteInfo = TotalObserver_iOS;
+		};
+		8F4AFDCA1C1AB73E005A334F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8F4AFDC31C1AB73E005A334F /* TotalObserver.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8FB32B281C16E78100FD5041;
+			remoteInfo = TotalObserver_OSX;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		6003F58A195388D20070C39A /* TotalObserver_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TotalObserver_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6003F58A195388D20070C39A /* TO_Pods_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TO_Pods_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58D195388D20070C39A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6003F58F195388D20070C39A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		6003F591195388D20070C39A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		6003F595195388D20070C39A /* TotalObserver-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "TotalObserver-Info.plist"; sourceTree = "<group>"; };
+		6003F595195388D20070C39A /* Example-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Example-Info.plist"; sourceTree = "<group>"; };
 		6003F597195388D20070C39A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		6003F599195388D20070C39A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = main.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		6003F59B195388D20070C39A /* TotalObserver-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TotalObserver-Prefix.pch"; sourceTree = "<group>"; };
+		6003F59B195388D20070C39A /* Example-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Example-Prefix.pch"; sourceTree = "<group>"; };
 		6003F59C195388D20070C39A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = AppDelegate.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		6003F59D195388D20070C39A /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = AppDelegate.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		6003F5A5195388D20070C39A /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		6003F5A6195388D20070C39A /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		6003F5A8195388D20070C39A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		6003F5AE195388D20070C39A /* TotalObserver_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TotalObserver_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6003F5AE195388D20070C39A /* TO_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TO_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F5AF195388D20070C39A /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		6003F5B7195388D20070C39A /* Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Tests-Info.plist"; sourceTree = "<group>"; };
 		6003F5B9195388D20070C39A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -63,10 +95,11 @@
 		6FF3CE8A589B50333636792F /* TotalObserver.podspec */ = {isa = PBXFileReference; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = TotalObserver.podspec; path = ../TotalObserver.podspec; sourceTree = "<group>"; tabWidth = 2; };
 		873B8AEA1B1F5CCA007FD442 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		8F0453611BEEC8850078BE10 /* TestShorthand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestShorthand.m; sourceTree = "<group>"; };
-		8F9C60BA1BF40BA8008C789F /* TotalObserver_Example-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TotalObserver_Example-Bridging-Header.h"; sourceTree = "<group>"; };
+		8F4AFDC11C1AB18D005A334F /* TO_FW_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TO_FW_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8F4AFDC31C1AB73E005A334F /* TotalObserver.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = TotalObserver.xcodeproj; path = ../TotalObserver.xcodeproj; sourceTree = "<group>"; };
+		8F9C60BA1BF40BA8008C789F /* Example-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Example-Bridging-Header.h"; sourceTree = "<group>"; };
 		8F9C60BB1BF40BA9008C789F /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		8F9C60BE1BF4760A008C789F /* TestShorthand2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestShorthand2.m; sourceTree = "<group>"; };
-		8F9C60C01BF47776008C789F /* TotalObserver_Tests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TotalObserver_Tests-Bridging-Header.h"; sourceTree = "<group>"; };
 		8F9C60C11BF47777008C789F /* SwiftTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftTests.swift; sourceTree = "<group>"; };
 		8FAC1A861BCF63AC0017C614 /* ModelObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ModelObject.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		8FAC1A871BCF63AC0017C614 /* ModelObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ModelObject.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
@@ -94,6 +127,17 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		8F4AFDB31C1AB18D005A334F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8F1F4E4D1C20F36D0061E8B9 /* TotalObserver.framework in Frameworks */,
+				8F4AFDB41C1AB18D005A334F /* CoreGraphics.framework in Frameworks */,
+				8F4AFDB51C1AB18D005A334F /* UIKit.framework in Frameworks */,
+				8F4AFDB61C1AB18D005A334F /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -105,14 +149,16 @@
 				6003F5B5195388D20070C39A /* Tests */,
 				6003F58C195388D20070C39A /* Frameworks */,
 				6003F58B195388D20070C39A /* Products */,
+				8F4AFDC31C1AB73E005A334F /* TotalObserver.xcodeproj */,
 			);
 			sourceTree = "<group>";
 		};
 		6003F58B195388D20070C39A /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				6003F58A195388D20070C39A /* TotalObserver_Example.app */,
-				6003F5AE195388D20070C39A /* TotalObserver_Tests.xctest */,
+				6003F58A195388D20070C39A /* TO_Pods_Example.app */,
+				6003F5AE195388D20070C39A /* TO_Tests.xctest */,
+				8F4AFDC11C1AB18D005A334F /* TO_FW_Example.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -141,19 +187,19 @@
 				873B8AEA1B1F5CCA007FD442 /* Main.storyboard */,
 				6003F5A8195388D20070C39A /* Images.xcassets */,
 				6003F594195388D20070C39A /* Supporting Files */,
-				8F9C60BA1BF40BA8008C789F /* TotalObserver_Example-Bridging-Header.h */,
 			);
 			name = "Example for TotalObserver";
-			path = TotalObserver;
+			path = Example;
 			sourceTree = "<group>";
 		};
 		6003F594195388D20070C39A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				6003F595195388D20070C39A /* TotalObserver-Info.plist */,
+				6003F595195388D20070C39A /* Example-Info.plist */,
 				6003F596195388D20070C39A /* InfoPlist.strings */,
 				6003F599195388D20070C39A /* main.m */,
-				6003F59B195388D20070C39A /* TotalObserver-Prefix.pch */,
+				6003F59B195388D20070C39A /* Example-Prefix.pch */,
+				8F9C60BA1BF40BA8008C789F /* Example-Bridging-Header.h */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -166,7 +212,6 @@
 				8F9C60BE1BF4760A008C789F /* TestShorthand2.m */,
 				8F9C60C11BF47777008C789F /* SwiftTests.swift */,
 				6003F5B6195388D20070C39A /* Supporting Files */,
-				8F9C60C01BF47776008C789F /* TotalObserver_Tests-Bridging-Header.h */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -191,12 +236,21 @@
 			name = "Podspec Metadata";
 			sourceTree = "<group>";
 		};
+		8F4AFDC41C1AB73E005A334F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8F4AFDC91C1AB73E005A334F /* TotalObserver.framework */,
+				8F4AFDCB1C1AB73E005A334F /* TotalObserver.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		6003F589195388D20070C39A /* TotalObserver_Example */ = {
+		6003F589195388D20070C39A /* TO_Pods_Example */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6003F5BF195388D20070C39A /* Build configuration list for PBXNativeTarget "TotalObserver_Example" */;
+			buildConfigurationList = 6003F5BF195388D20070C39A /* Build configuration list for PBXNativeTarget "TO_Pods_Example" */;
 			buildPhases = (
 				6003F586195388D20070C39A /* Sources */,
 				6003F587195388D20070C39A /* Frameworks */,
@@ -206,14 +260,14 @@
 			);
 			dependencies = (
 			);
-			name = TotalObserver_Example;
+			name = TO_Pods_Example;
 			productName = TotalObserver;
-			productReference = 6003F58A195388D20070C39A /* TotalObserver_Example.app */;
+			productReference = 6003F58A195388D20070C39A /* TO_Pods_Example.app */;
 			productType = "com.apple.product-type.application";
 		};
-		6003F5AD195388D20070C39A /* TotalObserver_Tests */ = {
+		6003F5AD195388D20070C39A /* TO_Tests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6003F5C2195388D20070C39A /* Build configuration list for PBXNativeTarget "TotalObserver_Tests" */;
+			buildConfigurationList = 6003F5C2195388D20070C39A /* Build configuration list for PBXNativeTarget "TO_Tests" */;
 			buildPhases = (
 				6003F5AA195388D20070C39A /* Sources */,
 				6003F5AB195388D20070C39A /* Frameworks */,
@@ -224,10 +278,28 @@
 			dependencies = (
 				6003F5B4195388D20070C39A /* PBXTargetDependency */,
 			);
-			name = TotalObserver_Tests;
+			name = TO_Tests;
 			productName = TotalObserverTests;
-			productReference = 6003F5AE195388D20070C39A /* TotalObserver_Tests.xctest */;
+			productReference = 6003F5AE195388D20070C39A /* TO_Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		8F4AFDAB1C1AB18D005A334F /* TO_FW_Example */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8F4AFDBE1C1AB18D005A334F /* Build configuration list for PBXNativeTarget "TO_FW_Example" */;
+			buildPhases = (
+				8F4AFDAD1C1AB18D005A334F /* Sources */,
+				8F4AFDB31C1AB18D005A334F /* Frameworks */,
+				8F4AFDB81C1AB18D005A334F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8F1F4E481C20EF160061E8B9 /* PBXTargetDependency */,
+			);
+			name = TO_FW_Example;
+			productName = TotalObserver;
+			productReference = 8F4AFDC11C1AB18D005A334F /* TO_FW_Example.app */;
+			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
@@ -245,7 +317,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 6003F585195388D10070C39A /* Build configuration list for PBXProject "TotalObserver" */;
+			buildConfigurationList = 6003F585195388D10070C39A /* Build configuration list for PBXProject "Example" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -256,13 +328,37 @@
 			mainGroup = 6003F581195388D10070C39A;
 			productRefGroup = 6003F58B195388D20070C39A /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 8F4AFDC41C1AB73E005A334F /* Products */;
+					ProjectRef = 8F4AFDC31C1AB73E005A334F /* TotalObserver.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
-				6003F589195388D20070C39A /* TotalObserver_Example */,
-				6003F5AD195388D20070C39A /* TotalObserver_Tests */,
+				8F4AFDAB1C1AB18D005A334F /* TO_FW_Example */,
+				6003F589195388D20070C39A /* TO_Pods_Example */,
+				6003F5AD195388D20070C39A /* TO_Tests */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		8F4AFDC91C1AB73E005A334F /* TotalObserver.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = TotalObserver.framework;
+			remoteRef = 8F4AFDC81C1AB73E005A334F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		8F4AFDCB1C1AB73E005A334F /* TotalObserver.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = TotalObserver.framework;
+			remoteRef = 8F4AFDCA1C1AB73E005A334F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		6003F588195388D20070C39A /* Resources */ = {
@@ -280,6 +376,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				6003F5BA195388D20070C39A /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8F4AFDB81C1AB18D005A334F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8F4AFDB91C1AB18D005A334F /* Main.storyboard in Resources */,
+				8F4AFDBA1C1AB18D005A334F /* Images.xcassets in Resources */,
+				8F4AFDBB1C1AB18D005A334F /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -310,13 +416,29 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		8F4AFDAD1C1AB18D005A334F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8F4AFDAF1C1AB18D005A334F /* AppDelegate.m in Sources */,
+				8F4AFDB01C1AB18D005A334F /* main.m in Sources */,
+				8F4AFDB11C1AB18D005A334F /* ModelObject.m in Sources */,
+				8F4AFDB21C1AB18D005A334F /* ViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
 		6003F5B4195388D20070C39A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 6003F589195388D20070C39A /* TotalObserver_Example */;
+			target = 6003F589195388D20070C39A /* TO_Pods_Example */;
 			targetProxy = 6003F5B3195388D20070C39A /* PBXContainerItemProxy */;
+		};
+		8F1F4E481C20EF160061E8B9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = TotalObserver_iOS;
+			targetProxy = 8F1F4E471C20EF160061E8B9 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -419,13 +541,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "TotalObserver/TotalObserver-Prefix.pch";
-				INFOPLIST_FILE = "TotalObserver/TotalObserver-Info.plist";
+				GCC_PREFIX_HEADER = "Example/Example-Prefix.pch";
+				INFOPLIST_FILE = "Example/Example-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "TotalObserver/TotalObserver_Example-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Example/Example-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				WRAPPER_EXTENSION = app;
 			};
@@ -437,13 +559,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "TotalObserver/TotalObserver-Prefix.pch";
-				INFOPLIST_FILE = "TotalObserver/TotalObserver-Info.plist";
+				GCC_PREFIX_HEADER = "Example/Example-Prefix.pch";
+				INFOPLIST_FILE = "Example/Example-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "TotalObserver/TotalObserver_Example-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Example/Example-Bridging-Header.h";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -468,9 +590,9 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "Tests/TotalObserver_Tests-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Tests/Tests-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TotalObserver_Example.app/TotalObserver_Example";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TO_Pods_Example.app/TO_Pods_Example";
 				WRAPPER_EXTENSION = xctest;
 			};
 			name = Debug;
@@ -491,16 +613,47 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "Tests/TotalObserver_Tests-Bridging-Header.h";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TotalObserver_Example.app/TotalObserver_Example";
+				SWIFT_OBJC_BRIDGING_HEADER = "Tests/Tests-Bridging-Header.h";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TO_Pods_Example.app/TO_Pods_Example";
 				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+		8F4AFDBF1C1AB18D005A334F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Example/Example-Prefix.pch";
+				INFOPLIST_FILE = "Example/Example-Info.plist";
+				MODULE_NAME = ExampleApp;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		8F4AFDC01C1AB18D005A334F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Example/Example-Prefix.pch";
+				INFOPLIST_FILE = "Example/Example-Info.plist";
+				MODULE_NAME = ExampleApp;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		6003F585195388D10070C39A /* Build configuration list for PBXProject "TotalObserver" */ = {
+		6003F585195388D10070C39A /* Build configuration list for PBXProject "Example" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6003F5BD195388D20070C39A /* Debug */,
@@ -509,7 +662,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6003F5BF195388D20070C39A /* Build configuration list for PBXNativeTarget "TotalObserver_Example" */ = {
+		6003F5BF195388D20070C39A /* Build configuration list for PBXNativeTarget "TO_Pods_Example" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6003F5C0195388D20070C39A /* Debug */,
@@ -518,11 +671,20 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6003F5C2195388D20070C39A /* Build configuration list for PBXNativeTarget "TotalObserver_Tests" */ = {
+		6003F5C2195388D20070C39A /* Build configuration list for PBXNativeTarget "TO_Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6003F5C3195388D20070C39A /* Debug */,
 				6003F5C4195388D20070C39A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8F4AFDBE1C1AB18D005A334F /* Build configuration list for PBXNativeTarget "TO_FW_Example" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8F4AFDBF1C1AB18D005A334F /* Debug */,
+				8F4AFDC01C1AB18D005A334F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

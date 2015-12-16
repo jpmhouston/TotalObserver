@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0700"
+   LastUpgradeVersion = "0710"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6003F589195388D20070C39A"
-               BuildableName = "TotalObserver_Example.app"
-               BlueprintName = "TotalObserver_Example"
+               BlueprintIdentifier = "8FB32B271C16E78100FD5041"
+               BuildableName = "TotalObserver.framework"
+               BlueprintName = "TotalObserver_OSX"
                ReferencedContainer = "container:TotalObserver.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -32,9 +32,9 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6003F5AD195388D20070C39A"
-               BuildableName = "TotalObserver_Tests.xctest"
-               BlueprintName = "TotalObserver_Tests"
+               BlueprintIdentifier = "8FB32B301C16E78100FD5041"
+               BuildableName = "TotalObserver_OSXTests.xctest"
+               BlueprintName = "TotalObserver_OSXTests"
                ReferencedContainer = "container:TotalObserver.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -42,9 +42,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "6003F589195388D20070C39A"
-            BuildableName = "TotalObserver_Example.app"
-            BlueprintName = "TotalObserver_Example"
+            BlueprintIdentifier = "8FB32B271C16E78100FD5041"
+            BuildableName = "TotalObserver.framework"
+            BlueprintName = "TotalObserver_OSX"
             ReferencedContainer = "container:TotalObserver.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -61,16 +61,15 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
+      <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "6003F589195388D20070C39A"
-            BuildableName = "TotalObserver_Example.app"
-            BlueprintName = "TotalObserver_Example"
+            BlueprintIdentifier = "8FB32B271C16E78100FD5041"
+            BuildableName = "TotalObserver.framework"
+            BlueprintName = "TotalObserver_OSX"
             ReferencedContainer = "container:TotalObserver.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -80,16 +79,15 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
+      <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "6003F589195388D20070C39A"
-            BuildableName = "TotalObserver_Example.app"
-            BlueprintName = "TotalObserver_Example"
+            BlueprintIdentifier = "8FB32B271C16E78100FD5041"
+            BuildableName = "TotalObserver.framework"
+            BlueprintName = "TotalObserver_OSX"
             ReferencedContainer = "container:TotalObserver.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
+      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

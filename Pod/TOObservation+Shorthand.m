@@ -12,6 +12,10 @@
 #import "TOObservation+Shorthand.h"
 #import <objc/runtime.h>
 
+#if TARGET_OS_IPHONE
+#import <UIKit/UIKit.h>
+#endif
+
 static BOOL shorthandMethodsAreSwizzled = NO;
 static NSString * const TotalObserverCategoryPrefix = @"to_";
 
