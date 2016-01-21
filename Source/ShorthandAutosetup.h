@@ -1,5 +1,5 @@
 //
-//  SetupShorthand.h
+//  ShorthandAutsetup.h
 //  TotalObserver
 //
 //  Created by Pierre Houston on 2015-11-04.
@@ -11,7 +11,7 @@
 //  - in your podfile use: pod 'TotalObserver/Shorthand' instead of just pod 'TotalObserver'
 //  - either: use module import directive as normal: @import TotalObserver;
 //    or: import <TotalObserver/TotalObserverShorthand.h> instead of the normal umbrealla header
-//  - but in at least one .m file, instead import <TotalObserver/SetupShorthand.h>
+//  - but in at least one .m file, instead import <TotalObserver/ShorthandAutsetup.h>
 //
 //  There won't be a conflict, and not much of an overhead if imported multiple times, but
 //  don't import from a very common header, definitely not in your prefix header.

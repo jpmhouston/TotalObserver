@@ -45,3 +45,17 @@
 }
 
 @end
+
+#if EXPERIMENT // nop view controller
+@class ModelObject;
+
+@interface ViewController : UIViewController
+@property (nonatomic, strong) IBOutlet ModelObject *modelObject;
+@property (nonatomic, weak) IBOutlet UITextView *textView;
+@property (nonatomic, weak) IBOutlet UIButton *button1;
+@property (nonatomic, weak) IBOutlet UIButton *button2;
+@end
+
+@implementation ViewController
+@end
+#endif

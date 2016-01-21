@@ -8,13 +8,13 @@
 
 /*
 @import XCTest;
-@import TotalObserver; // getting "Could not build module 'TotalObserver'" error here :(
+@import TotalObserver; // getting "Could not build module 'TotalObserver'" error here :( i hope its only in the Example project
 #import "ModelObject.h"
 
-@interface TestShorthand : XCTestCase
+@interface TestShorthand2 : XCTestCase
 @end
 
-@implementation TestShorthand
+@implementation TestShorthand2
 
 - (void)setUp {
     [super setUp];

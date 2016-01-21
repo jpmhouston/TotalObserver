@@ -7,7 +7,9 @@
 //
 
 #import <TotalObserver/TOObservation.h>
-#import <TotalObserver/NSObject+TotalObserver.h>
+#import <TotalObserver/NSObject+TotalObserverKVO.h>
+#import <TotalObserver/NSObject+TotalObserverNotifications.h>
 #if TARGET_OS_IPHONE
+#import <TotalObserver/NSObject+TotalObserverUIControl.h>
 #import <TotalObserver/UIControl+TotalObserver.h>
 #endif

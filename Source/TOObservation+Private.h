@@ -6,7 +6,7 @@
 //
 //
 
-#import "NSObject+TotalObserver.h"
+#import "TOObservation.h"
 
 #if __has_feature(nullability)
 NS_ASSUME_NONNULL_BEGIN

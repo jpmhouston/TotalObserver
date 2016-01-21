@@ -12,14 +12,18 @@
 //  - then call [TOObservation setupShorthandMethods] somewhere, such as your app delegate's
 //    application:didFinishLaunching..
 //    or: **if you can setup your project to access this pod's private headers** then in
-//    at least one .m file, instead include <TotalObserver/SetupShorthand.h>
+//    at least one .m file, instead include <TotalObserver/ShorthandAutsetup.h>
 //
 
 #import <TotalObserver/TOObservation.h>
 #import <TotalObserver/TOObservation+Shorthand.h>
-#import <TotalObserver/NSObject+TotalObserver.h>
-#import <TotalObserver/NSObject+TotalObserverShorthand.h>
+#import <TotalObserver/NSObject+TotalObserverKVO.h>
+#import <TotalObserver/NSObject+TotalObserverKVOShorthand.h>
+#import <TotalObserver/NSObject+TotalObserverNotifications.h>
+#import <TotalObserver/NSObject+TotalObserverNotificationsShorthand.h>
 #if TARGET_OS_IPHONE
+#import <TotalObserver/NSObject+TotalObserverUIControl.h>
+#import <TotalObserver/NSObject+TotalObserverUIControlShorthand.h>
 #import <TotalObserver/UIControl+TotalObserver.h>
 #import <TotalObserver/UIControl+TotalObserverShorthand.h>
 #endif

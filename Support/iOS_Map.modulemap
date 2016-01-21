@@ -4,7 +4,6 @@ module TotalObserver {
     header "TOObservation+Shorthand.h"
     header "NSObject+TotalObserverShorthand.h"
     header "UIControl+TotalObserverShorthand.h"
-    header "SetupShorthand.h"
     export *
     module * { export * }
 }

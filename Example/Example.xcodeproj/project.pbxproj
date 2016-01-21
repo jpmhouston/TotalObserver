@@ -72,7 +72,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		6003F58A195388D20070C39A /* TO_Pods_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TO_Pods_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6003F58A195388D20070C39A /* TO Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "TO Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58D195388D20070C39A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6003F58F195388D20070C39A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		6003F591195388D20070C39A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -85,17 +85,16 @@
 		6003F5A5195388D20070C39A /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		6003F5A6195388D20070C39A /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		6003F5A8195388D20070C39A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		6003F5AE195388D20070C39A /* TO_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TO_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6003F5AE195388D20070C39A /* TO Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "TO Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F5AF195388D20070C39A /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		6003F5B7195388D20070C39A /* Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Tests-Info.plist"; sourceTree = "<group>"; };
 		6003F5B9195388D20070C39A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		6003F5BB195388D20070C39A /* Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Tests.m; sourceTree = "<group>"; };
-		606FC2411953D9B200FFA9A0 /* Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Tests-Prefix.pch"; sourceTree = "<group>"; };
 		693A4AD403E4AEBC67A9173B /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		6FF3CE8A589B50333636792F /* TotalObserver.podspec */ = {isa = PBXFileReference; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = TotalObserver.podspec; path = ../TotalObserver.podspec; sourceTree = "<group>"; tabWidth = 2; };
 		873B8AEA1B1F5CCA007FD442 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		8F0453611BEEC8850078BE10 /* TestShorthand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestShorthand.m; sourceTree = "<group>"; };
-		8F4AFDC11C1AB18D005A334F /* TO_FW_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TO_FW_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8F4AFDC11C1AB18D005A334F /* TO Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "TO Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F4AFDC31C1AB73E005A334F /* TotalObserver.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = TotalObserver.xcodeproj; path = ../TotalObserver.xcodeproj; sourceTree = "<group>"; };
 		8F9C60BA1BF40BA8008C789F /* Example-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Example-Bridging-Header.h"; sourceTree = "<group>"; };
 		8F9C60BB1BF40BA9008C789F /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -156,9 +155,9 @@
 		6003F58B195388D20070C39A /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				6003F58A195388D20070C39A /* TO_Pods_Example.app */,
-				6003F5AE195388D20070C39A /* TO_Tests.xctest */,
-				8F4AFDC11C1AB18D005A334F /* TO_FW_Example.app */,
+				6003F58A195388D20070C39A /* TO Example.app */,
+				6003F5AE195388D20070C39A /* TO Tests.xctest */,
+				8F4AFDC11C1AB18D005A334F /* TO Example.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -221,7 +220,6 @@
 			children = (
 				6003F5B7195388D20070C39A /* Tests-Info.plist */,
 				6003F5B8195388D20070C39A /* InfoPlist.strings */,
-				606FC2411953D9B200FFA9A0 /* Tests-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -248,9 +246,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		6003F589195388D20070C39A /* TO_Pods_Example */ = {
+		6003F589195388D20070C39A /* Pods Example */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6003F5BF195388D20070C39A /* Build configuration list for PBXNativeTarget "TO_Pods_Example" */;
+			buildConfigurationList = 6003F5BF195388D20070C39A /* Build configuration list for PBXNativeTarget "Pods Example" */;
 			buildPhases = (
 				6003F586195388D20070C39A /* Sources */,
 				6003F587195388D20070C39A /* Frameworks */,
@@ -260,14 +258,14 @@
 			);
 			dependencies = (
 			);
-			name = TO_Pods_Example;
+			name = "Pods Example";
 			productName = TotalObserver;
-			productReference = 6003F58A195388D20070C39A /* TO_Pods_Example.app */;
+			productReference = 6003F58A195388D20070C39A /* TO Example.app */;
 			productType = "com.apple.product-type.application";
 		};
-		6003F5AD195388D20070C39A /* TO_Tests */ = {
+		6003F5AD195388D20070C39A /* Tests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6003F5C2195388D20070C39A /* Build configuration list for PBXNativeTarget "TO_Tests" */;
+			buildConfigurationList = 6003F5C2195388D20070C39A /* Build configuration list for PBXNativeTarget "Tests" */;
 			buildPhases = (
 				6003F5AA195388D20070C39A /* Sources */,
 				6003F5AB195388D20070C39A /* Frameworks */,
@@ -278,14 +276,14 @@
 			dependencies = (
 				6003F5B4195388D20070C39A /* PBXTargetDependency */,
 			);
-			name = TO_Tests;
+			name = Tests;
 			productName = TotalObserverTests;
-			productReference = 6003F5AE195388D20070C39A /* TO_Tests.xctest */;
+			productReference = 6003F5AE195388D20070C39A /* TO Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		8F4AFDAB1C1AB18D005A334F /* TO_FW_Example */ = {
+		8F4AFDAB1C1AB18D005A334F /* Framework Example */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 8F4AFDBE1C1AB18D005A334F /* Build configuration list for PBXNativeTarget "TO_FW_Example" */;
+			buildConfigurationList = 8F4AFDBE1C1AB18D005A334F /* Build configuration list for PBXNativeTarget "Framework Example" */;
 			buildPhases = (
 				8F4AFDAD1C1AB18D005A334F /* Sources */,
 				8F4AFDB31C1AB18D005A334F /* Frameworks */,
@@ -296,9 +294,9 @@
 			dependencies = (
 				8F1F4E481C20EF160061E8B9 /* PBXTargetDependency */,
 			);
-			name = TO_FW_Example;
+			name = "Framework Example";
 			productName = TotalObserver;
-			productReference = 8F4AFDC11C1AB18D005A334F /* TO_FW_Example.app */;
+			productReference = 8F4AFDC11C1AB18D005A334F /* TO Example.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -336,9 +334,9 @@
 			);
 			projectRoot = "";
 			targets = (
-				8F4AFDAB1C1AB18D005A334F /* TO_FW_Example */,
-				6003F589195388D20070C39A /* TO_Pods_Example */,
-				6003F5AD195388D20070C39A /* TO_Tests */,
+				8F4AFDAB1C1AB18D005A334F /* Framework Example */,
+				6003F589195388D20070C39A /* Pods Example */,
+				6003F5AD195388D20070C39A /* Tests */,
 			);
 		};
 /* End PBXProject section */
@@ -432,7 +430,7 @@
 /* Begin PBXTargetDependency section */
 		6003F5B4195388D20070C39A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 6003F589195388D20070C39A /* TO_Pods_Example */;
+			target = 6003F589195388D20070C39A /* Pods Example */;
 			targetProxy = 6003F5B3195388D20070C39A /* PBXContainerItemProxy */;
 		};
 		8F1F4E481C20EF160061E8B9 /* PBXTargetDependency */ = {
@@ -545,8 +543,8 @@
 				INFOPLIST_FILE = "Example/Example-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = "science.bananameter.totalobserver.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "TO Example";
 				SWIFT_OBJC_BRIDGING_HEADER = "Example/Example-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				WRAPPER_EXTENSION = app;
@@ -563,8 +561,8 @@
 				INFOPLIST_FILE = "Example/Example-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = "science.bananameter.totalobserver.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "TO Example";
 				SWIFT_OBJC_BRIDGING_HEADER = "Example/Example-Bridging-Header.h";
 				WRAPPER_EXTENSION = app;
 			};
@@ -575,24 +573,15 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ENABLE_MODULES = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Tests/Tests-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
+				GCC_PREFIX_HEADER = "Example/Example-Prefix.pch";
 				INFOPLIST_FILE = "Tests/Tests-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "Tests/Tests-Bridging-Header.h";
+				PRODUCT_BUNDLE_IDENTIFIER = "science.bananameter.totalobserver.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "TO Tests";
+				SWIFT_OBJC_BRIDGING_HEADER = "Example/Example-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TO_Pods_Example.app/TO_Pods_Example";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TO Example.app/TO Example";
 				WRAPPER_EXTENSION = xctest;
 			};
 			name = Debug;
@@ -602,19 +591,14 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ENABLE_MODULES = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Tests/Tests-Prefix.pch";
+				GCC_PREFIX_HEADER = "Example/Example-Prefix.pch";
 				INFOPLIST_FILE = "Tests/Tests-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "Tests/Tests-Bridging-Header.h";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TO_Pods_Example.app/TO_Pods_Example";
+				PRODUCT_BUNDLE_IDENTIFIER = "science.bananameter.totalobserver.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "TO Tests";
+				SWIFT_OBJC_BRIDGING_HEADER = "Example/Example-Bridging-Header.h";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TO Example.app/TO Example";
 				WRAPPER_EXTENSION = xctest;
 			};
 			name = Release;
@@ -628,8 +612,8 @@
 				GCC_PREFIX_HEADER = "Example/Example-Prefix.pch";
 				INFOPLIST_FILE = "Example/Example-Info.plist";
 				MODULE_NAME = ExampleApp;
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = "science.bananameter.totalobserver.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "TO Example";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				WRAPPER_EXTENSION = app;
 			};
@@ -644,8 +628,8 @@
 				GCC_PREFIX_HEADER = "Example/Example-Prefix.pch";
 				INFOPLIST_FILE = "Example/Example-Info.plist";
 				MODULE_NAME = ExampleApp;
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = "science.bananameter.totalobserver.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "TO Example";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -662,7 +646,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6003F5BF195388D20070C39A /* Build configuration list for PBXNativeTarget "TO_Pods_Example" */ = {
+		6003F5BF195388D20070C39A /* Build configuration list for PBXNativeTarget "Pods Example" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6003F5C0195388D20070C39A /* Debug */,
@@ -671,7 +655,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6003F5C2195388D20070C39A /* Build configuration list for PBXNativeTarget "TO_Tests" */ = {
+		6003F5C2195388D20070C39A /* Build configuration list for PBXNativeTarget "Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6003F5C3195388D20070C39A /* Debug */,
@@ -680,7 +664,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		8F4AFDBE1C1AB18D005A334F /* Build configuration list for PBXNativeTarget "TO_FW_Example" */ = {
+		8F4AFDBE1C1AB18D005A334F /* Build configuration list for PBXNativeTarget "Framework Example" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8F4AFDBF1C1AB18D005A334F /* Debug */,

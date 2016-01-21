@@ -3,7 +3,6 @@ module TotalObserver {
     header "TotalObserverShorthand.h"
     header "TOObservation+Shorthand.h"
     header "NSObject+TotalObserverShorthand.h"
-    header "SetupShorthand.h"
     export *
     module * { export * }
 }

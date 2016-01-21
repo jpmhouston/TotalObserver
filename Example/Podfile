@@ -1,12 +1,17 @@
+#
+# set COCOAPODS_DISABLE_DETERMINISTIC_UUIDS to YES before pod install
+# bash: COCOAPODS_DISABLE_DETERMINISTIC_UUIDS=YES pod install
+# fish: set -x COCOAPODS_DISABLE_DETERMINISTIC_UUIDS YES ; pod install
+#
+
 source 'https://github.com/CocoaPods/Specs.git'
 use_frameworks!
 
-target 'TotalObserver_Pods_Example', :exclusive => true do
+target 'Pods Example', :exclusive => true do
   pod "TotalObserver/Shorthand", :path => "../"
   pod 'libextobjc/EXTKeyPathCoding'
 end
 
-target 'TotalObserver_Tests', :exclusive => true do
+target 'Tests', :exclusive => true do
   pod "TotalObserver/Shorthand", :path => "../"
 end
-

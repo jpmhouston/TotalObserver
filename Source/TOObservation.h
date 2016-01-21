@@ -10,8 +10,9 @@
 
 #if __has_feature(nullability)
 NS_ASSUME_NONNULL_BEGIN
+#define TO_nullable nullable
 #else
-#define nullable
+#define TO_nullable
 #endif
 
 @class TOObservation;
@@ -23,13 +24,13 @@ typedef void (^TOObjObservationBlock)(id obj, TOObservation *);
 @interface TOObservation : NSObject
 
 @property (nonatomic, readonly, weak) id observer;
-@property (nonatomic, readonly, weak, nullable) id object; // aka observee
+@property (nonatomic, readonly, weak, TO_nullable) id object; // aka observee
 
-@property (nonatomic, readonly, nullable) NSOperationQueue *queue;
-@property (nonatomic, readonly, nullable) dispatch_queue_t gcdQueue;
+@property (nonatomic, readonly, TO_nullable) NSOperationQueue *queue;
+@property (nonatomic, readonly, TO_nullable) dispatch_queue_t gcdQueue;
 
-@property (nonatomic, readonly, copy, nullable) TOObservationBlock block; // one of these will be non-null
-@property (nonatomic, readonly, copy, nullable) TOObjObservationBlock objectBlock;
+@property (nonatomic, readonly, copy, TO_nullable) TOObservationBlock block; // one of these will be non-null
+@property (nonatomic, readonly, copy, TO_nullable) TOObjObservationBlock objectBlock;
 
 @property (nonatomic, readonly) BOOL registered;
 @property (nonatomic) BOOL removeAutomatically; // ie. when either observer or observee is dealloc'd, default = YES
@@ -39,6 +40,5 @@ typedef void (^TOObjObservationBlock)(id obj, TOObservation *);
 
 #if __has_feature(nullability)
 NS_ASSUME_NONNULL_END
-#else
-#define nullable
 #endif
+#undef TO_nullable
