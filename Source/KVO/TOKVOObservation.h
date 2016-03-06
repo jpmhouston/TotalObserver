@@ -29,13 +29,15 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly, TO_nullable) NSIndexSet *indexes;
 
 // can use this class method to match a prior observation and remove it, although usually more convenient to
-// use the 'stopObserving' methods below, or save the observation object and call 'remove' on it
+// use the 'stopObserving' methods, or save the observation object and call 'remove' on it
 + (BOOL)removeForObserver:(TO_nullable id)observer object:(id)object keyPaths:(NSArray *)keyPaths;
 
+@end
+
+@interface TOKVOObservation (Private)
 // perhaps these belong in a +Private.h header, there's no reason for users of TO normally to be creating these objects themselves
 - (instancetype)initWithObserver:(nullable id)observer object:(id)object keyPaths:(NSArray *)keyPaths options:(int)options onQueue:(nullable NSOperationQueue *)queue orGCDQueue:(nullable dispatch_queue_t)gcdQueue withBlock:(TOObservationBlock)block;
 - (instancetype)initWithObserver:(nullable id)observer object:(id)object keyPaths:(NSArray *)keyPaths options:(int)options onQueue:(nullable NSOperationQueue *)queue orGCDQueue:(nullable dispatch_queue_t)gcdQueue withObjBlock:(TOObjObservationBlock)block;
-
 @end
 
 #if __has_feature(nullability)

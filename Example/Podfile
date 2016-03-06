@@ -1,4 +1,5 @@
 #
+# !!! still needed? must confirm:
 # set COCOAPODS_DISABLE_DETERMINISTIC_UUIDS to YES before pod install
 # bash: COCOAPODS_DISABLE_DETERMINISTIC_UUIDS=YES pod install
 # fish: set -x COCOAPODS_DISABLE_DETERMINISTIC_UUIDS YES ; pod install
@@ -12,6 +13,6 @@ target 'Pods Example', :exclusive => true do
   pod 'libextobjc/EXTKeyPathCoding'
 end
 
-target 'Tests', :exclusive => true do
-  pod "TotalObserver/Shorthand", :path => "../"
-end
+#target 'Tests', :exclusive => true do
+#  pod "TotalObserver/Shorthand", :path => "../"
+#end

@@ -43,12 +43,15 @@ static NSMutableSet *classesSwizzledSet = nil;
 - (instancetype)init
 {
     self = [super init];
-    [NSException raise:NSInternalInconsistencyException format:@"TOObservation base class must not be initialized"];
+    // has this to prevent this from being used,
+    //[NSException raise:NSInternalInconsistencyException format:@"TOObservation base class must not be initialized"];
+    // but now this *is* legitamitely used specifically when temporarily completing init of an observation
+    // before discarding it and returning nil, which subclass can do using 'if (fail-condition) return [super init];'
     self = nil;
     return nil;
 }
 
-- (instancetype)initWithObserver:(nullable id)observer object:(id)object queue:(nullable NSOperationQueue *)queue gcdQueue:(nullable dispatch_queue_t)cgdQueue block:(TOObservationBlock)block
+- (instancetype)initWithObserver:(nullable id)observer object:(nullable id)object queue:(nullable NSOperationQueue *)queue gcdQueue:(nullable dispatch_queue_t)cgdQueue block:(TOObservationBlock)block
 {
     if (!(self = [super init]))
         return nil;
@@ -61,7 +64,7 @@ static NSMutableSet *classesSwizzledSet = nil;
     return self;
 }
 
-- (instancetype)initWithObserver:(nullable id)observer object:(id)object queue:(nullable NSOperationQueue *)queue gcdQueue:(nullable dispatch_queue_t)cgdQueue objBlock:(TOObjObservationBlock)block
+- (instancetype)initWithObserver:(nullable id)observer object:(nullable id)object queue:(nullable NSOperationQueue *)queue gcdQueue:(nullable dispatch_queue_t)cgdQueue objBlock:(TOObjObservationBlock)block
 {
     if (!(self = [super init]))
         return nil;
@@ -171,7 +174,6 @@ static NSMutableSet *classesSwizzledSet = nil;
     NSAssert1(self.observer != nil || self.object != nil, @"Nil 'observer' & 'object' properties when storing observation %@", self);
     // store into *both* observer & observee, although that may not be obvious
     // of course we want to remove the observation if the observer goes away, but also if the observee does too
-    //
     if (self.observer != nil)
         [[self class] storeAssociatedObservation:self intoObject:self.observer];
     if (self.object != nil && self.object != self.observer)

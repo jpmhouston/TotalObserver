@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "TONotificationObservation.h"
 
 #if __has_feature(nullability)
 NS_ASSUME_NONNULL_BEGIN

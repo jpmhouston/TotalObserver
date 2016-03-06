@@ -3,7 +3,7 @@
 //  TotalObserver
 //
 //  Created by Pierre Houston on 2015-10-23.
-//
+//  Copyright © 2015 Pierre Houston. All rights reserved.
 //
 
 #import "TOObservation.h"
@@ -20,8 +20,8 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface TOObservation (PrivateForSubclassesToUse)
-- (instancetype)initWithObserver:(TO_nullable id)observer object:(id)object queue:(TO_nullable NSOperationQueue *)queue gcdQueue:(TO_nullable dispatch_queue_t)cgdQeue block:(TOObservationBlock)block;
-- (instancetype)initWithObserver:(TO_nullable id)observer object:(id)object queue:(TO_nullable NSOperationQueue *)queue gcdQueue:(TO_nullable dispatch_queue_t)cgdQeue objBlock:(TOObjObservationBlock)block;
+- (instancetype)initWithObserver:(TO_nullable id)observer object:(TO_nullable id)object queue:(TO_nullable NSOperationQueue *)queue gcdQueue:(TO_nullable dispatch_queue_t)cgdQeue block:(TOObservationBlock)block;
+- (instancetype)initWithObserver:(TO_nullable id)observer object:(TO_nullable id)object queue:(TO_nullable NSOperationQueue *)queue gcdQueue:(TO_nullable dispatch_queue_t)cgdQeue objBlock:(TOObjObservationBlock)block;
 
 - (void)invoke;
 - (void)invokeOnQueueAfter:(void(^)(void))setup;
