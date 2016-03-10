@@ -42,7 +42,7 @@ typedef void (^TOAppGroupSubscriberBlock)(NSString *identifier, NSString *name, 
 
 @end
 
-// these could go in a ..+Testing.h header
+// these could go in a ..+Testing.h header, but this whole header is private anyway:
 
 @protocol TOAppGroupURLProviding;
 @protocol TOAppGroupGlobalNotificationHandling;

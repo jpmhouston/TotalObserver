@@ -8,11 +8,7 @@
 source 'https://github.com/CocoaPods/Specs.git'
 use_frameworks!
 
-target 'Pods Example', :exclusive => true do
-  pod "TotalObserver/Shorthand", :path => "../"
+target 'Pods Example' do
+  pod 'TotalObserver/Shorthand', :path => '../'
   pod 'libextobjc/EXTKeyPathCoding'
 end
-
-#target 'Tests', :exclusive => true do
-#  pod "TotalObserver/Shorthand", :path => "../"
-#end

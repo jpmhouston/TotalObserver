@@ -24,7 +24,6 @@
 #import <TotalObserver/NSObject+TotalObserverNotifications.h>
 #import <TotalObserver/NSObject+TotalObserverNotificationsShorthand.h>
 #import <TotalObserver/TOAppGroupObservation.h>
-#import <TotalObserver/TOAppGroupNotificationManager.h>
 #import <TotalObserver/NSObject+TotalObserverAppGroup.h>
 #import <TotalObserver/NSObject+TotalObserverAppGroupShorthand.h>
 #if TARGET_OS_IPHONE

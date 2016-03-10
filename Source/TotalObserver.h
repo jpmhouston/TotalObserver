@@ -12,7 +12,6 @@
 #import <TotalObserver/TONotificationObservation.h>
 #import <TotalObserver/NSObject+TotalObserverNotifications.h>
 #import <TotalObserver/TOAppGroupObservation.h>
-#import <TotalObserver/TOAppGroupNotificationManager.h>
 #import <TotalObserver/NSObject+TotalObserverAppGroup.h>
 #if TARGET_OS_IPHONE
 #import <TotalObserver/TOUIControlObservation.h>

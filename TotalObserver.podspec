@@ -31,24 +31,24 @@ Pod::Spec.new do |s|
   
   s.default_subspec = 'Core'
   s.subspec 'Core' do |cs|
-    cs.ios.source_files = "Source/*.{h,m}", "Source/KVO/*.{h,m}", "Source/Notifications/*.{h,m}", "Source/UIControl/*.{h,m}"
-    cs.osx.source_files = "Source/*.{h,m}", "Source/KVO/*.{h,m}", "Source/Notifications/*.{h,m}"
+    cs.ios.source_files = "Source/*.{h,m}", "Source/KVO/*.{h,m}", "Source/Notifications/*.{h,m}", "Source/AppGroups/*.{h,m}", "Source/UIControl/*.{h,m}"
+    cs.osx.source_files = "Source/*.{h,m}", "Source/KVO/*.{h,m}", "Source/Notifications/*.{h,m}", "Source/AppGroups/*.{h,m}"
     
-    cs.ios.public_header_files = "Source/TotalObserver.h", "Source/TOObservation.h", "Source/KVO/*.h", "Source/Notifications/*.h", "Source/UIControl/*.h"
-    cs.osx.public_header_files = "Source/TotalObserver.h", "Source/TOObservation.h", "Source/KVO/*.h", "Source/Notifications/*.h"
-    cs.private_header_files = "Source/TOObservation+Private.h"
+    cs.ios.public_header_files = "Source/TotalObserver.h", "Source/TOObservation.h", "Source/KVO/*.h", "Source/Notifications/*.h", "Source/AppGroups/*.h", "Source/UIControl/*.h"
+    cs.osx.public_header_files = "Source/TotalObserver.h", "Source/TOObservation.h", "Source/KVO/*.h", "Source/Notifications/*.h", "Source/AppGroups/*.h"
+    cs.private_header_files = "Source/TOObservation+Private.h", "Source/AppGroups/TOAppGroupNotificationManager.h"
     
-    cs.exclude_files = "Source/*Shorthand.{h,m}", "Source/ShorthandAutosetup.h", "Source/KVO/*Shorthand.h", "Source/Notifications/*Shorthand.h", "Source/UIControl/*Shorthand.h"
+    cs.exclude_files = "Source/*Shorthand.{h,m}", "Source/ShorthandAutosetup.h", "Source/KVO/*Shorthand.h", "Source/Notifications/*Shorthand.h", "Source/AppGroups/*Shorthand.h", "Source/UIControl/*Shorthand.h"
   end
   
   s.subspec 'Shorthand' do |shs|
     shs.dependency 'TotalObserver/Core'
     
-    shs.ios.source_files = "Source/*Shorthand.{h,m}", "Source/ShorthandAutosetup.h", "Source/KVO/*Shorthand.h", "Source/Notifications/*Shorthand.h", "Source/UIControl/*Shorthand.h"
-    shs.osx.source_files = "Source/*Shorthand.{h,m}", "Source/ShorthandAutosetup.h", "Source/KVO/*Shorthand.h", "Source/Notifications/*Shorthand.h"
+    shs.ios.source_files = "Source/*Shorthand.{h,m}", "Source/ShorthandAutosetup.h", "Source/KVO/*Shorthand.h", "Source/Notifications/*Shorthand.h", "Source/AppGroups/*Shorthand.h", "Source/UIControl/*Shorthand.h"
+    shs.osx.source_files = "Source/*Shorthand.{h,m}", "Source/ShorthandAutosetup.h", "Source/KVO/*Shorthand.h", "Source/Notifications/*Shorthand.h", "Source/AppGroups/*Shorthand.h"
     
-    shs.ios.public_header_files = "Source/*Shorthand.h", "Source/KVO/*Shorthand.h", "Source/Notifications/*Shorthand.h", "Source/UIControl/*Shorthand.h"
-    shs.osx.public_header_files = "Source/*Shorthand.h", "Source/KVO/*Shorthand.h", "Source/Notifications/*Shorthand.h"
+    shs.ios.public_header_files = "Source/*Shorthand.h", "Source/KVO/*Shorthand.h", "Source/Notifications/*Shorthand.h", "Source/AppGroups/*Shorthand.h", "Source/UIControl/*Shorthand.h"
+    shs.osx.public_header_files = "Source/*Shorthand.h", "Source/KVO/*Shorthand.h", "Source/Notifications/*Shorthand.h", "Source/AppGroups/*Shorthand.h"
     shs.private_header_files = "Source/ShorthandAutosetup.h"
   end
   
