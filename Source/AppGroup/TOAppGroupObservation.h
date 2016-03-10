@@ -5,8 +5,6 @@
 //  Created by Pierre Houston on 2016-02-23.
 //  Copyright © 2016 Pierre Houston. All rights reserved.
 //
-//  FIXME: payload still declared as id<Coding>
-//    if abandoning plan to support coding and only plist, should remove
 
 #import "TOObservation.h"
 
@@ -20,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface TOAppGroupObservation : TOObservation
 
 @property (nonatomic, readonly, copy) NSString *name;
-@property (nonatomic, readonly, TO_nullable) id<NSCoding> payload;
+@property (nonatomic, readonly, TO_nullable) id payload;
 
 @property (nonatomic, readonly, copy) NSString *groupIdentifier;
 @property (nonatomic, readonly) NSDate *postedDate;
@@ -34,8 +32,8 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)deregisterAppGroup:(NSString *)groupIdentifier;
 
 // posting methods
-+ (BOOL)postNotificationNamed:(NSString *)name payload:(TO_nullable id<NSCoding>)payload;
-+ (BOOL)postNotificationForAppGroup:(NSString *)groupIdentifier named:(NSString *)name payload:(TO_nullable id<NSCoding>)payload;
++ (BOOL)postNotificationNamed:(NSString *)name payload:(TO_nullable id)payload;
++ (BOOL)postNotificationForAppGroup:(NSString *)groupIdentifier named:(NSString *)name payload:(TO_nullable id)payload;
 
 @end
 

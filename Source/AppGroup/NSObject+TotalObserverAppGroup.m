@@ -69,18 +69,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-// !!! payload still declared as id<Coding>, if abandoning plan to support coding and only plist, should remove
 
 @implementation NSData (TotalObserverAppGroup)
 
 - (void)to_postWithinAppGroupNotificationNamed:(NSString *)name
 {
-    [TOAppGroupObservation postNotificationNamed:name payload:(id<NSCoding>)self];
+    [TOAppGroupObservation postNotificationNamed:name payload:self];
 }
 
 - (void)to_postWithinNotificationToAppGroup:(NSString *)groupIdentifier named:(NSString *)name
 {
-    [TOAppGroupObservation postNotificationForAppGroup:groupIdentifier named:name payload:(id<NSCoding>)self];
+    [TOAppGroupObservation postNotificationForAppGroup:groupIdentifier named:name payload:self];
 }
 
 @end
@@ -89,12 +88,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)to_postWithinAppGroupNotificationNamed:(NSString *)name
 {
-    [TOAppGroupObservation postNotificationNamed:name payload:(id<NSCoding>)self];
+    [TOAppGroupObservation postNotificationNamed:name payload:self];
 }
 
 - (void)to_postWithinNotificationToAppGroup:(NSString *)groupIdentifier named:(NSString *)name
 {
-    [TOAppGroupObservation postNotificationForAppGroup:groupIdentifier named:name payload:(id<NSCoding>)self];
+    [TOAppGroupObservation postNotificationForAppGroup:groupIdentifier named:name payload:self];
 }
 
 @end
@@ -103,12 +102,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)to_postWithinAppGroupNotificationNamed:(NSString *)name
 {
-    [TOAppGroupObservation postNotificationNamed:name payload:(id<NSCoding>)self];
+    [TOAppGroupObservation postNotificationNamed:name payload:self];
 }
 
 - (void)to_postWithinNotificationToAppGroup:(NSString *)groupIdentifier named:(NSString *)name
 {
-    [TOAppGroupObservation postNotificationForAppGroup:groupIdentifier named:name payload:(id<NSCoding>)self];
+    [TOAppGroupObservation postNotificationForAppGroup:groupIdentifier named:name payload:self];
 }
 
 @end
@@ -117,12 +116,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)to_postWithinAppGroupNotificationNamed:(NSString *)name
 {
-    [TOAppGroupObservation postNotificationNamed:name payload:(id<NSCoding>)self];
+    [TOAppGroupObservation postNotificationNamed:name payload:self];
 }
 
 - (void)to_postWithinNotificationToAppGroup:(NSString *)groupIdentifier named:(NSString *)name
 {
-    [TOAppGroupObservation postNotificationForAppGroup:groupIdentifier named:name payload:(id<NSCoding>)self];
+    [TOAppGroupObservation postNotificationForAppGroup:groupIdentifier named:name payload:self];
 }
 
 @end
@@ -131,12 +130,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)to_postWithinAppGroupNotificationNamed:(NSString *)name
 {
-    [TOAppGroupObservation postNotificationNamed:name payload:(id<NSCoding>)self];
+    [TOAppGroupObservation postNotificationNamed:name payload:self];
 }
 
 - (void)to_postWithinNotificationToAppGroup:(NSString *)groupIdentifier named:(NSString *)name
 {
-    [TOAppGroupObservation postNotificationForAppGroup:groupIdentifier named:name payload:(id<NSCoding>)self];
+    [TOAppGroupObservation postNotificationForAppGroup:groupIdentifier named:name payload:self];
 }
 
 @end
@@ -145,12 +144,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)to_postWithinAppGroupNotificationNamed:(NSString *)name
 {
-    [TOAppGroupObservation postNotificationNamed:name payload:(id<NSCoding>)self];
+    [TOAppGroupObservation postNotificationNamed:name payload:self];
 }
 
 - (void)to_postWithinNotificationToAppGroup:(NSString *)groupIdentifier named:(NSString *)name
 {
-    [TOAppGroupObservation postNotificationForAppGroup:groupIdentifier named:name payload:(id<NSCoding>)self];
+    [TOAppGroupObservation postNotificationForAppGroup:groupIdentifier named:name payload:self];
 }
 
 @end

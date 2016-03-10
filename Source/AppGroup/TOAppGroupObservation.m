@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface TOAppGroupObservation ()
 @property (nonatomic, readwrite, copy) NSString *name;
-@property (nonatomic, readwrite) id<NSCoding> payload;
+@property (nonatomic, readwrite) id payload;
 
 @property (nonatomic, readwrite, copy) NSString *groupIdentifier;
 @property (nonatomic, readwrite) NSDate *postedDate;
@@ -59,7 +59,7 @@ NS_ASSUME_NONNULL_BEGIN
         }
     }
     
-    BOOL ok = [appGroupNotificationManager subscribeToNotificationsForGroupIdentifier:groupIdentifier named:self.name queued:NO withBlock:^(NSString *identifier, NSString *name, id<NSCoding> payload, NSDate *postDate) {
+    BOOL ok = [appGroupNotificationManager subscribeToNotificationsForGroupIdentifier:groupIdentifier named:self.name queued:NO withBlock:^(NSString *identifier, NSString *name, id payload, NSDate *postDate) {
         [self invokeOnQueueAfter:^{
             self.payload = payload;
             self.postedDate = postDate;
@@ -115,7 +115,7 @@ NS_ASSUME_NONNULL_BEGIN
     return NO;
 }
 
-+ (BOOL)postNotificationNamed:(NSString *)name payload:(nullable id<NSCoding>)payload
++ (BOOL)postNotificationNamed:(NSString *)name payload:(nullable id)payload
 {
     TOAppGroupNotificationManager *appGroupNotificationManager = [TOAppGroupNotificationManager sharedManager];
     NSString *groupIdentifier = appGroupNotificationManager.defaultGroupIdentifier;
@@ -126,7 +126,7 @@ NS_ASSUME_NONNULL_BEGIN
     return YES;
 }
 
-+ (BOOL)postNotificationForAppGroup:(NSString *)groupIdentifier named:(NSString *)name payload:(nullable id<NSCoding>)payload
++ (BOOL)postNotificationForAppGroup:(NSString *)groupIdentifier named:(NSString *)name payload:(nullable id)payload
 {
     TOAppGroupNotificationManager *appGroupNotificationManager = [TOAppGroupNotificationManager sharedManager];
     return [appGroupNotificationManager postNotificationForGroupIdentifier:groupIdentifier named:name payload:payload];

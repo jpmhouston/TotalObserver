@@ -22,7 +22,6 @@ static NSString * const postDictPayloadKey = @"p";
 static NSString * const sequenceNumberDirName = @"subscribers";
 static NSString * const sequenceNumberFileNameExtension = @"seqnum";
 static const u_int32_t defaultCleanupFrequencyRandomFactor = 20;
-static const NSInteger largeNumberOfOldPosts = 20;
 
 @interface TOAppGroupSubscriptionState : NSObject
 @property (nonatomic, copy) TOAppGroupSubscriberBlock block;
@@ -346,18 +345,7 @@ static const NSInteger largeNumberOfOldPosts = 20;
                 }
             }
             
-//            // if there's lots of posts left, maube remove some
-//            if (freshPosts.count > largeNumberOfOldPosts && self.cleanupFrequencyRandomFactor > 0 && arc4random_uniform(self.cleanupFrequencyRandomFactor) == 0) {
-//                dispatch_async(self.fileIOQueue, ^{
-//                    TOAppGroupNotificationPost *post = freshPosts[arc4random_uniform((u_int32_t)freshPosts.count)];
-//                    
-//                    NSLog(@"======== running clean-up for group %@, name \"%@\" after delivery ========", identifier, post.name);
-//                    [self cleanupPostsForGroupIdentifier:identifier groupURL:appGroupURL name:post.name];
-//                });
-//            }
-            
         });
-        
     });
 }
 
@@ -676,11 +664,6 @@ void darwinNotificationCallback(CFNotificationCenterRef center, void *observer, 
     return YES;
 }
 
-//- (NSArray *)postsURLsMatchingName:(NSString *)name upToSequenceNumber:(NSInteger)limitSequenceNumber forContainerURL:(NSURL *)containerURL
-//{
-//    return @[];
-//}
-//
 #pragma mark - Sequence number state
 
 - (void)storeSequenceNumber:(NSInteger)sequenceNumber forGroupIdentifier:(NSString *)identifier groupURL:(NSURL *)appGroupURL bundleIdentifier:(NSString *)bundleIdentifier name:(NSString *)name

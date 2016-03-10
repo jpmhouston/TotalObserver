@@ -68,7 +68,7 @@ static NSString * const appGroupId2 = @"2222222222.totalobservertest.appgroup2";
     NSString *notificationName = @"a";
     NSString *payloadString = [self randomPayload];
     
-    [[TOAppGroupNotificationManager sharedManager] subscribeToNotificationsForGroupIdentifier:appGroupId1 named:notificationName queued:NO withBlock:^(NSString *identifier, NSString *name, id<NSCoding> payload, NSDate *postDate) {
+    [[TOAppGroupNotificationManager sharedManager] subscribeToNotificationsForGroupIdentifier:appGroupId1 named:notificationName queued:NO withBlock:^(NSString *identifier, NSString *name, id payload, NSDate *postDate) {
         NSLog(@"received notification %@ / %@", name, payload);
         XCTAssertEqualObjects(payload, payloadString);
         [expectation fulfill];
@@ -91,7 +91,7 @@ static NSString * const appGroupId2 = @"2222222222.totalobservertest.appgroup2";
     
     __block NSMutableArray *received = [NSMutableArray array];
     __weak typeof(self) welf = self;
-    [[TOAppGroupNotificationManager sharedManager] subscribeToNotificationsForGroupIdentifier:appGroupId1 named:notificationName queued:NO withBlock:^(NSString *identifier, NSString *name, id<NSCoding> payload, NSDate *postDate) {
+    [[TOAppGroupNotificationManager sharedManager] subscribeToNotificationsForGroupIdentifier:appGroupId1 named:notificationName queued:NO withBlock:^(NSString *identifier, NSString *name, id payload, NSDate *postDate) {
         NSLog(@"received notification %@ / %@", name, payload);
         [received addObject:payload];
         if (received.count < 3) return;
@@ -162,7 +162,7 @@ static NSString * const appGroupId2 = @"2222222222.totalobservertest.appgroup2";
     
     __block NSMutableArray *received = [NSMutableArray array];
     __weak typeof(self) welf = self;
-    [[TOAppGroupNotificationManager sharedManager] subscribeToNotificationsForGroupIdentifier:appGroupId1 named:notificationName queued:NO withBlock:^(NSString *identifier, NSString *name, id<NSCoding> payload, NSDate *postDate) {
+    [[TOAppGroupNotificationManager sharedManager] subscribeToNotificationsForGroupIdentifier:appGroupId1 named:notificationName queued:NO withBlock:^(NSString *identifier, NSString *name, id payload, NSDate *postDate) {
         NSLog(@"received notification %@ / %@", name, payload);
         [received addObject:payload];
         if (received.count < 3) return;
@@ -257,7 +257,7 @@ static NSString * const appGroupId2 = @"2222222222.totalobservertest.appgroup2";
             char *subscriberShortBundleId = mockApps[k].bundleId + strlen(mockApps[k].bundleId)-1;
             NSLog(@"%s observing '%@'", subscriberShortBundleId, name);
             
-            [m subscribeToNotificationsForGroupIdentifier:appGroupId1 named:name queued:NO withBlock:^(NSString *identifier, NSString *name, id<NSCoding> payload, NSDate *postDate) {
+            [m subscribeToNotificationsForGroupIdentifier:appGroupId1 named:name queued:NO withBlock:^(NSString *identifier, NSString *name, id payload, NSDate *postDate) {
                 //NSLog(@"%@<- %s received '%@'", payload, subscriberShortBundleId, name);
                 *pcount += 1; // count receipt
                 if (validate != nil)
