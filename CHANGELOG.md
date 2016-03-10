@@ -1,5 +1,13 @@
 # Change Log
 
+## [0.4.0](https://github.com/jpmhouston/TotalObserver/tree/0.4.0) (2016-03-09)
+
+- Renamed some files and reorganized source file heirarchy
+- Added notifications across application groups:
+	- based on Darwin notifications and shared directories
+	- notifications are posted and subscribed to by name like `NSNotification`
+	- each post can carry a payload object (currently anything plist-compatible)
+
 ## [0.3.0](https://github.com/jpmhouston/TotalObserver/tree/0.3.0) (2015-12-15)
 
 - Outer project that builds framework for Carthage compatibility
