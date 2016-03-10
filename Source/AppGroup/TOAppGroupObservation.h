@@ -5,6 +5,8 @@
 //  Created by Pierre Houston on 2016-02-23.
 //  Copyright © 2016 Pierre Houston. All rights reserved.
 //
+//  FIXME: payload still declared as id<Coding>
+//    if abandoning plan to support coding and only plist, should remove
 
 #import "TOObservation.h"
 
@@ -25,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 // can use this class method to match a prior observation and remove it, although usually more convenient to
 // use the 'stopObserving' methods, or save the observation object and call 'remove' on it
-+ (BOOL)removeForObserver:(TO_nullable id)observer groupIdentifier:(NSString *)identifier name:(NSString *)name;
++ (BOOL)removeForObserver:(id)observer groupIdentifier:(TO_nullable NSString *)identifier name:(NSString *)name;
 
 // one-time registration of app group identifier, return NO if app not setup as member of the app group
 + (BOOL)registerAppGroup:(NSString *)groupIdentifier;
@@ -39,8 +41,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface TOAppGroupObservation (Private)
 // perhaps these belong in a +Private.h header, there's no reason for users of TO normally to be creating these objects themselves
-- (instancetype)initWithObserver:(TO_nullable id)observer groupIdentifier:(TO_nullable NSString *)identifier name:(NSString *)name payload:(TO_nullable id<NSCoding>)payload onQueue:(TO_nullable NSOperationQueue *)queue orGCDQueue:(TO_nullable dispatch_queue_t)gcdQueue withBlock:(TOObservationBlock)block;
-- (instancetype)initWithObserver:(TO_nullable id)observer groupIdentifier:(TO_nullable NSString *)identifier name:(NSString *)name payload:(TO_nullable id<NSCoding>)payload onQueue:(TO_nullable NSOperationQueue *)queue orGCDQueue:(TO_nullable dispatch_queue_t)gcdQueue withObjBlock:(TOObjObservationBlock)block;
+- (instancetype)initWithObserver:(TO_nullable id)observer groupIdentifier:(TO_nullable NSString *)identifier name:(NSString *)name onQueue:(TO_nullable NSOperationQueue *)queue orGCDQueue:(TO_nullable dispatch_queue_t)gcdQueue withBlock:(TOObservationBlock)block;
+- (instancetype)initWithObserver:(TO_nullable id)observer groupIdentifier:(TO_nullable NSString *)identifier name:(NSString *)name onQueue:(TO_nullable NSOperationQueue *)queue orGCDQueue:(TO_nullable dispatch_queue_t)gcdQueue withObjBlock:(TOObjObservationBlock)block;
 @end
 
 #if __has_feature(nullability)

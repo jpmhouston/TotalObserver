@@ -17,52 +17,140 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (TOAppGroupObservation *)to_observeAppGroupNotificationsNamed:(NSString *)name withBlock:(TOObjObservationBlock)block
 {
-    return nil;
+    TOAppGroupObservation *observation = [[TOAppGroupObservation alloc] initWithObserver:self groupIdentifier:nil name:name onQueue:nil orGCDQueue:nil withObjBlock:block];
+    [observation register];
+    return observation;
 }
 
 - (TOAppGroupObservation *)to_observeNotificationsForAppGroup:(NSString *)groupIdentifier named:(NSString *)name withBlock:(TOObjObservationBlock)block
 {
-    return nil;
+    TOAppGroupObservation *observation = [[TOAppGroupObservation alloc] initWithObserver:self groupIdentifier:groupIdentifier name:name onQueue:nil orGCDQueue:nil withObjBlock:block];
+    [observation register];
+    return observation;
 }
 
 - (TOAppGroupObservation *)to_observeAppGroupNotificationsNamed:(NSString *)name onQueue:(NSOperationQueue *)queue withBlock:(TOObjObservationBlock)block
 {
-    return nil;
+    TOAppGroupObservation *observation = [[TOAppGroupObservation alloc] initWithObserver:self groupIdentifier:nil name:name onQueue:queue orGCDQueue:nil withObjBlock:block];
+    [observation register];
+    return observation;
 }
 
 - (TOAppGroupObservation *)to_observeNotificationsForAppGroup:(NSString *)groupIdentifier named:(NSString *)name onQueue:(NSOperationQueue *)queue withBlock:(TOObjObservationBlock)block
 {
-    return nil;
+    TOAppGroupObservation *observation = [[TOAppGroupObservation alloc] initWithObserver:self groupIdentifier:groupIdentifier name:name onQueue:queue orGCDQueue:nil withObjBlock:block];
+    [observation register];
+    return observation;
 }
 
 - (TOAppGroupObservation *)to_observeAppGroupNotificationsNamed:(NSString *)name onGCDQueue:(dispatch_queue_t)queue withBlock:(TOObjObservationBlock)block
 {
-    return nil;
+    TOAppGroupObservation *observation = [[TOAppGroupObservation alloc] initWithObserver:self groupIdentifier:nil name:name onQueue:nil orGCDQueue:queue withObjBlock:block];
+    [observation register];
+    return observation;
 }
 
 - (TOAppGroupObservation *)to_observeNotificationsForAppGroup:(NSString *)groupIdentifier named:(NSString *)name onGCDQueue:(dispatch_queue_t)queue withBlock:(TOObjObservationBlock)block
 {
-    return nil;
+    TOAppGroupObservation *observation = [[TOAppGroupObservation alloc] initWithObserver:self groupIdentifier:groupIdentifier name:name onQueue:nil orGCDQueue:queue withObjBlock:block];
+    [observation register];
+    return observation;
 }
 
 - (BOOL)to_stopObservingAppGroupNotificationsNamed:(NSString *)name
 {
-    return YES;
+    return [TOAppGroupObservation removeForObserver:self groupIdentifier:nil name:name];
 }
 
 - (BOOL)to_stopObservingNotificationsForAppGroup:(NSString *)groupIdentifier named:(NSString *)name
 {
-    return YES;
+    return [TOAppGroupObservation removeForObserver:self groupIdentifier:groupIdentifier name:name];
 }
+
+@end
+
+// !!! payload still declared as id<Coding>, if abandoning plan to support coding and only plist, should remove
+
+@implementation NSData (TotalObserverAppGroup)
 
 - (void)to_postWithinAppGroupNotificationNamed:(NSString *)name
 {
-    
+    [TOAppGroupObservation postNotificationNamed:name payload:(id<NSCoding>)self];
 }
 
 - (void)to_postWithinNotificationToAppGroup:(NSString *)groupIdentifier named:(NSString *)name
 {
-    
+    [TOAppGroupObservation postNotificationForAppGroup:groupIdentifier named:name payload:(id<NSCoding>)self];
+}
+
+@end
+
+@implementation NSString (TotalObserverAppGroup)
+
+- (void)to_postWithinAppGroupNotificationNamed:(NSString *)name
+{
+    [TOAppGroupObservation postNotificationNamed:name payload:(id<NSCoding>)self];
+}
+
+- (void)to_postWithinNotificationToAppGroup:(NSString *)groupIdentifier named:(NSString *)name
+{
+    [TOAppGroupObservation postNotificationForAppGroup:groupIdentifier named:name payload:(id<NSCoding>)self];
+}
+
+@end
+
+@implementation NSArray (TotalObserverAppGroup)
+
+- (void)to_postWithinAppGroupNotificationNamed:(NSString *)name
+{
+    [TOAppGroupObservation postNotificationNamed:name payload:(id<NSCoding>)self];
+}
+
+- (void)to_postWithinNotificationToAppGroup:(NSString *)groupIdentifier named:(NSString *)name
+{
+    [TOAppGroupObservation postNotificationForAppGroup:groupIdentifier named:name payload:(id<NSCoding>)self];
+}
+
+@end
+
+@implementation NSDictionary (TotalObserverAppGroup)
+
+- (void)to_postWithinAppGroupNotificationNamed:(NSString *)name
+{
+    [TOAppGroupObservation postNotificationNamed:name payload:(id<NSCoding>)self];
+}
+
+- (void)to_postWithinNotificationToAppGroup:(NSString *)groupIdentifier named:(NSString *)name
+{
+    [TOAppGroupObservation postNotificationForAppGroup:groupIdentifier named:name payload:(id<NSCoding>)self];
+}
+
+@end
+
+@implementation NSDate (TotalObserverAppGroup)
+
+- (void)to_postWithinAppGroupNotificationNamed:(NSString *)name
+{
+    [TOAppGroupObservation postNotificationNamed:name payload:(id<NSCoding>)self];
+}
+
+- (void)to_postWithinNotificationToAppGroup:(NSString *)groupIdentifier named:(NSString *)name
+{
+    [TOAppGroupObservation postNotificationForAppGroup:groupIdentifier named:name payload:(id<NSCoding>)self];
+}
+
+@end
+
+@implementation NSNumber (TotalObserverAppGroup)
+
+- (void)to_postWithinAppGroupNotificationNamed:(NSString *)name
+{
+    [TOAppGroupObservation postNotificationNamed:name payload:(id<NSCoding>)self];
+}
+
+- (void)to_postWithinNotificationToAppGroup:(NSString *)groupIdentifier named:(NSString *)name
+{
+    [TOAppGroupObservation postNotificationForAppGroup:groupIdentifier named:name payload:(id<NSCoding>)self];
 }
 
 @end

@@ -73,7 +73,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (BOOL)removeForObserver:(nullable id)observer control:(UIControl *)control events:(UIControlEvents)events
 {
     TOObservation *observation = [self findObservationForObserver:observer object:control matchingTest:^BOOL(TOObservation *observation) {
-        return ((TOUIControlObservation *)observation).events == events;
+        return [observation isKindOfClass:[TOUIControlObservation class]] && ((TOUIControlObservation *)observation).events == events;
     }];
     if (observation != nil) {
         [observation remove];

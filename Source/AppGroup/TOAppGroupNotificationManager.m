@@ -21,6 +21,8 @@ static NSString * const postDictDateKey = @"d";
 static NSString * const postDictPayloadKey = @"p";
 static NSString * const sequenceNumberDirName = @"subscribers";
 static NSString * const sequenceNumberFileNameExtension = @"seqnum";
+static const u_int32_t defaultCleanupFrequencyRandomFactor = 20;
+static const NSInteger largeNumberOfOldPosts = 20;
 
 @interface TOAppGroupSubscriptionState : NSObject
 @property (nonatomic, copy) TOAppGroupSubscriberBlock block;
@@ -33,7 +35,7 @@ static NSString * const sequenceNumberFileNameExtension = @"seqnum";
 @property (nonatomic) NSString *name;
 @property (nonatomic) NSInteger sequenceNumber;
 @property (nonatomic) NSDate *date;
-@property (nonatomic, nullable) id<NSCoding>payload;
+@property (nonatomic, nullable) id payload;
 @property (nonatomic) BOOL lastInGroupForName;
 @end
 
@@ -45,6 +47,13 @@ static NSString * const sequenceNumberFileNameExtension = @"seqnum";
 @property (nonatomic) NSMutableArray *orderedIdentifiers;
 @property (nonatomic) dispatch_queue_t fileIOQueue;
 @property (nonatomic) dispatch_queue_t notifyQueue;
+
+@property (nonatomic, nullable) id<TOAppGroupURLProviding> urlHelper;
+@property (nonatomic, nullable) id<TOAppGroupGlobalNotificationHandling> notificationHelper;
+@property (nonatomic, nullable) id<TOAppGroupBundleIdProviding> bundleIdHelper;
+@property (nonatomic, nullable) NSString *appIdentifier;
+@property (nonatomic) BOOL permitPostsWhenNoSubscribers;
+@property (nonatomic) u_int32_t cleanupFrequencyRandomFactor;
 @end
 
 @implementation TOAppGroupNotificationManager
@@ -75,15 +84,11 @@ static NSString * const sequenceNumberFileNameExtension = @"seqnum";
     
     _fileIOQueue = dispatch_queue_create("TOAppGroupNotificationManager-file-io", DISPATCH_QUEUE_SERIAL); // can we get away with DISPATCH_QUEUE_CONCURRENT?
     _notifyQueue = dispatch_queue_create("TOAppGroupNotificationManager-notify", DISPATCH_QUEUE_SERIAL);
+    
+    _appIdentifier = [NSBundle mainBundle].bundleIdentifier;
+    _permitPostsWhenNoSubscribers = NO;
+    _cleanupFrequencyRandomFactor = defaultCleanupFrequencyRandomFactor;
     return self;
-}
-
-- (nullable NSString *)appIdentifier
-{
-    if (_appIdentifier == nil) {
-        _appIdentifier = [NSBundle mainBundle].bundleIdentifier;
-    }
-    return _appIdentifier;
 }
 
 - (nullable id<TOAppGroupURLProviding>)urlHelper
@@ -100,7 +105,7 @@ static NSString * const sequenceNumberFileNameExtension = @"seqnum";
 {
     NSURL *appGroupURL = [self.urlHelper groupURLForGroupIdentifier:identifier];
     if (appGroupURL == nil) {
-        NSLog(@"unable to use app group \"%@\", capabilities may not be correctly configured for your project, or the identifier may not equal that of a configured group", identifier);
+        NSLog(@"unable to use app group %@, capabilities may not be correctly configured for your project, or the identifier may not equal that of a configured group", identifier);
         return;
     }
     
@@ -131,9 +136,14 @@ static NSString * const sequenceNumberFileNameExtension = @"seqnum";
         [self.orderedIdentifiers removeObject:identifier];
     }
     
-    NSString *bundleIdentifier = self.appIdentifier;
-    
     dispatch_async(self.fileIOQueue, ^{
+        NSString *bundleIdentifier = self.appIdentifier ?: [self.bundleIdHelper bundleIdForRemovingGroupIdentifier:identifier];
+        
+        NSSet *names = [self storedSubscriptionNamesForGroupIdentifier:identifier groupURL:appGroupURL bundleIdentifier:bundleIdentifier];
+        for (NSString *name in names) {
+            [self cleanupPostsForGroupIdentifier:identifier groupURL:appGroupURL name:name];
+        }
+        
         [self clearStoredSequenceNumbersForGroupIdentifier:identifier groupURL:appGroupURL bundleIdentifier:bundleIdentifier];
     });
 }
@@ -160,44 +170,60 @@ static NSString * const sequenceNumberFileNameExtension = @"seqnum";
         return NO;
     }
     
+    // store state of new subscription
     TOAppGroupSubscriptionState *subscription = [[TOAppGroupSubscriptionState alloc] init];
     subscription.block = block;
     subscription.queued = queued;
-    
-    // don't allow duplicate subscriptions
     @synchronized(self) {
         NSMutableDictionary *subscriptions = self.subscriptionsPerGroupIdentifier[identifier];
-        if (subscriptions[name] != nil) {
+        if (subscriptions[name] != nil) { // don't permit duplicate subscriptions
             return NO;
         }
         subscriptions[name] = subscription; // subscriptionsPerGroupIdentifier is {identifier: subscription}, subscription is {name: TOAppGroupSubscriptionState}
     }
     
+    // pick sequence number to match latest post or other subscriber, store it to make public this subscription
     dispatch_sync(self.fileIOQueue, ^{
-        subscription.lastReceivedSequenceNumber = [self lastSequenceNumberForGroupIdentifier:identifier groupURL:appGroupURL name:name];
+        NSInteger lastSequenceNumber;
+        if (![self hasStoredPostsForGroupIdentifier:identifier groupURL:appGroupURL name:name lastSequenceNumber:&lastSequenceNumber]) {
+            NSDictionary *sequenceNumbersByName = [self storedSubscriptionSequenceNumbersForGroupIdentifier:identifier groupURL:appGroupURL names:@[name]];
+            lastSequenceNumber = [self largestSequenceNumberAmong:sequenceNumbersByName[name] orIfNone:0];
+        }
+        
+        subscription.lastReceivedSequenceNumber = lastSequenceNumber;
+        //NSLog(@"for group %@, name \"%@\" set last sequence number to #%d", identifier, name, (int)lastSequenceNumber);
+        
+        NSString *bundleIdentifier = self.appIdentifier ?: [self.bundleIdHelper bundleIdForSubscribingToGroupIdentifier:identifier name:name];
+        
+        [self storeSequenceNumber:lastSequenceNumber forGroupIdentifier:identifier groupURL:appGroupURL bundleIdentifier:bundleIdentifier name:name];
     });
     
     return YES;
 }
 
-- (BOOL)unsubscribeToNotificationsForGroupIdentifier:(NSString *)identifier named:(NSString *)name
+- (BOOL)unsubscribeFromNotificationsForGroupIdentifier:(NSString *)identifier named:(NSString *)name
 {
     NSURL *appGroupURL = [self.urlHelper groupURLForGroupIdentifier:identifier];
     if (appGroupURL == nil) {
         return NO;
     }
     
+    // clear subscription state
     @synchronized(self) {
         NSMutableDictionary *subscriptions = self.subscriptionsPerGroupIdentifier[identifier];
-        if (subscriptions[name] == nil) {
+        if (subscriptions[name] == nil) { // reject if not already subscribed
             return NO;
         }
         subscriptions[name] = nil;
     }
     
-    NSString *bundleIdentifier = self.appIdentifier;
-    
+    // clear stored sequence number to make public this unsubscription
     dispatch_sync(self.fileIOQueue, ^{
+        NSString *bundleIdentifier = self.appIdentifier ?: [self.bundleIdHelper bundleIdForUnsubscribingFromGroupIdentifier:identifier name:name];
+        
+        //NSLog(@"======== running clean-up for group %@, name \"%@\" on unsubscribe in app %@ ========", identifier, name, bundleIdentifier);
+        [self cleanupPostsForGroupIdentifier:identifier groupURL:appGroupURL name:name];
+        
         [self clearStoredSequenceNumberForGroupIdentifier:identifier groupURL:appGroupURL bundleIdentifier:bundleIdentifier name:name];
     });
     
@@ -206,30 +232,40 @@ static NSString * const sequenceNumberFileNameExtension = @"seqnum";
 
 #pragma mark - Posting
 
-- (BOOL)postNotificationForGroupIdentifier:(NSString *)identifier named:(NSString *)name payload:(nullable id<NSCoding>)payload
+- (BOOL)postNotificationForGroupIdentifier:(NSString *)identifier named:(NSString *)name payload:(nullable id)payload
 {
     NSURL *appGroupURL = [self.urlHelper groupURLForGroupIdentifier:identifier];
     if (appGroupURL == nil) {
         return NO;
     }
     
+    // store post & notify other apps in group
     __block BOOL stored = NO;
+    __block NSInteger cleanupSequenceNumber;
     dispatch_sync(self.fileIOQueue, ^{
-        if ([self storePostPayload:payload forGroupIdentifier:identifier groupURL:appGroupURL name:name]) {
+        NSInteger psn, csn;
+        if ([self storePostPayload:payload forGroupIdentifier:identifier groupURL:appGroupURL name:name gettingSequenceNumber:&psn cleanupSequenceNumber:&csn]) {
             stored = YES;
+            cleanupSequenceNumber = csn;
+            
+            //NSLog(@"created new post to group %@, name \"%@\": #%d %@", identifier, name, (int)psn, [NSDate date]); // not exactly the same nsdate posted, close enuough
         }
     });
     if (stored) {
         [self.notificationHelper postGlobalMessageWithGroupIdentifier:identifier];
+        
+        // cleanup outdated posts every once & a while
+        if (cleanupSequenceNumber >= 0 && self.cleanupFrequencyRandomFactor > 0 && arc4random_uniform(self.cleanupFrequencyRandomFactor) == 0) {
+            dispatch_async(self.fileIOQueue, ^{
+                //NSLog(@"======== running clean-up for group %@, name \"%@\" to seq num #%d after post ========", identifier, name, (int)cleanupSequenceNumber);
+                [self cleanupPostsUpToSequenceNumber:cleanupSequenceNumber forGroupIdentifier:identifier groupURL:appGroupURL name:name];
+            });
+        }
+        
+        //else if (cleanupSequenceNumber >= 0 && self.cleanupFrequencyRandomFactor > 0) NSLog(@"skipping cleanup this time for group %@, name \"%@\" to seq num #%d", identifier, name, (int)cleanupSequenceNumber);
+        //else NSLog(@"no cleanup needed for group %@, name \"%@\", limit seq num = %d, frequency factor = %d", identifier, name, (int)cleanupSequenceNumber, (int)self.cleanupFrequencyRandomFactor);
     }
     return stored;
-    
-    // was:
-//    if (![self storePostPayload:payload forGroupIdentifier:identifier groupURL:appGroupURL name:name]) {
-//        return NO;
-//    }
-//    [self.notificationHelper postGlobalMessageWithGroupIdentifier:identifier];
-//    return YES;
 }
 
 #pragma mark - Receiving
@@ -239,50 +275,28 @@ static NSString * const sequenceNumberFileNameExtension = @"seqnum";
     NSURL *appGroupURL = [self.urlHelper groupURLForGroupIdentifier:identifier];
     NSAssert1(appGroupURL != nil, @"group identifier %@ should be valid for notifications to be observed", identifier);
     
-    NSString *bundleIdentifier = self.appIdentifier;
+    // remix subscriptions info for this identifier for use below outside of a synchronized block
+    NSMutableDictionary *subscriptionSequenceNumbers = [NSMutableDictionary dictionary]; // {name: seq num}, parameter dict to pass to freshPostsForGroupIdentifier..
+    NSMutableSet *subscribedNamesUsingQueuedDelivery = [NSMutableSet set]; // names which have queued flag set
+    @synchronized(self) {
+        NSDictionary *subscriptions = self.subscriptionsPerGroupIdentifier[identifier]; // {name: TOAppGroupSubscriptionState}
+        
+        for (NSString *name in subscriptions) {
+            [subscriptionSequenceNumbers setObject:@(((TOAppGroupSubscriptionState *)subscriptions[name]).lastReceivedSequenceNumber) forKey:name];
+            
+            if (((TOAppGroupSubscriptionState *)subscriptions[name]).queued) {
+                [subscribedNamesUsingQueuedDelivery addObject:name];
+            }
+        }
+    }
+    
+    // if have no subscriptions, do nothing
+    if (subscriptionSequenceNumbers.count == 0) {
+        return;
+    }
     
     dispatch_async(self.fileIOQueue, ^{
-        
-        NSDictionary *subscriptions;
-        NSMutableSet *subscribedNames = [NSMutableSet set];
-        NSMutableSet *subscribedNamesWithQueuedDelivery = [NSMutableSet set];
-        NSMutableDictionary *subscriptionSequenceNumbers = [NSMutableDictionary dictionary];
-        @synchronized(self) {
-            subscriptions = self.subscriptionsPerGroupIdentifier[identifier]; // {name: TOAppGroupSubscriptionState}
-            
-            NSArray *subscribedNameArray = subscriptions.allKeys;
-            [subscribedNames addObjectsFromArray:subscribedNameArray];
-            for (NSString *name in subscribedNameArray) {
-                [subscriptionSequenceNumbers setObject:@(((TOAppGroupSubscriptionState *)subscriptions[name]).lastReceivedSequenceNumber) forKey:name];
-                if (((TOAppGroupSubscriptionState *)subscriptions[name]).queued) {
-                    [subscribedNamesWithQueuedDelivery addObject:name];
-                }
-            }
-        }
-        if (subscriptions.count == 0) {
-            return;
-        }
-        
         NSMutableArray *freshPosts = [self freshPostsForGroupIdentifier:identifier groupURL:appGroupURL subscriptions:subscriptionSequenceNumbers].mutableCopy;
-        
-        // ignore posts for names not subscribed to, and for those *are* subscribed to set lastInGroupForName flag appropriately
-        // (its for the sake of setting lastInGroupForName that we're iterting backwards)
-        NSMutableSet *encounteredNames = [NSMutableSet set];
-        NSMutableSet *ignoredPosts = [NSMutableSet set];
-        
-        for (TOAppGroupNotificationPost *post in freshPosts.reverseObjectEnumerator) {
-            if (![subscribedNames containsObject:post.name]) {
-                [ignoredPosts addObject:post];
-            }
-            else if (![encounteredNames containsObject:post.name]) {
-                post.lastInGroupForName = YES;
-                [encounteredNames addObject:post.name];
-            }
-            else {
-                post.lastInGroupForName = NO;
-            }
-        }
-        [freshPosts removeObjectsInArray:ignoredPosts.allObjects];
         
         // update sequence numbers state files and call subscriber's blocks for each post
         
@@ -297,27 +311,32 @@ static NSString * const sequenceNumberFileNameExtension = @"seqnum";
         dispatch_async(self.notifyQueue, ^{
             
             for (TOAppGroupNotificationPost *post in freshPosts) {
-                BOOL queuedSubscription = [subscribedNamesWithQueuedDelivery containsObject:post.name];
+                BOOL queuedSubscription = [subscribedNamesUsingQueuedDelivery containsObject:post.name];
                 
-                //NSLog(@"found new post to group %@, name %@: #%d %@", identifier, post.name, (int)post.sequenceNumber, post.date);
+                //NSLog(@"found new post to group %@, name \"%@\": #%d %@", identifier, post.name, (int)post.sequenceNumber, post.date);
                 //NSLog(@"  %s deliver #%d, is-last=%s, queued-subcription=%s", (post.lastInGroupForName || queuedSubscription)?"will":"won't", (int)post.sequenceNumber, post.lastInGroupForName?"true":"false", queuedSubscription?"true":"false");
                 
                 if (post.lastInGroupForName || queuedSubscription) {
                     
                     dispatch_sync(self.fileIOQueue, ^{
+                        NSString *bundleIdentifier = self.appIdentifier ?: [self.bundleIdHelper bundleIdForReceivingPostWithGroupIdentifier:identifier name:post.name];
+                        
                         [self storeSequenceNumber:post.sequenceNumber forGroupIdentifier:identifier groupURL:appGroupURL bundleIdentifier:bundleIdentifier name:post.name];
                     });
                     
-                    // avoid race conditions by synchronizing & re-testing subscription & seqnum validity
+                    // avoid race conditions by synchronizing & re-testing subscription & seq num validity
+                    // (why race? because different threads can be running this callback at the same time,
+                    // and another one can be trying to deliver the same posts)
                     @synchronized(self) {
                         NSDictionary *subscriptions = self.subscriptionsPerGroupIdentifier[identifier];
                         TOAppGroupSubscriptionState *subscription = subscriptions[post.name];
                         
-                        // !!! remove this logging yet?
-                        if (subscription == nil)
-                            NSLog(@"for group %@, name %@ caught case while handling post #%d where suddenly unsubscribed", identifier, post.name, (int)post.sequenceNumber);
-                        else if (post.sequenceNumber <= subscription.lastReceivedSequenceNumber)
-                            NSLog(@"for group %@, name %@ caught case while handling post #%d where subscription # suddenly advanced to %d", identifier, post.name, (int)post.sequenceNumber, (int)subscription.lastReceivedSequenceNumber);
+                        //if (subscription == nil)
+                        //    NSLog(@"for group %@, name \"%@\" caught case while handling post #%d where suddenly unsubscribed", identifier, post.name, (int)post.sequenceNumber);
+                        //else if (post.sequenceNumber <= subscription.lastReceivedSequenceNumber)
+                        //    NSLog(@"for group %@, name \"%@\" caught case while handling post #%d where subscription # suddenly advanced to %d", identifier, post.name, (int)post.sequenceNumber, (int)subscription.lastReceivedSequenceNumber);
+                        //else
+                        //    NSLog(@"for group %@, name \"%@\" setting last sequence number to #%d and calling subscriber block", identifier, post.name, (int)post.sequenceNumber);
                         
                         if (subscription != nil && post.sequenceNumber > subscription.lastReceivedSequenceNumber) {
                             subscription.lastReceivedSequenceNumber = post.sequenceNumber;
@@ -327,38 +346,19 @@ static NSString * const sequenceNumberFileNameExtension = @"seqnum";
                 }
             }
             
+//            // if there's lots of posts left, maube remove some
+//            if (freshPosts.count > largeNumberOfOldPosts && self.cleanupFrequencyRandomFactor > 0 && arc4random_uniform(self.cleanupFrequencyRandomFactor) == 0) {
+//                dispatch_async(self.fileIOQueue, ^{
+//                    TOAppGroupNotificationPost *post = freshPosts[arc4random_uniform((u_int32_t)freshPosts.count)];
+//                    
+//                    NSLog(@"======== running clean-up for group %@, name \"%@\" after delivery ========", identifier, post.name);
+//                    [self cleanupPostsForGroupIdentifier:identifier groupURL:appGroupURL name:post.name];
+//                });
+//            }
+            
         });
         
     });
-    
-    // was:
-//    ...
-//    // update sequence numbers state files and call subscriber's blocks for each post
-//    
-//    for (TOAppGroupNotificationPost *post in freshPosts) {
-//        //NSLog(@"found new post to group %@, name %@: #%d %@", identifier, post.name, (int)post.sequenceNumber, post.date);
-//        
-//        TOAppGroupSubscriptionState *subscription = subscriptions[post.name];
-//        NSAssert1(subscription != nil, @"post for not-subscribed name %@ should have been filter out before now", post.name);
-//        NSAssert3(post.sequenceNumber > subscription.lastReceivedSequenceNumber, @"old post for subscribed name %@ #%d (compared to #%d) should have been filter out before now", post.name, (int)post.sequenceNumber, (int)subscription.lastReceivedSequenceNumber);
-//        
-//        //NSLog(@"  %s deliver #%d, is-last=%s, queued-subcription=%s", (post.lastInGroupForName || subscription.queued)?"will":"won't", (int)post.sequenceNumber, post.lastInGroupForName?"true":"false", subscription.queued?"true":"false");
-//        if (post.lastInGroupForName || subscription.queued) {
-//            subscription.lastReceivedSequenceNumber = post.sequenceNumber;
-//            [self storeSequenceNumber:post.sequenceNumber forGroupIdentifier:identifier groupURL:appGroupURL bundleIdentifier:self.appIdentifier name:post.name];
-//            
-//            subscription.block(identifier, post.name, post.payload, post.date);
-//        }
-//    }
-    
-    // was updaing sequence number files in a batch after calling all notification blocks, now one-at-a-time just before calling each block
-    // so now if app hangs or exits within the block then these notifications won't be replayed on the next launch
-//    for (NSString *name in encounteredNames) {
-//        TOAppGroupSubscriptionState *subscription = subscriptions[name];
-//        NSAssert1(subscription != nil, @"not-subscribed name %@ should have been filter out before now", name);
-//
-//        [self storeSequenceNumber:subscription.lastReceivedSequenceNumber forGroupIdentifier:identifier groupURL:appGroupURL bundleIdentifier:self.appIdentifier name:name];
-//    }
 }
 
 #pragma mark - Post storage
@@ -368,12 +368,21 @@ static NSString * const sequenceNumberFileNameExtension = @"seqnum";
     return [self.fileManager containerURLForSecurityApplicationGroupIdentifier:identifier];
 }
 
-- (BOOL)storePostPayload:(nullable id)payload forGroupIdentifier:(NSString *)identifier groupURL:(NSURL *)appGroupURL name:(NSString *)name
+- (BOOL)storePostPayload:(nullable id)payload forGroupIdentifier:(NSString *)identifier groupURL:(NSURL *)appGroupURL name:(NSString *)name gettingSequenceNumber:(nullable NSInteger *)outSequenceNumber cleanupSequenceNumber:(nullable NSInteger *)outCleanupSequenceNumber
 {
+    // skip if no subscribers
+    NSDictionary *sequenceNumbersByName = [self storedSubscriptionSequenceNumbersForGroupIdentifier:identifier groupURL:appGroupURL names:@[name]];
+    NSDictionary *subscriberSequenceNumbers = sequenceNumbersByName[name];
+    if (!self.permitPostsWhenNoSubscribers && subscriberSequenceNumbers.count == 0) {
+        //NSLog(@"no subscribers, not bothering to store post for group %@, name \"%@\"", identifier, name);
+        return NO;
+    }
+    
+    // create data from payload
     NSError *error;
-    NSData *postData = nil;
+    NSData *postData;
     if (payload == nil) {
-        payload = [NSData data];
+        postData = [NSData data];
     }
     else {
         postData = [NSPropertyListSerialization dataWithPropertyList:payload format:NSPropertyListBinaryFormat_v1_0 options:0 error:&error];
@@ -383,12 +392,21 @@ static NSString * const sequenceNumberFileNameExtension = @"seqnum";
         }
     }
     
-    NSInteger nextSequenceNumber = [self lastSequenceNumberForGroupIdentifier:identifier groupURL:appGroupURL name:name];
-    // initially the most-recently used number, but immediately incremented at the top of the loop below to become the next number
-    //NSLog(@"last sequence number for group %@, name %@ is %d", identifier, name, (int)nextSequenceNumber);
-    
-    while (1) {
+    // pick seq num
+    NSInteger nextSequenceNumber;
+    if ([self hasStoredPostsForGroupIdentifier:identifier groupURL:appGroupURL name:name lastSequenceNumber:&nextSequenceNumber]) {
+        //NSLog(@"largest post file sequence number for group %@, name \"%@\" is %d", identifier, name, (int)nextSequenceNumber);
         nextSequenceNumber += 1;
+        NSAssert2(nextSequenceNumber > [self smallestSequenceNumberAmong:subscriberSequenceNumbers orIfNone:-1], @"next sequence number picked is out of sequence, #%d vs received #s %@", (int)nextSequenceNumber, [subscriberSequenceNumbers.allValues componentsJoinedByString:@","]);
+    }
+    else {
+        nextSequenceNumber = [self largestSequenceNumberAmong:subscriberSequenceNumbers orIfNone:-1];
+        //NSLog(@"largest subscriber sequence number for group %@, name \"%@\" is %d", identifier, name, (int)nextSequenceNumber);
+        nextSequenceNumber += 1;
+    }
+    
+    // store data, contending with other apps doing the same by retrying at next seq num if intended file is taken
+    for (;; nextSequenceNumber += 1) {
         NSURL *postURL = [self postURLForContainerURL:appGroupURL name:name sequenceNumber:nextSequenceNumber];;
         
         if (![self.fileManager createDirectoryAtURL:postURL.URLByDeletingLastPathComponent withIntermediateDirectories:YES attributes:nil error:&error]) {
@@ -396,7 +414,7 @@ static NSString * const sequenceNumberFileNameExtension = @"seqnum";
             return NO;
         }
         
-        if (![postData writeToURL:postURL options:NSDataWritingAtomic error:&error]) {
+        if (![postData writeToURL:postURL options:NSDataWritingWithoutOverwriting error:&error]) {
             if (error.code == NSFileWriteFileExistsError) {
                 continue;
             } else {
@@ -405,9 +423,20 @@ static NSString * const sequenceNumberFileNameExtension = @"seqnum";
             }
         }
         
-        //NSLog(@"post for group %@ written to %@", identifier, postURL.path.lastPathComponent);
-        return YES;
+        //NSLog(@"post for group %@, name \"%@\" written to %@", identifier, name, postURL.path.lastPathComponent);
+        break;
     }
+    
+    // return relevant sequence numbers
+    if (outSequenceNumber != NULL) {
+        *outSequenceNumber = nextSequenceNumber;
+    }
+    if (outCleanupSequenceNumber != NULL) {
+        *outCleanupSequenceNumber = [self smallestSequenceNumberAmong:subscriberSequenceNumbers orIfNone:-1];
+        
+        //if (subscriberSequenceNumbers.count > 0) NSLog(@"    subscriber last sequence numbers for group %@, name \"%@\" = %@", identifier, name, [subscriberSequenceNumbers.allValues componentsJoinedByString:@","]);
+    }
+    return YES;
 }
 
 - (NSArray *)freshPostsForGroupIdentifier:(NSString *)identifier groupURL:(NSURL *)appGroupURL subscriptions:(NSDictionary *)subscriptionSequenceNumbers
@@ -420,6 +449,7 @@ static NSString * const sequenceNumberFileNameExtension = @"seqnum";
         // when error code is NoSuchFileError, code below must work well with directoryContents == nil
     }
     
+    NSSet *subscribedNames = [NSSet setWithArray:subscriptionSequenceNumbers.allKeys];
     NSMutableArray *postResults = [NSMutableArray array];
     
     for (NSURL *url in directoryContents) {
@@ -429,13 +459,18 @@ static NSString * const sequenceNumberFileNameExtension = @"seqnum";
             continue;
         }
         
-        // skip posts we've already seen, ie. seq num not > the last one
+        // skip post files we're not interested in...
         NSString *postName;
         NSInteger postSequenceNumber;
         if (![self getFromPostURL:url name:&postName sequenceNumber:&postSequenceNumber]) {
             NSLog(@"unable to parse post name of file %@", url);
             continue;
         }
+        // .. posts for names not subscribed to
+        if (![subscribedNames containsObject:postName]) {
+            continue;
+        }
+        // .. posts that have previously been delivered, ie. seq num not > the last one
         NSNumber *sequenceNumberNum = subscriptionSequenceNumbers[postName];
         NSInteger lastSequenceNumber = sequenceNumberNum ? sequenceNumberNum.integerValue : 0;
         if (postSequenceNumber <= lastSequenceNumber) {
@@ -464,27 +499,80 @@ static NSString * const sequenceNumberFileNameExtension = @"seqnum";
         post.sequenceNumber = postSequenceNumber;
         post.date = postDate;
         post.payload = payload;
+        post.lastInGroupForName = NO; // set to YES for the correct posts below
         [postResults addObject:post];
     }
     
     //NSLog(@"%d fresh post files, %d filtered-out filesystem item(s) for group %@", (int)postResults.count, (int)(directoryContents.count - postResults.count), identifier);
     
-    // sort by post date
+    // sort by post date / seq num of posts sharing same name
     [postResults sortUsingComparator:^NSComparisonResult(TOAppGroupNotificationPost *post1, TOAppGroupNotificationPost *post2) {
-        return [post1.date compare:post2.date];
+        NSComparisonResult compareDates = [post1.date compare:post2.date];
+        if (compareDates == NSOrderedSame && [post1.name isEqualToString:post2.name])
+            return post1.sequenceNumber < post2.sequenceNumber ? NSOrderedAscending : NSOrderedDescending; // impossible to have same sequence numbers, file names would be identical
+        else
+            return compareDates;
     }];
+    
+    // now that its sorted, iterate backwards and set the lastInGroupForName flag for the last post for each name
+    NSMutableSet *encounteredNames = [NSMutableSet set];
+    for (TOAppGroupNotificationPost *post in postResults.reverseObjectEnumerator) {
+        if (![encounteredNames containsObject:post.name]) {
+            post.lastInGroupForName = YES;
+            [encounteredNames addObject:post.name];
+        }
+        if ([encounteredNames isEqualToSet:subscribedNames]) break;
+    }
     
     return postResults;
 }
 
 - (void)cleanupPostsForGroupIdentifier:(NSString *)identifier groupURL:(NSURL *)appGroupURL name:(NSString *)name
 {
-    // !!! TODO
-    // should use storedSubscriptionSequenceNumbersForGroupIdentifier:groupURL:names: to find all sequence numbers for this name
-    // then delete all posts with an older or equal sequence number
+    // find all sequence numbers for this name to know which post files can be safely deleted
+    NSDictionary *sequenceNumbersByName = [self storedSubscriptionSequenceNumbersForGroupIdentifier:identifier groupURL:appGroupURL names:@[name]];
+    if (sequenceNumbersByName == nil) {
+        return; // something weird going on, not safe to delete any
+    }
+    
+    // continue the cleanup, if array was empty then calls with seq num = -1 to delete all posts
+    NSInteger smallestReceivedSequenceNumber = [self smallestSequenceNumberAmong:sequenceNumbersByName[name] orIfNone:-1];
+    [self cleanupPostsUpToSequenceNumber:smallestReceivedSequenceNumber forGroupIdentifier:identifier groupURL:appGroupURL name:name];
 }
 
-- (NSInteger)lastSequenceNumberForGroupIdentifier:(NSString *)identifier groupURL:(NSURL *)appGroupURL name:(NSString *)name
+- (void)cleanupPostsUpToSequenceNumber:(NSInteger)limitSequenceNumber forGroupIdentifier:(NSString *)identifier groupURL:(NSURL *)appGroupURL name:(NSString *)name
+{
+    // remove all post files up to & including this sequence number, they've been received by all subscribers
+    // if sequence number is < 0 then delete all post files
+    NSError *error;
+    NSArray *directoryContents = [self.fileManager contentsOfDirectoryAtURL:appGroupURL includingPropertiesForKeys:@[NSURLIsDirectoryKey] options:NSDirectoryEnumerationSkipsHiddenFiles error:&error];
+    if (directoryContents == nil && error.code != NSFileNoSuchFileError && error.code != NSFileReadNoSuchFileError) {
+        NSLog(@"unable to scan directory for group %@, %@: %@", identifier, appGroupURL, error.localizedDescription);
+        return;
+    }
+    else if (directoryContents == nil) {
+        return; // directory not found? maybe there's no posts yet? in any case can't proceed
+    }
+    
+    for (NSURL *url in directoryContents) {
+        // skip directories
+        NSNumber *isDirectoryNum;
+        if ([url getResourceValue:&isDirectoryNum forKey:NSURLIsDirectoryKey error:NULL] && isDirectoryNum.boolValue) {
+            continue;
+        }
+        
+        // remove file if its seq num is <= limit
+        NSInteger postSequenceNumber;
+        if ([self matchedPostURL:url toName:name gettingSequenceNumber:&postSequenceNumber] && (limitSequenceNumber < 0 || postSequenceNumber <= limitSequenceNumber)) {
+            if (![self.fileManager removeItemAtURL:url error:&error] && error.code != NSFileNoSuchFileError) { // if someone else has already removed the file, don't log complaint
+                NSLog(@"unable to remove old post file %@: %@", url, error.localizedDescription);
+            }
+            //else NSLog(@"==== removed old post file %@", url);
+        }
+    }
+}
+
+- (BOOL)hasStoredPostsForGroupIdentifier:(NSString *)identifier groupURL:(NSURL *)appGroupURL name:(NSString *)name lastSequenceNumber:(nullable NSInteger *)outSequenceNumber
 {
     NSError *error;
     NSArray *directoryContents = [self.fileManager contentsOfDirectoryAtURL:appGroupURL includingPropertiesForKeys:@[NSURLIsDirectoryKey] options:NSDirectoryEnumerationSkipsHiddenFiles error:&error];
@@ -494,7 +582,7 @@ static NSString * const sequenceNumberFileNameExtension = @"seqnum";
         // when error code is NoSuchFileError, code below must work well with directoryContents == nil
     }
     
-    NSInteger largestSequenceNumber = 0;
+    NSInteger largestSequenceNumber = NSNotFound;
     for (NSURL *url in directoryContents) {
         // skip directories
         NSNumber *isDirectoryNum;
@@ -504,12 +592,15 @@ static NSString * const sequenceNumberFileNameExtension = @"seqnum";
         
         // see if this file is for our name, is its seq num is larger
         NSInteger postSequenceNumber = 0;
-        if ([self matchedPostURL:url toName:name gettingSequenceNumber:&postSequenceNumber] && postSequenceNumber > largestSequenceNumber) {
+        if ([self matchedPostURL:url toName:name gettingSequenceNumber:&postSequenceNumber] && (largestSequenceNumber == NSNotFound || postSequenceNumber > largestSequenceNumber)) {
             largestSequenceNumber = postSequenceNumber;
         }
     }
     
-    return largestSequenceNumber;
+    if (largestSequenceNumber != NSNotFound && outSequenceNumber != nil) {
+        *outSequenceNumber = largestSequenceNumber;
+    }
+    return largestSequenceNumber != NSNotFound;
 }
 
 #pragma mark - Darwin notifications
@@ -585,11 +676,16 @@ void darwinNotificationCallback(CFNotificationCenterRef center, void *observer, 
     return YES;
 }
 
+//- (NSArray *)postsURLsMatchingName:(NSString *)name upToSequenceNumber:(NSInteger)limitSequenceNumber forContainerURL:(NSURL *)containerURL
+//{
+//    return @[];
+//}
+//
 #pragma mark - Sequence number state
 
 - (void)storeSequenceNumber:(NSInteger)sequenceNumber forGroupIdentifier:(NSString *)identifier groupURL:(NSURL *)appGroupURL bundleIdentifier:(NSString *)bundleIdentifier name:(NSString *)name
 {
-    NSURL *sequenceNumbersDirURL = [[appGroupURL URLByAppendingPathComponent:sequenceNumberDirName] URLByAppendingPathComponent:self.appIdentifier];
+    NSURL *sequenceNumbersDirURL = [[appGroupURL URLByAppendingPathComponent:sequenceNumberDirName] URLByAppendingPathComponent:bundleIdentifier];
     NSError *error;
     if (![self.fileManager createDirectoryAtURL:sequenceNumbersDirURL withIntermediateDirectories:YES attributes:nil error:&error]) {
         NSLog(@"unable to create app sequence number storage directory for group %@, %@: %@", identifier, sequenceNumbersDirURL, error.localizedDescription);
@@ -599,33 +695,87 @@ void darwinNotificationCallback(CFNotificationCenterRef center, void *observer, 
     NSString *sequenceNumberFileName = [name stringByAppendingPathExtension:sequenceNumberFileNameExtension];
     NSURL *sequenceNumberFileURL = [sequenceNumbersDirURL URLByAppendingPathComponent:sequenceNumberFileName];
     
+    // check that there isn't a current file why contents is a larger sequence number
+    NSData *oldFileData = [NSData dataWithContentsOfURL:sequenceNumberFileURL options:0 error:&error];
+    if (oldFileData == nil && error.code != NSFileReadNoSuchFileError) {
+        NSLog(@"unable to read sequence number file %@: %@", sequenceNumberFileURL, error.localizedDescription);
+    }
+    else if (oldFileData != nil) {
+        NSString *fileString = [[NSString alloc] initWithData:oldFileData encoding:NSUTF8StringEncoding];
+        NSNumber *sequenceNum = [self.numberFormatter numberFromString:fileString];
+        if (sequenceNum == nil) {
+            NSLog(@"unable to parse contents \"%@\" of sequence number file %@: %@", fileString, sequenceNumberFileURL, error.localizedDescription);
+        }
+        else if (sequenceNum.integerValue > sequenceNumber) {
+            NSLog(@"sequence number file for group %@, name \"%@\" is already #%d, larger than intended #%d", identifier, name, (int)sequenceNum.integerValue, (int)sequenceNumber);
+            return;
+        }
+    }
+    
     NSData *fileData = [[self.numberFormatter stringFromNumber:@(sequenceNumber)] dataUsingEncoding:NSUTF8StringEncoding];
-    if (![fileData writeToURL:sequenceNumberFileURL options:NSDataWritingAtomic error:&error]) {
-        NSLog(@"unable to write sequence number file for group %@, name %@ %@: %@", identifier, name, sequenceNumberFileURL, error.localizedDescription);
+    if (![fileData writeToURL:sequenceNumberFileURL options:0 error:&error]) {
+        NSLog(@"unable to write sequence number file for group %@, name \"%@\" %@: %@", identifier, name, sequenceNumberFileURL, error.localizedDescription);
         return;
     }
+    
+    //NSLog(@"wrote #%d to sequence number file for group %@, name \"%@\" bundleid %@", (int)sequenceNumber, identifier, name, bundleIdentifier);
 }
 
 - (void)clearStoredSequenceNumberForGroupIdentifier:(NSString *)identifier groupURL:(NSURL *)appGroupURL bundleIdentifier:(NSString *)bundleIdentifier name:(NSString *)name
 {
-    NSURL *sequenceNumbersDirURL = [[appGroupURL URLByAppendingPathComponent:sequenceNumberDirName] URLByAppendingPathComponent:self.appIdentifier];
+    NSURL *sequenceNumbersDirURL = [[appGroupURL URLByAppendingPathComponent:sequenceNumberDirName] URLByAppendingPathComponent:bundleIdentifier];
     
     NSString *sequenceNumberFileName = [name stringByAppendingPathExtension:sequenceNumberFileNameExtension];
     NSURL *sequenceNumberFileURL = [sequenceNumbersDirURL URLByAppendingPathComponent:sequenceNumberFileName];
     
     NSError *error;
-    if (![self.fileManager removeItemAtURL:sequenceNumberFileURL error:&error] && error.code != NSFileNoSuchFileError) {
-        NSLog(@"unable to delete app sequence number file for group %@, name %@ %@: %@", identifier, name, sequenceNumbersDirURL, error.localizedDescription);
+    if (![self.fileManager removeItemAtURL:sequenceNumberFileURL error:&error]) {
+        if (error.code != NSFileNoSuchFileError) {
+            NSLog(@"unable to delete app sequence number file for group %@, name \"%@\" %@: %@", identifier, name, sequenceNumberFileURL, error.localizedDescription);
+        }
+        return;
+    }
+    
+    NSArray *directoryContents = [self.fileManager contentsOfDirectoryAtURL:sequenceNumbersDirURL includingPropertiesForKeys:nil options:NSDirectoryEnumerationSkipsHiddenFiles error:&error];
+    if (directoryContents == nil) {
+        NSLog(@"unable to read contents of app sequence number directory for group %@, name \"%@\" %@: %@", identifier, name, sequenceNumbersDirURL, error.localizedDescription);
+        return;
+    }
+    if (directoryContents.count == 0) {
+        if (![self.fileManager removeItemAtURL:sequenceNumbersDirURL error:&error]) {
+            NSLog(@"unable to delete empty app sequence number directory for group %@, name \"%@\" %@: %@", identifier, name, sequenceNumbersDirURL, error.localizedDescription);
+        }
     }
 }
 
 - (void)clearStoredSequenceNumbersForGroupIdentifier:(NSString *)identifier groupURL:(NSURL *)appGroupURL bundleIdentifier:(NSString *)bundleIdentifier
 {
-    NSURL *sequenceNumbersDirURL = [[appGroupURL URLByAppendingPathComponent:sequenceNumberDirName] URLByAppendingPathComponent:self.appIdentifier];
+    NSURL *sequenceNumbersDirURL = [[appGroupURL URLByAppendingPathComponent:sequenceNumberDirName] URLByAppendingPathComponent:bundleIdentifier];
     NSError *error;
     if (![self.fileManager removeItemAtURL:sequenceNumbersDirURL error:&error] && error.code != NSFileNoSuchFileError) {
         NSLog(@"unable to delete app sequence number storage directory for group %@, %@: %@", identifier, sequenceNumbersDirURL, error.localizedDescription);
     }
+}
+
+- (NSSet *)storedSubscriptionNamesForGroupIdentifier:(NSString *)identifier groupURL:(NSURL *)appGroupURL bundleIdentifier:(NSString *)bundleIdentifier
+{
+    NSURL *sequenceNumbersDirURL = [[appGroupURL URLByAppendingPathComponent:sequenceNumberDirName] URLByAppendingPathComponent:bundleIdentifier];
+    
+    NSError *error;
+    NSArray *directoryContents = [self.fileManager contentsOfDirectoryAtURL:sequenceNumbersDirURL includingPropertiesForKeys:nil options:NSDirectoryEnumerationSkipsHiddenFiles error:&error];
+    if (directoryContents == nil && error.code != NSFileNoSuchFileError && error.code != NSFileReadNoSuchFileError) {
+        NSLog(@"unable to scan app-specific sequence number storage directory for group %@, %@: %@", identifier, sequenceNumbersDirURL, error.localizedDescription);
+        // no matter the error code, code below must work well with directoryContents == nil
+    }
+    
+    NSMutableSet *nameResults = [NSMutableSet set];
+    
+    for (NSURL *fileURL in directoryContents) {
+        NSString *name = fileURL.path.lastPathComponent.stringByDeletingPathExtension;
+        [nameResults addObject:name];
+    }
+    
+    return nameResults;
 }
 
 - (NSDictionary *)storedSubscriptionSequenceNumbersForGroupIdentifier:(NSString *)identifier groupURL:(NSURL *)appGroupURL names:(NSArray *)names
@@ -680,6 +830,30 @@ void darwinNotificationCallback(CFNotificationCenterRef center, void *observer, 
     }
     
     return sequenceNumberResults;
+}
+
+- (NSInteger)smallestSequenceNumberAmong:(NSDictionary *)subscriberSequenceNumbers orIfNone:(NSInteger)notFoundNumber
+{
+    // find smallest (positive) sequence number, or the given default number if none
+    NSInteger smallestReceivedSequenceNumber = NSNotFound;
+    for (NSNumber *sequenceNumberNum in subscriberSequenceNumbers.allValues) {
+        NSInteger sequenceNumber = sequenceNumberNum.integerValue;
+        if (smallestReceivedSequenceNumber == NSNotFound || sequenceNumber < smallestReceivedSequenceNumber)
+            smallestReceivedSequenceNumber = sequenceNumber;
+    };
+    return smallestReceivedSequenceNumber == NSNotFound ? notFoundNumber : smallestReceivedSequenceNumber;
+}
+
+- (NSInteger)largestSequenceNumberAmong:(NSDictionary *)subscriberSequenceNumbers orIfNone:(NSInteger)notFoundNumber
+{
+    // find largest sequence number, or the given default number if none
+    NSInteger largestReceivedSequenceNumber = NSNotFound;
+    for (NSNumber *sequenceNumberNum in subscriberSequenceNumbers.allValues) {
+        NSInteger sequenceNumber = sequenceNumberNum.integerValue;
+        if (largestReceivedSequenceNumber == NSNotFound || sequenceNumber > largestReceivedSequenceNumber)
+            largestReceivedSequenceNumber = sequenceNumber;
+    };
+    return largestReceivedSequenceNumber == NSNotFound ? notFoundNumber : largestReceivedSequenceNumber;
 }
 
 @end

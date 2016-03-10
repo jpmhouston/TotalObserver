@@ -35,10 +35,40 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)to_stopObservingAppGroupNotificationsNamed:(NSString *)name;
 - (BOOL)to_stopObservingNotificationsForAppGroup:(NSString *)groupIdentifier named:(NSString *)name;
 
+@end
+
 // convenience posting methods, receiver is used as the payload
+// not on NSObject since not all objects are plist compatible, perhaps support NSCoding too? instead?
+// alternately use TOAppGroupObservation class methods postNotificationNamed:payload: or postNotificationForAppGroup:named:payload:
+
+@interface NSData (TotalObserverAppGroup)
 - (void)to_postWithinAppGroupNotificationNamed:(NSString *)name;
 - (void)to_postWithinNotificationToAppGroup:(NSString *)groupIdentifier named:(NSString *)name;
+@end
 
+@interface NSString (TotalObserverAppGroup)
+- (void)to_postWithinAppGroupNotificationNamed:(NSString *)name;
+- (void)to_postWithinNotificationToAppGroup:(NSString *)groupIdentifier named:(NSString *)name;
+@end
+
+@interface NSArray (TotalObserverAppGroup)
+- (void)to_postWithinAppGroupNotificationNamed:(NSString *)name;
+- (void)to_postWithinNotificationToAppGroup:(NSString *)groupIdentifier named:(NSString *)name;
+@end
+
+@interface NSDictionary (TotalObserverAppGroup)
+- (void)to_postWithinAppGroupNotificationNamed:(NSString *)name;
+- (void)to_postWithinNotificationToAppGroup:(NSString *)groupIdentifier named:(NSString *)name;
+@end
+
+@interface NSDate (TotalObserverAppGroup)
+- (void)to_postWithinAppGroupNotificationNamed:(NSString *)name;
+- (void)to_postWithinNotificationToAppGroup:(NSString *)groupIdentifier named:(NSString *)name;
+@end
+
+@interface NSNumber (TotalObserverAppGroup)
+- (void)to_postWithinAppGroupNotificationNamed:(NSString *)name;
+- (void)to_postWithinNotificationToAppGroup:(NSString *)groupIdentifier named:(NSString *)name;
 @end
 
 #if __has_feature(nullability)

@@ -27,9 +27,36 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)stopObservingAppGroupNotificationsNamed:(NSString *)name;
 - (BOOL)stopObservingNotificationsForAppGroup:(NSString *)groupIdentifier named:(NSString *)name;
 
+@end
+
+@interface NSData (TotalObserverAppGroup)
 - (void)postWithinAppGroupNotificationNamed:(NSString *)name;
 - (void)postWithinNotificationToAppGroup:(NSString *)groupIdentifier named:(NSString *)name;
+@end
 
+@interface NSString (TotalObserverAppGroup)
+- (void)postWithinAppGroupNotificationNamed:(NSString *)name;
+- (void)postWithinNotificationToAppGroup:(NSString *)groupIdentifier named:(NSString *)name;
+@end
+
+@interface NSArray (TotalObserverAppGroup)
+- (void)postWithinAppGroupNotificationNamed:(NSString *)name;
+- (void)postWithinNotificationToAppGroup:(NSString *)groupIdentifier named:(NSString *)name;
+@end
+
+@interface NSDictionary (TotalObserverAppGroup)
+- (void)postWithinAppGroupNotificationNamed:(NSString *)name;
+- (void)postWithinNotificationToAppGroup:(NSString *)groupIdentifier named:(NSString *)name;
+@end
+
+@interface NSDate (TotalObserverAppGroup)
+- (void)postWithinAppGroupNotificationNamed:(NSString *)name;
+- (void)postWithinNotificationToAppGroup:(NSString *)groupIdentifier named:(NSString *)name;
+@end
+
+@interface NSNumber (TotalObserverAppGroup)
+- (void)postWithinAppGroupNotificationNamed:(NSString *)name;
+- (void)postWithinNotificationToAppGroup:(NSString *)groupIdentifier named:(NSString *)name;
 @end
 
 #if __has_feature(nullability)

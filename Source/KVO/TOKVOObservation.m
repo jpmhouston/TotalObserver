@@ -94,7 +94,7 @@ static void *TOKVOObservationContext = (void *)&TOKVOObservationContextVar;
 + (BOOL)removeForObserver:(nullable id)observer object:(id)object keyPaths:(NSArray *)keyPaths
 {
     TOObservation *observation = [self findObservationForObserver:observer object:object matchingTest:^BOOL(TOObservation *observation) {
-        return [((TOKVOObservation *)observation).keyPaths isEqualToArray:keyPaths];
+        return [observation isKindOfClass:[TOKVOObservation class]] && [((TOKVOObservation *)observation).keyPaths isEqualToArray:keyPaths];
     }];
     if (observation != nil) {
         [observation remove];

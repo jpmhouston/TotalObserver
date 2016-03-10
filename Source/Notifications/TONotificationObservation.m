@@ -77,7 +77,7 @@ NS_ASSUME_NONNULL_BEGIN
 {
     NSParameterAssert(observer != nil || object != nil);
     TOObservation *observation = [self findObservationForObserver:observer object:object matchingTest:^BOOL(TOObservation *observation) {
-        return [((TONotificationObservation *)observation).name isEqualToString:name];
+        return [observation isKindOfClass:[TONotificationObservation class]] && [((TONotificationObservation *)observation).name isEqualToString:name];
     }];
     if (observation != nil) {
         [observation remove];

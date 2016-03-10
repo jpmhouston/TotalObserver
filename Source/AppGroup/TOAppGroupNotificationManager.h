@@ -10,6 +10,8 @@
 //  vs NO which only delivers the most recent notification in those instances.
 //
 //  TODO: rename queued parameter
+//  TODO: maybe change payload back to id<NSCoding> and use that instead of Plist encoding
+//  TODO: move testing injection properties etc to a private-ish header
 
 #import <Foundation/Foundation.h>
 
@@ -20,10 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 #define TO_nullable
 #endif
 
-typedef void (^TOAppGroupSubscriberBlock)(NSString *identifier, NSString *name, id<NSCoding> payload, NSDate *postDate);
-
-@protocol TOAppGroupURLProviding;
-@protocol TOAppGroupGlobalNotificationHandling;
+typedef void (^TOAppGroupSubscriberBlock)(NSString *identifier, NSString *name, id payload, NSDate *postDate);
 
 @interface TOAppGroupNotificationManager : NSObject
 
@@ -37,18 +36,28 @@ typedef void (^TOAppGroupSubscriberBlock)(NSString *identifier, NSString *name, 
 @property (nonatomic, readonly, nullable) NSString *defaultGroupIdentifier; // the last identifier added
 
 - (BOOL)subscribeToNotificationsForGroupIdentifier:(NSString *)identifier named:(NSString *)name queued:(BOOL)queued withBlock:(TOAppGroupSubscriberBlock)block;
-- (BOOL)unsubscribeToNotificationsForGroupIdentifier:(NSString *)identifier named:(NSString *)name;
+- (BOOL)unsubscribeFromNotificationsForGroupIdentifier:(NSString *)identifier named:(NSString *)name;
 
-- (BOOL)postNotificationForGroupIdentifier:(NSString *)identifier named:(NSString *)name payload:(TO_nullable id<NSCoding>)payload;
+- (BOOL)postNotificationForGroupIdentifier:(NSString *)identifier named:(NSString *)name payload:(TO_nullable id)payload;
 
-// for dependency injection
-// leave set to nil to use defaults: (perhaps name these urlProvider, notificationProvider)
+@end
+
+// these could go in a ..+Testing.h header
+
+@protocol TOAppGroupURLProviding;
+@protocol TOAppGroupGlobalNotificationHandling;
+@protocol TOAppGroupBundleIdProviding;
+
+@interface TOAppGroupNotificationManager (DependencyInjectionForTesting)
+// leave helpers set to nil to keep default behavior  !!! perhaps rename urlProvider, notificationProvider
 @property (nonatomic, TO_nullable) id<TOAppGroupURLProviding> urlHelper;
 @property (nonatomic, TO_nullable) id<TOAppGroupGlobalNotificationHandling> notificationHelper;
-@property (nonatomic, TO_nullable) NSString *appIdentifier; // used within callback below, unsubscribe.., remove..
+@property (nonatomic, TO_nullable) id<TOAppGroupBundleIdProviding> bundleIdHelper; // not used if appIdentifier != nil
+@property (nonatomic, TO_nullable) NSString *appIdentifier;   // main bundle's id, if override to nil, must also set bundleIdHelper
+@property (nonatomic) BOOL permitPostsWhenNoSubscribers;      // default = NO
+@property (nonatomic) u_int32_t cleanupFrequencyRandomFactor; // 0=don't cleanup, 1=on every post, larger means less frequent
 // the notification helper calls this to deliver notification:
 - (void)globalNotificationCallbackForGroupIdentifier:(NSString *)identifer;
-
 @end
 
 @protocol TOAppGroupURLProviding
@@ -59,6 +68,14 @@ typedef void (^TOAppGroupSubscriberBlock)(NSString *identifier, NSString *name, 
 - (void)subscribeAppGroupNotificationManager:(TOAppGroupNotificationManager *)manager toGlobalMessagesWithGroupIdentifier:(NSString *)identifier;
 - (void)unsubscribeAppGroupNotificationManager:(TOAppGroupNotificationManager *)manager fromGlobalMessagesWithGroupIdentifier:(NSString *)identifier;
 - (void)postGlobalMessageWithGroupIdentifier:(NSString *)identifier;
+@end
+
+// note that TOAppGroupNotificationManager doesn't implement this protocol, test code can choose to provide
+@protocol TOAppGroupBundleIdProviding
+- (NSString *)bundleIdForSubscribingToGroupIdentifier:(NSString *)identifier name:(NSString *)name;
+- (NSString *)bundleIdForUnsubscribingFromGroupIdentifier:(NSString *)identifier name:(NSString *)name;
+- (NSString *)bundleIdForRemovingGroupIdentifier:(NSString *)identifier;
+- (NSString *)bundleIdForReceivingPostWithGroupIdentifier:(NSString *)identifier name:(NSString *)name;;
 @end
 
 #if __has_feature(nullability)

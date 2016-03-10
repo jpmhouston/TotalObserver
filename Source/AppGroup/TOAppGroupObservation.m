@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation TOAppGroupObservation
 
-- (instancetype)initWithObserver:(nullable id)observer groupIdentifier:(nullable NSString *)identifier name:(NSString *)name payload:(nullable id<NSCoding>)payload onQueue:(nullable NSOperationQueue *)queue orGCDQueue:(nullable dispatch_queue_t)gcdQueue withBlock:(TOObservationBlock)block
+- (instancetype)initWithObserver:(nullable id)observer groupIdentifier:(nullable NSString *)identifier name:(NSString *)name onQueue:(nullable NSOperationQueue *)queue orGCDQueue:(nullable dispatch_queue_t)gcdQueue withBlock:(TOObservationBlock)block
 {
     if (!(self = [super initWithObserver:observer object:nil queue:queue gcdQueue:gcdQueue block:block]))
         return nil;
@@ -35,7 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (instancetype)initWithObserver:(nullable id)observer groupIdentifier:(nullable NSString *)identifier name:(NSString *)name payload:(nullable id<NSCoding>)payload onQueue:(nullable NSOperationQueue *)queue orGCDQueue:(nullable dispatch_queue_t)gcdQueue withObjBlock:(TOObjObservationBlock)block
+- (instancetype)initWithObserver:(nullable id)observer groupIdentifier:(nullable NSString *)identifier name:(NSString *)name onQueue:(nullable NSOperationQueue *)queue orGCDQueue:(nullable dispatch_queue_t)gcdQueue withObjBlock:(TOObjObservationBlock)block
 {
     if (!(self = [super initWithObserver:observer object:nil queue:queue gcdQueue:gcdQueue objBlock:block]))
         return nil;
@@ -49,7 +49,29 @@ NS_ASSUME_NONNULL_BEGIN
     NSAssert1(!self.registered, @"Attempted double-register of %@", self);
     NSAssert1(self.name != nil, @"Nil 'name' property when registering observation for %@", self);
     NSAssert1(self.name.length > 0, @"Empty 'name' string when registering observation for %@", self);
-    // !!!
+    
+    TOAppGroupNotificationManager *appGroupNotificationManager = [TOAppGroupNotificationManager sharedManager];
+    NSString *groupIdentifier = self.groupIdentifier;
+    if (groupIdentifier == nil) {
+        groupIdentifier = appGroupNotificationManager.defaultGroupIdentifier;
+        if (groupIdentifier == nil) {
+            return;
+        }
+    }
+    
+    BOOL ok = [appGroupNotificationManager subscribeToNotificationsForGroupIdentifier:groupIdentifier named:self.name queued:NO withBlock:^(NSString *identifier, NSString *name, id<NSCoding> payload, NSDate *postDate) {
+        [self invokeOnQueueAfter:^{
+            self.payload = payload;
+            self.postedDate = postDate;
+            if (self.groupIdentifier == nil || ![self.groupIdentifier isEqualToString:groupIdentifier]) {
+                self.groupIdentifier = groupIdentifier;
+            }
+        }];
+    }];
+    
+    if (!ok) {
+        NSLog(@"failed to register observation %@", self);
+    }
 }
 
 - (void)deregisterInternal
@@ -57,13 +79,34 @@ NS_ASSUME_NONNULL_BEGIN
     NSAssert1(self.registered, @"Attempted double-removal of %@", self);
     NSAssert1(self.name != nil, @"Nil 'name' property when deregistering observation for %@", self);
     NSAssert1(self.name.length > 0, @"Empty 'name' string when deregistering observation for %@", self);
-    // !!!
+    
+    TOAppGroupNotificationManager *appGroupNotificationManager = [TOAppGroupNotificationManager sharedManager];
+    NSString *groupIdentifier = self.groupIdentifier;
+    if (groupIdentifier == nil) {
+        groupIdentifier = appGroupNotificationManager.defaultGroupIdentifier;
+        if (groupIdentifier == nil) {
+            return;
+        }
+    }
+    
+    BOOL ok = [appGroupNotificationManager unsubscribeFromNotificationsForGroupIdentifier:groupIdentifier named:self.name];
+    
+    if (!ok) {
+        NSLog(@"failed to deregister observation %@", self);
+    }
 }
 
-+ (BOOL)removeForObserver:(nullable id)observer groupIdentifier:(NSString *)identifier name:(NSString *)name
++ (BOOL)removeForObserver:(id)observer groupIdentifier:(nullable NSString *)identifier name:(NSString *)name
 {
+    TOAppGroupNotificationManager *appGroupNotificationManager = [TOAppGroupNotificationManager sharedManager];
+    NSString *groupIdentifier = appGroupNotificationManager.defaultGroupIdentifier;
+    if (groupIdentifier == nil) {
+        return NO;
+    }
+    
     TOObservation *observation = [self findObservationForObserver:observer object:nil matchingTest:^BOOL(TOObservation *observation) {
-        return [((TOAppGroupObservation *)observation).name isEqualToString:name];
+        TOAppGroupObservation *groupObservation = (TOAppGroupObservation *)observation;
+        return [observation isKindOfClass:[TOAppGroupObservation class]] && [name isEqualToString:groupObservation.name] && [groupIdentifier isEqualToString:groupObservation.groupIdentifier];
     }];
     if (observation != nil) {
         [observation remove];
@@ -75,7 +118,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (BOOL)postNotificationNamed:(NSString *)name payload:(nullable id<NSCoding>)payload
 {
     TOAppGroupNotificationManager *appGroupNotificationManager = [TOAppGroupNotificationManager sharedManager];
-    NSString *groupIdentifier = [appGroupNotificationManager defaultGroupIdentifier];
+    NSString *groupIdentifier = appGroupNotificationManager.defaultGroupIdentifier;
     if (groupIdentifier == nil) {
         return NO;
     }
@@ -86,8 +129,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (BOOL)postNotificationForAppGroup:(NSString *)groupIdentifier named:(NSString *)name payload:(nullable id<NSCoding>)payload
 {
     TOAppGroupNotificationManager *appGroupNotificationManager = [TOAppGroupNotificationManager sharedManager];
-    [appGroupNotificationManager postNotificationForGroupIdentifier:groupIdentifier named:name payload:payload];
-    return YES;
+    return [appGroupNotificationManager postNotificationForGroupIdentifier:groupIdentifier named:name payload:payload];
 }
 
 + (BOOL)registerAppGroup:(NSString *)groupIdentifier
@@ -102,7 +144,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (void)deregisterAppGroup:(NSString *)groupIdentifier
 {
-    [[TOAppGroupNotificationManager sharedManager] removeGroupIdentifier:groupIdentifier];
+    TOAppGroupNotificationManager *appGroupNotificationManager = [TOAppGroupNotificationManager sharedManager];
+    [appGroupNotificationManager removeGroupIdentifier:groupIdentifier];
 }
 
 - (NSString *)description

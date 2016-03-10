@@ -47,7 +47,7 @@ static NSMutableSet *classesSwizzledSet = nil;
     //[NSException raise:NSInternalInconsistencyException format:@"TOObservation base class must not be initialized"];
     // but now this *is* legitamitely used specifically when temporarily completing init of an observation
     // before discarding it and returning nil, which subclass can do using 'if (fail-condition) return [super init];'
-    self = nil;
+    if (self != nil) self = nil;
     return nil;
 }
 
