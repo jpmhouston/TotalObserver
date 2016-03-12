@@ -18,26 +18,26 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface NSObject (TotalObserverNotificationsShorthand)
 
-- (TONotificationObservation *)observeForNotifications:(id)object named:(NSString *)name withBlock:(TOObjObservationBlock)block;
-- (TONotificationObservation *)observeAllNotificationsNamed:(NSString *)name withBlock:(TOObjObservationBlock)block;
+- (TONotificationObservation *)observeForNotifications:(id)object named:(NSString *)name withBlock:(TOObservationBlock)block;
+- (TONotificationObservation *)observeAllNotificationsNamed:(NSString *)name withBlock:(TOObservationBlock)block;
 
-- (TONotificationObservation *)observeForNotifications:(id)object named:(NSString *)name onQueue:(NSOperationQueue *)queue withBlock:(TOObjObservationBlock)block;
-- (TONotificationObservation *)observeAllNotificationsNamed:(NSString *)name onQueue:(NSOperationQueue *)queue withBlock:(TOObjObservationBlock)block;
+- (TONotificationObservation *)observeForNotifications:(id)object named:(NSString *)name onQueue:(NSOperationQueue *)queue withBlock:(TOObservationBlock)block;
+- (TONotificationObservation *)observeAllNotificationsNamed:(NSString *)name onQueue:(NSOperationQueue *)queue withBlock:(TOObservationBlock)block;
 
-- (TONotificationObservation *)observeForNotifications:(id)object named:(NSString *)name onGCDQueue:(dispatch_queue_t)queue withBlock:(TOObjObservationBlock)block;
-- (TONotificationObservation *)observeAllNotificationsNamed:(NSString *)name onGCDQueue:(dispatch_queue_t)queue withBlock:(TOObjObservationBlock)block;
+- (TONotificationObservation *)observeForNotifications:(id)object named:(NSString *)name onGCDQueue:(dispatch_queue_t)queue withBlock:(TOObservationBlock)block;
+- (TONotificationObservation *)observeAllNotificationsNamed:(NSString *)name onGCDQueue:(dispatch_queue_t)queue withBlock:(TOObservationBlock)block;
 
 - (BOOL)stopObservingForNotifications:(id)object named:(NSString *)name;
 - (BOOL)stopObservingAllNotificationsNamed:(NSString *)name;
 
-- (TONotificationObservation *)observeNotificationsNamed:(NSString *)name withBlock:(TOObservationBlock)block;
-- (TONotificationObservation *)observeOwnNotificationsNamed:(NSString *)name withBlock:(TOObjObservationBlock)block;
+- (TONotificationObservation *)observeNotificationsNamed:(NSString *)name withBlock:(TOAnonymousObservationBlock)block;
+- (TONotificationObservation *)observeOwnNotificationsNamed:(NSString *)name withBlock:(TOObservationBlock)block;
 
-- (TONotificationObservation *)observeNotificationsNamed:(NSString *)name onQueue:(NSOperationQueue *)queue withBlock:(TOObservationBlock)block;
-- (TONotificationObservation *)observeOwnNotificationsNamed:(NSString *)name onQueue:(NSOperationQueue *)queue withBlock:(TOObjObservationBlock)block;
+- (TONotificationObservation *)observeNotificationsNamed:(NSString *)name onQueue:(NSOperationQueue *)queue withBlock:(TOAnonymousObservationBlock)block;
+- (TONotificationObservation *)observeOwnNotificationsNamed:(NSString *)name onQueue:(NSOperationQueue *)queue withBlock:(TOObservationBlock)block;
 
-- (TONotificationObservation *)observeNotificationsNamed:(NSString *)name onGCDQueue:(dispatch_queue_t)queue withBlock:(TOObservationBlock)block;
-- (TONotificationObservation *)observeOwnNotificationsNamed:(NSString *)name onGCDQueue:(dispatch_queue_t)queue withBlock:(TOObjObservationBlock)block;
+- (TONotificationObservation *)observeNotificationsNamed:(NSString *)name onGCDQueue:(dispatch_queue_t)queue withBlock:(TOAnonymousObservationBlock)block;
+- (TONotificationObservation *)observeOwnNotificationsNamed:(NSString *)name onGCDQueue:(dispatch_queue_t)queue withBlock:(TOObservationBlock)block;
 
 - (BOOL)stopObservingNotificationsNamed:(NSString *)name;
 - (BOOL)stopObservingOwnNotificationsNamed:(NSString *)name;

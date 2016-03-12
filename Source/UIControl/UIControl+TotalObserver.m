@@ -11,67 +11,67 @@
 
 @implementation UIControl (TotalObserver)
 
-- (TOUIControlObservation *)to_observePressWithBlock:(TOObservationBlock)block
+- (TOUIControlObservation *)to_observePressWithBlock:(TOAnonymousObservationBlock)block
 {
-    TOUIControlObservation *observation = [[TOUIControlObservation alloc] initWithObserver:nil control:self events:UIControlEventTouchUpInside onQueue:nil orGCDQueue:nil withBlock:block];
+    TOUIControlObservation *observation = [[TOUIControlObservation alloc] initWithControl:self events:UIControlEventTouchUpInside queue:nil gcdQueue:nil block:block];
     [observation register];
     return observation;
 }
 
-- (TOUIControlObservation *)to_observePressOnQueue:(NSOperationQueue *)queue withBlock:(TOObservationBlock)block
+- (TOUIControlObservation *)to_observePressOnQueue:(NSOperationQueue *)queue withBlock:(TOAnonymousObservationBlock)block
 {
-    TOUIControlObservation *observation = [[TOUIControlObservation alloc] initWithObserver:nil control:self events:UIControlEventTouchUpInside onQueue:queue orGCDQueue:nil withBlock:block];
+    TOUIControlObservation *observation = [[TOUIControlObservation alloc] initWithControl:self events:UIControlEventTouchUpInside queue:queue gcdQueue:nil block:block];
     [observation register];
     return observation;
 }
 
-- (TOUIControlObservation *)to_observePressOnGCDQueue:(dispatch_queue_t)queue withBlock:(TOObservationBlock)block
+- (TOUIControlObservation *)to_observePressOnGCDQueue:(dispatch_queue_t)queue withBlock:(TOAnonymousObservationBlock)block
 {
-    TOUIControlObservation *observation = [[TOUIControlObservation alloc] initWithObserver:nil control:self events:UIControlEventTouchUpInside onQueue:nil orGCDQueue:queue withBlock:block];
-    [observation register];
-    return observation;
-}
-
-
-- (TOUIControlObservation *)to_observeValueWithBlock:(TOObservationBlock)block
-{
-    TOUIControlObservation *observation = [[TOUIControlObservation alloc] initWithObserver:nil control:self events:UIControlEventValueChanged onQueue:nil orGCDQueue:nil withBlock:block];
-    [observation register];
-    return observation;
-}
-
-- (TOUIControlObservation *)to_observeValueOnQueue:(NSOperationQueue *)queue withBlock:(TOObservationBlock)block
-{
-    TOUIControlObservation *observation = [[TOUIControlObservation alloc] initWithObserver:nil control:self events:UIControlEventValueChanged onQueue:queue orGCDQueue:nil withBlock:block];
-    [observation register];
-    return observation;
-}
-
-- (TOUIControlObservation *)to_observeValueOnGCDQueue:(dispatch_queue_t)queue withBlock:(TOObservationBlock)block
-{
-    TOUIControlObservation *observation = [[TOUIControlObservation alloc] initWithObserver:nil control:self events:UIControlEventValueChanged onQueue:nil orGCDQueue:queue withBlock:block];
+    TOUIControlObservation *observation = [[TOUIControlObservation alloc] initWithControl:self events:UIControlEventTouchUpInside queue:nil gcdQueue:queue block:block];
     [observation register];
     return observation;
 }
 
 
-- (TOUIControlObservation *)to_observeEvents:(UIControlEvents)events withBlock:(TOObservationBlock)block
+- (TOUIControlObservation *)to_observeValueWithBlock:(TOAnonymousObservationBlock)block
 {
-    TOUIControlObservation *observation = [[TOUIControlObservation alloc] initWithObserver:nil control:self events:events onQueue:nil orGCDQueue:nil withBlock:block];
+    TOUIControlObservation *observation = [[TOUIControlObservation alloc] initWithControl:self events:UIControlEventValueChanged queue:nil gcdQueue:nil block:block];
     [observation register];
     return observation;
 }
 
-- (TOUIControlObservation *)to_observeEvents:(UIControlEvents)events onQueue:(NSOperationQueue *)queue withBlock:(TOObservationBlock)block
+- (TOUIControlObservation *)to_observeValueOnQueue:(NSOperationQueue *)queue withBlock:(TOAnonymousObservationBlock)block
 {
-    TOUIControlObservation *observation = [[TOUIControlObservation alloc] initWithObserver:nil control:self events:events onQueue:queue orGCDQueue:nil withBlock:block];
+    TOUIControlObservation *observation = [[TOUIControlObservation alloc] initWithControl:self events:UIControlEventValueChanged queue:queue gcdQueue:nil block:block];
     [observation register];
     return observation;
 }
 
-- (TOUIControlObservation *)to_observeEvents:(UIControlEvents)events onGCDQueue:(dispatch_queue_t)queue withBlock:(TOObservationBlock)block
+- (TOUIControlObservation *)to_observeValueOnGCDQueue:(dispatch_queue_t)queue withBlock:(TOAnonymousObservationBlock)block
 {
-    TOUIControlObservation *observation = [[TOUIControlObservation alloc] initWithObserver:nil control:self events:events onQueue:nil orGCDQueue:queue withBlock:block];
+    TOUIControlObservation *observation = [[TOUIControlObservation alloc] initWithControl:self events:UIControlEventValueChanged queue:nil gcdQueue:queue block:block];
+    [observation register];
+    return observation;
+}
+
+
+- (TOUIControlObservation *)to_observeEvents:(UIControlEvents)events withBlock:(TOAnonymousObservationBlock)block
+{
+    TOUIControlObservation *observation = [[TOUIControlObservation alloc] initWithControl:self events:events queue:nil gcdQueue:nil block:block];
+    [observation register];
+    return observation;
+}
+
+- (TOUIControlObservation *)to_observeEvents:(UIControlEvents)events onQueue:(NSOperationQueue *)queue withBlock:(TOAnonymousObservationBlock)block
+{
+    TOUIControlObservation *observation = [[TOUIControlObservation alloc] initWithControl:self events:events queue:queue gcdQueue:nil block:block];
+    [observation register];
+    return observation;
+}
+
+- (TOUIControlObservation *)to_observeEvents:(UIControlEvents)events onGCDQueue:(dispatch_queue_t)queue withBlock:(TOAnonymousObservationBlock)block
+{
+    TOUIControlObservation *observation = [[TOUIControlObservation alloc] initWithControl:self events:events queue:nil gcdQueue:queue block:block];
     [observation register];
     return observation;
 }

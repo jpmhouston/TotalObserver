@@ -5,6 +5,16 @@
 //  Created by Pierre Houston on 2016-02-23.
 //  Copyright © 2016 Pierre Houston. All rights reserved.
 //
+//  TODO:
+//  - determine if updating post and sequence number files needs to be done within background tasks to avoid
+//    app from terminating in an incorrect or an invalid state -- yes, i think this really is needed :^(
+//  - consider a mode where the last-sequence-number is continued from one app launch to the next, this might
+//    require that posts instead (?) be stored in a non-cache, backed-up directory for consistency across
+//    restart and restores (um, or is the shared dir already that?)
+//  - currently an app quitting without cleaning up its registered observations already leaves its
+//    last-sequence-number file behind, except when not using the potential mode mentioned above, consider a
+//    mechanism for expiring these stale files and allowing cleanup of posts that otherwise might be stuck
+//    forever.
 
 #import "TOAppGroupNotificationManager.h"
 

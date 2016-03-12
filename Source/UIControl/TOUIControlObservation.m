@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @dynamic control;
 
-- (instancetype)initWithObserver:(nullable id)observer control:(UIControl *)control events:(UIControlEvents)events onQueue:(nullable NSOperationQueue *)queue orGCDQueue:(nullable dispatch_queue_t)gcdQueue withBlock:(TOObservationBlock)block
+- (instancetype)initWithObserver:(nullable id)observer control:(UIControl *)control events:(UIControlEvents)events queue:(nullable NSOperationQueue *)queue gcdQueue:(nullable dispatch_queue_t)gcdQueue block:(TOObservationBlock)block;
 {
     if (!(self = [super initWithObserver:observer object:control queue:queue gcdQueue:gcdQueue block:block]))
         return nil;
@@ -34,9 +34,9 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (instancetype)initWithObserver:(nullable id)observer control:(UIControl *)control events:(UIControlEvents)events onQueue:(nullable NSOperationQueue *)queue orGCDQueue:(nullable dispatch_queue_t)gcdQueue withObjBlock:(TOObjObservationBlock)block;
+- (instancetype)initWithControl:(UIControl *)control events:(UIControlEvents)events queue:(nullable NSOperationQueue *)queue gcdQueue:(nullable dispatch_queue_t)gcdQueue block:(TOAnonymousObservationBlock)block
 {
-    if (!(self = [super initWithObserver:observer object:control queue:queue gcdQueue:gcdQueue objBlock:block]))
+    if (!(self = [super initWithObject:control queue:queue gcdQueue:gcdQueue block:block]))
         return nil;
     _events = events;
     return self;

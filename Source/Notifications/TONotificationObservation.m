@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation TONotificationObservation
 
-- (instancetype)initWithObserver:(nullable id)observer object:(nullable id)object name:(NSString *)name onQueue:(nullable NSOperationQueue *)queue orGCDQueue:(nullable dispatch_queue_t)gcdQueue withBlock:(TOObservationBlock)block
+- (instancetype)initWithObserver:(nullable id)observer object:(nullable id)object name:(NSString *)name queue:(nullable NSOperationQueue *)queue gcdQueue:(nullable dispatch_queue_t)gcdQueue block:(TOObservationBlock)block;
 {
     if (!(self = [super initWithObserver:observer object:object queue:queue gcdQueue:gcdQueue block:block]))
         return nil;
@@ -34,9 +34,9 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (instancetype)initWithObserver:(nullable id)observer object:(nullable id)object name:(NSString *)name onQueue:(nullable NSOperationQueue *)queue orGCDQueue:(nullable dispatch_queue_t)gcdQueue withObjBlock:(TOObjObservationBlock)block
+- (instancetype)initWithObject:(nullable id)object name:(NSString *)name queue:(nullable NSOperationQueue *)queue gcdQueue:(nullable dispatch_queue_t)gcdQueue block:(TOAnonymousObservationBlock)block;
 {
-    if (!(self = [super initWithObserver:observer object:object queue:queue gcdQueue:gcdQueue objBlock:block]))
+    if (!(self = [super initWithObject:object queue:queue gcdQueue:gcdQueue block:block]))
         return nil;
     _name = name;
     return self;

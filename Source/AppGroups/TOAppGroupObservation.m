@@ -35,15 +35,6 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (instancetype)initWithObserver:(nullable id)observer groupIdentifier:(nullable NSString *)identifier name:(NSString *)name onQueue:(nullable NSOperationQueue *)queue orGCDQueue:(nullable dispatch_queue_t)gcdQueue withObjBlock:(TOObjObservationBlock)block
-{
-    if (!(self = [super initWithObserver:observer object:nil queue:queue gcdQueue:gcdQueue objBlock:block]))
-        return nil;
-    _name = name;
-    _groupIdentifier = identifier;
-    return self;
-}
-
 - (void)registerInternal
 {
     NSAssert1(!self.registered, @"Attempted double-register of %@", self);

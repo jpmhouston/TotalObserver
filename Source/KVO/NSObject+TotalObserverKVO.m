@@ -15,256 +15,256 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation NSObject (TotalObserverKVO)
 
-- (TOKVOObservation *)to_observeForChanges:(id)object toKeyPath:(NSString *)keyPath options:(int)options withBlock:(TOObjObservationBlock)block
+- (TOKVOObservation *)to_observeForChanges:(id)object toKeyPath:(NSString *)keyPath options:(int)options withBlock:(TOObservationBlock)block
 {
-    TOKVOObservation *observation = [[TOKVOObservation alloc] initWithObserver:self object:object keyPaths:@[keyPath] options:options onQueue:nil orGCDQueue:nil withObjBlock:block];
+    TOKVOObservation *observation = [[TOKVOObservation alloc] initWithObserver:self object:object keyPaths:@[keyPath] options:options queue:nil gcdQueue:nil block:block];
     [observation register];
     return observation;
 }
 
-- (TOKVOObservation *)to_observeForChanges:(id)object toKeyPaths:(NSArray *)keyPaths options:(int)options withBlock:(TOObjObservationBlock)block
+- (TOKVOObservation *)to_observeForChanges:(id)object toKeyPaths:(NSArray *)keyPaths options:(int)options withBlock:(TOObservationBlock)block
 {
-    TOKVOObservation *observation = [[TOKVOObservation alloc] initWithObserver:self object:object keyPaths:keyPaths options:options onQueue:nil orGCDQueue:nil withObjBlock:block];
+    TOKVOObservation *observation = [[TOKVOObservation alloc] initWithObserver:self object:object keyPaths:keyPaths options:options queue:nil gcdQueue:nil block:block];
     [observation register];
     return observation;
 }
 
-- (TOKVOObservation *)to_observeForChanges:(id)object toKeyPath:(NSString *)keyPath withBlock:(TOObjObservationBlock)block
+- (TOKVOObservation *)to_observeForChanges:(id)object toKeyPath:(NSString *)keyPath withBlock:(TOObservationBlock)block
 {
-    TOKVOObservation *observation = [[TOKVOObservation alloc] initWithObserver:self object:object keyPaths:@[keyPath] options:0 onQueue:nil orGCDQueue:nil withObjBlock:block];
+    TOKVOObservation *observation = [[TOKVOObservation alloc] initWithObserver:self object:object keyPaths:@[keyPath] options:0 queue:nil gcdQueue:nil block:block];
     [observation register];
     return observation;
 }
 
-- (TOKVOObservation *)to_observeForChanges:(id)object toKeyPaths:(NSArray *)keyPaths withBlock:(TOObjObservationBlock)block
+- (TOKVOObservation *)to_observeForChanges:(id)object toKeyPaths:(NSArray *)keyPaths withBlock:(TOObservationBlock)block
 {
-    TOKVOObservation *observation = [[TOKVOObservation alloc] initWithObserver:self object:object keyPaths:keyPaths options:0 onQueue:nil orGCDQueue:nil withObjBlock:block];
+    TOKVOObservation *observation = [[TOKVOObservation alloc] initWithObserver:self object:object keyPaths:keyPaths options:0 queue:nil gcdQueue:nil block:block];
     [observation register];
     return observation;
 }
 
-- (TOKVOObservation *)to_observeForChanges:(id)object toKeyPath:(NSString *)keyPath options:(int)options onQueue:(NSOperationQueue *)queue withBlock:(TOObjObservationBlock)block
+- (TOKVOObservation *)to_observeForChanges:(id)object toKeyPath:(NSString *)keyPath options:(int)options onQueue:(NSOperationQueue *)queue withBlock:(TOObservationBlock)block
 {
-    TOKVOObservation *observation = [[TOKVOObservation alloc] initWithObserver:self object:object keyPaths:@[keyPath] options:options onQueue:queue orGCDQueue:nil withObjBlock:block];
+    TOKVOObservation *observation = [[TOKVOObservation alloc] initWithObserver:self object:object keyPaths:@[keyPath] options:options queue:queue gcdQueue:nil block:block];
     [observation register];
     return observation;
 }
 
-- (TOKVOObservation *)to_observeForChanges:(id)object toKeyPaths:(NSArray *)keyPaths options:(int)options onQueue:(NSOperationQueue *)queue withBlock:(TOObjObservationBlock)block
+- (TOKVOObservation *)to_observeForChanges:(id)object toKeyPaths:(NSArray *)keyPaths options:(int)options onQueue:(NSOperationQueue *)queue withBlock:(TOObservationBlock)block
 {
-    TOKVOObservation *observation = [[TOKVOObservation alloc] initWithObserver:self object:object keyPaths:keyPaths options:options onQueue:queue orGCDQueue:nil withObjBlock:block];
+    TOKVOObservation *observation = [[TOKVOObservation alloc] initWithObserver:self object:object keyPaths:keyPaths options:options queue:queue gcdQueue:nil block:block];
     [observation register];
     return observation;
 }
 
-- (TOKVOObservation *)to_observeForChanges:(id)object toKeyPath:(NSString *)keyPath onQueue:(NSOperationQueue *)queue withBlock:(TOObjObservationBlock)block
+- (TOKVOObservation *)to_observeForChanges:(id)object toKeyPath:(NSString *)keyPath onQueue:(NSOperationQueue *)queue withBlock:(TOObservationBlock)block
 {
-    TOKVOObservation *observation = [[TOKVOObservation alloc] initWithObserver:self object:object keyPaths:@[keyPath] options:0 onQueue:queue orGCDQueue:nil withObjBlock:block];
+    TOKVOObservation *observation = [[TOKVOObservation alloc] initWithObserver:self object:object keyPaths:@[keyPath] options:0 queue:queue gcdQueue:nil block:block];
     [observation register];
     return observation;
 }
 
-- (TOKVOObservation *)to_observeForChanges:(id)object toKeyPaths:(NSArray *)keyPaths onQueue:(NSOperationQueue *)queue withBlock:(TOObjObservationBlock)block
+- (TOKVOObservation *)to_observeForChanges:(id)object toKeyPaths:(NSArray *)keyPaths onQueue:(NSOperationQueue *)queue withBlock:(TOObservationBlock)block
 {
-    TOKVOObservation *observation = [[TOKVOObservation alloc] initWithObserver:self object:object keyPaths:keyPaths options:0 onQueue:queue orGCDQueue:nil withObjBlock:block];
+    TOKVOObservation *observation = [[TOKVOObservation alloc] initWithObserver:self object:object keyPaths:keyPaths options:0 queue:queue gcdQueue:nil block:block];
     [observation register];
     return observation;
 }
 
-- (TOKVOObservation *)to_observeForChanges:(id)object toKeyPath:(NSString *)keyPath options:(int)options onGCDQueue:(dispatch_queue_t)queue withBlock:(TOObjObservationBlock)block
+- (TOKVOObservation *)to_observeForChanges:(id)object toKeyPath:(NSString *)keyPath options:(int)options onGCDQueue:(dispatch_queue_t)queue withBlock:(TOObservationBlock)block
 {
-    TOKVOObservation *observation = [[TOKVOObservation alloc] initWithObserver:self object:object keyPaths:@[keyPath] options:options onQueue:nil orGCDQueue:queue withObjBlock:block];
+    TOKVOObservation *observation = [[TOKVOObservation alloc] initWithObserver:self object:object keyPaths:@[keyPath] options:options queue:nil gcdQueue:queue block:block];
     [observation register];
     return observation;
 }
 
-- (TOKVOObservation *)to_observeForChanges:(id)object toKeyPaths:(NSArray *)keyPaths options:(int)options onGCDQueue:(dispatch_queue_t)queue withBlock:(TOObjObservationBlock)block
+- (TOKVOObservation *)to_observeForChanges:(id)object toKeyPaths:(NSArray *)keyPaths options:(int)options onGCDQueue:(dispatch_queue_t)queue withBlock:(TOObservationBlock)block
 {
-    TOKVOObservation *observation = [[TOKVOObservation alloc] initWithObserver:self object:object keyPaths:keyPaths options:options onQueue:nil orGCDQueue:queue withObjBlock:block];
+    TOKVOObservation *observation = [[TOKVOObservation alloc] initWithObserver:self object:object keyPaths:keyPaths options:options queue:nil gcdQueue:queue block:block];
     [observation register];
     return observation;
 }
 
-- (TOKVOObservation *)to_observeForChanges:(id)object toKeyPath:(NSString *)keyPath onGCDQueue:(dispatch_queue_t)queue withBlock:(TOObjObservationBlock)block
+- (TOKVOObservation *)to_observeForChanges:(id)object toKeyPath:(NSString *)keyPath onGCDQueue:(dispatch_queue_t)queue withBlock:(TOObservationBlock)block
 {
-    TOKVOObservation *observation = [[TOKVOObservation alloc] initWithObserver:self object:object keyPaths:@[keyPath] options:0 onQueue:nil orGCDQueue:queue withObjBlock:block];
+    TOKVOObservation *observation = [[TOKVOObservation alloc] initWithObserver:self object:object keyPaths:@[keyPath] options:0 queue:nil gcdQueue:queue block:block];
     [observation register];
     return observation;
 }
 
-- (TOKVOObservation *)to_observeForChanges:(id)object toKeyPaths:(NSArray *)keyPaths onGCDQueue:(dispatch_queue_t)queue withBlock:(TOObjObservationBlock)block
+- (TOKVOObservation *)to_observeForChanges:(id)object toKeyPaths:(NSArray *)keyPaths onGCDQueue:(dispatch_queue_t)queue withBlock:(TOObservationBlock)block
 {
-    TOKVOObservation *observation = [[TOKVOObservation alloc] initWithObserver:self object:object keyPaths:keyPaths options:0 onQueue:nil orGCDQueue:queue withObjBlock:block];
-    [observation register];
-    return observation;
-}
-
-
-- (TOKVOObservation *)to_observeOwnChangesToKeyPath:(NSString *)keyPath options:(int)options withBlock:(TOObjObservationBlock)block
-{
-    TOKVOObservation *observation = [[TOKVOObservation alloc] initWithObserver:self object:self keyPaths:@[keyPath] options:options onQueue:nil orGCDQueue:nil withObjBlock:block];
-    [observation register];
-    return observation;
-}
-
-- (TOKVOObservation *)to_observeOwnChangesToKeyPaths:(NSArray *)keyPaths options:(int)options withBlock:(TOObjObservationBlock)block
-{
-    TOKVOObservation *observation = [[TOKVOObservation alloc] initWithObserver:self object:self keyPaths:keyPaths options:options onQueue:nil orGCDQueue:nil withObjBlock:block];
-    [observation register];
-    return observation;
-}
-
-- (TOKVOObservation *)to_observeOwnChangesToKeyPath:(NSString *)keyPath withBlock:(TOObjObservationBlock)block
-{
-    TOKVOObservation *observation = [[TOKVOObservation alloc] initWithObserver:self object:self keyPaths:@[keyPath] options:0 onQueue:nil orGCDQueue:nil withObjBlock:block];
-    [observation register];
-    return observation;
-}
-
-- (TOKVOObservation *)to_observeOwnChangesToKeyPaths:(NSArray *)keyPaths withBlock:(TOObjObservationBlock)block
-{
-    TOKVOObservation *observation = [[TOKVOObservation alloc] initWithObserver:self object:self keyPaths:keyPaths options:0 onQueue:nil orGCDQueue:nil withObjBlock:block];
-    [observation register];
-    return observation;
-}
-
-- (TOKVOObservation *)to_observeOwnChangesToKeyPath:(NSString *)keyPath options:(int)options onQueue:(NSOperationQueue *)queue withBlock:(TOObjObservationBlock)block
-{
-    TOKVOObservation *observation = [[TOKVOObservation alloc] initWithObserver:self object:self keyPaths:@[keyPath] options:options onQueue:queue orGCDQueue:nil withObjBlock:block];
-    [observation register];
-    return observation;
-}
-
-- (TOKVOObservation *)to_observeOwnChangesToKeyPaths:(NSArray *)keyPaths options:(int)options onQueue:(NSOperationQueue *)queue withBlock:(TOObjObservationBlock)block
-{
-    TOKVOObservation *observation = [[TOKVOObservation alloc] initWithObserver:self object:self keyPaths:keyPaths options:options onQueue:queue orGCDQueue:nil withObjBlock:block];
-    [observation register];
-    return observation;
-}
-
-- (TOKVOObservation *)to_observeOwnChangesToKeyPath:(NSString *)keyPath onQueue:(NSOperationQueue *)queue withBlock:(TOObjObservationBlock)block
-{
-    TOKVOObservation *observation = [[TOKVOObservation alloc] initWithObserver:self object:self keyPaths:@[keyPath] options:0 onQueue:queue orGCDQueue:nil withObjBlock:block];
-    [observation register];
-    return observation;
-}
-
-- (TOKVOObservation *)to_observeOwnChangesToKeyPaths:(NSArray *)keyPaths onQueue:(NSOperationQueue *)queue withBlock:(TOObjObservationBlock)block
-{
-    TOKVOObservation *observation = [[TOKVOObservation alloc] initWithObserver:self object:self keyPaths:keyPaths options:0 onQueue:queue orGCDQueue:nil withObjBlock:block];
-    [observation register];
-    return observation;
-}
-
-- (TOKVOObservation *)to_observeOwnChangesToKeyPath:(NSString *)keyPath options:(int)options onGCDQueue:(dispatch_queue_t)queue withBlock:(TOObjObservationBlock)block
-{
-    TOKVOObservation *observation = [[TOKVOObservation alloc] initWithObserver:self object:self keyPaths:@[keyPath] options:options onQueue:nil orGCDQueue:queue withObjBlock:block];
-    [observation register];
-    return observation;
-}
-
-- (TOKVOObservation *)to_observeOwnChangesToKeyPaths:(NSArray *)keyPaths options:(int)options onGCDQueue:(dispatch_queue_t)queue withBlock:(TOObjObservationBlock)block
-{
-    TOKVOObservation *observation = [[TOKVOObservation alloc] initWithObserver:self object:self keyPaths:keyPaths options:options onQueue:nil orGCDQueue:queue withObjBlock:block];
-    [observation register];
-    return observation;
-}
-
-- (TOKVOObservation *)to_observeOwnChangesToKeyPath:(NSString *)keyPath onGCDQueue:(dispatch_queue_t)queue withBlock:(TOObjObservationBlock)block
-{
-    TOKVOObservation *observation = [[TOKVOObservation alloc] initWithObserver:self object:self keyPaths:@[keyPath] options:0 onQueue:nil orGCDQueue:queue withObjBlock:block];
-    [observation register];
-    return observation;
-}
-
-- (TOKVOObservation *)to_observeOwnChangesToKeyPaths:(NSArray *)keyPaths onGCDQueue:(dispatch_queue_t)queue withBlock:(TOObjObservationBlock)block
-{
-    TOKVOObservation *observation = [[TOKVOObservation alloc] initWithObserver:self object:self keyPaths:keyPaths options:0 onQueue:nil orGCDQueue:queue withObjBlock:block];
+    TOKVOObservation *observation = [[TOKVOObservation alloc] initWithObserver:self object:object keyPaths:keyPaths options:0 queue:nil gcdQueue:queue block:block];
     [observation register];
     return observation;
 }
 
 
-- (TOKVOObservation *)to_observeChangesToKeyPath:(NSString *)keyPath options:(int)options withBlock:(TOObservationBlock)block
+- (TOKVOObservation *)to_observeOwnChangesToKeyPath:(NSString *)keyPath options:(int)options withBlock:(TOObservationBlock)block
 {
-    TOKVOObservation *observation = [[TOKVOObservation alloc] initWithObserver:nil object:self keyPaths:@[keyPath] options:options onQueue:nil orGCDQueue:nil withBlock:block];
+    TOKVOObservation *observation = [[TOKVOObservation alloc] initWithObserver:self object:self keyPaths:@[keyPath] options:options queue:nil gcdQueue:nil block:block];
     [observation register];
     return observation;
 }
 
-- (TOKVOObservation *)to_observeChangesToKeyPaths:(NSArray *)keyPaths options:(int)options withBlock:(TOObservationBlock)block
+- (TOKVOObservation *)to_observeOwnChangesToKeyPaths:(NSArray *)keyPaths options:(int)options withBlock:(TOObservationBlock)block
 {
-    TOKVOObservation *observation = [[TOKVOObservation alloc] initWithObserver:nil object:self keyPaths:keyPaths options:options onQueue:nil orGCDQueue:nil withBlock:block];
+    TOKVOObservation *observation = [[TOKVOObservation alloc] initWithObserver:self object:self keyPaths:keyPaths options:options queue:nil gcdQueue:nil block:block];
     [observation register];
     return observation;
 }
 
-- (TOKVOObservation *)to_observeChangesToKeyPath:(NSString *)keyPath withBlock:(TOObservationBlock)block
+- (TOKVOObservation *)to_observeOwnChangesToKeyPath:(NSString *)keyPath withBlock:(TOObservationBlock)block
 {
-    TOKVOObservation *observation = [[TOKVOObservation alloc] initWithObserver:nil object:self keyPaths:@[keyPath] options:0 onQueue:nil orGCDQueue:nil withBlock:block];
+    TOKVOObservation *observation = [[TOKVOObservation alloc] initWithObserver:self object:self keyPaths:@[keyPath] options:0 queue:nil gcdQueue:nil block:block];
     [observation register];
     return observation;
 }
 
-- (TOKVOObservation *)to_observeChangesToKeyPaths:(NSArray *)keyPaths withBlock:(TOObservationBlock)block
+- (TOKVOObservation *)to_observeOwnChangesToKeyPaths:(NSArray *)keyPaths withBlock:(TOObservationBlock)block
 {
-    TOKVOObservation *observation = [[TOKVOObservation alloc] initWithObserver:nil object:self keyPaths:keyPaths options:0 onQueue:nil orGCDQueue:nil withBlock:block];
+    TOKVOObservation *observation = [[TOKVOObservation alloc] initWithObserver:self object:self keyPaths:keyPaths options:0 queue:nil gcdQueue:nil block:block];
     [observation register];
     return observation;
 }
 
-- (TOKVOObservation *)to_observeChangesToKeyPath:(NSString *)keyPath options:(int)options onQueue:(NSOperationQueue *)queue withBlock:(TOObservationBlock)block
+- (TOKVOObservation *)to_observeOwnChangesToKeyPath:(NSString *)keyPath options:(int)options onQueue:(NSOperationQueue *)queue withBlock:(TOObservationBlock)block
 {
-    TOKVOObservation *observation = [[TOKVOObservation alloc] initWithObserver:nil object:self keyPaths:@[keyPath] options:options onQueue:queue orGCDQueue:nil withBlock:block];
+    TOKVOObservation *observation = [[TOKVOObservation alloc] initWithObserver:self object:self keyPaths:@[keyPath] options:options queue:queue gcdQueue:nil block:block];
     [observation register];
     return observation;
 }
 
-- (TOKVOObservation *)to_observeChangesToKeyPaths:(NSArray *)keyPaths options:(int)options onQueue:(NSOperationQueue *)queue withBlock:(TOObservationBlock)block
+- (TOKVOObservation *)to_observeOwnChangesToKeyPaths:(NSArray *)keyPaths options:(int)options onQueue:(NSOperationQueue *)queue withBlock:(TOObservationBlock)block
 {
-    TOKVOObservation *observation = [[TOKVOObservation alloc] initWithObserver:nil object:self keyPaths:keyPaths options:options onQueue:queue orGCDQueue:nil withBlock:block];
+    TOKVOObservation *observation = [[TOKVOObservation alloc] initWithObserver:self object:self keyPaths:keyPaths options:options queue:queue gcdQueue:nil block:block];
     [observation register];
     return observation;
 }
 
-- (TOKVOObservation *)to_observeChangesToKeyPath:(NSString *)keyPath onQueue:(NSOperationQueue *)queue withBlock:(TOObservationBlock)block
+- (TOKVOObservation *)to_observeOwnChangesToKeyPath:(NSString *)keyPath onQueue:(NSOperationQueue *)queue withBlock:(TOObservationBlock)block
 {
-    TOKVOObservation *observation = [[TOKVOObservation alloc] initWithObserver:nil object:self keyPaths:@[keyPath] options:0 onQueue:queue orGCDQueue:nil withBlock:block];
+    TOKVOObservation *observation = [[TOKVOObservation alloc] initWithObserver:self object:self keyPaths:@[keyPath] options:0 queue:queue gcdQueue:nil block:block];
     [observation register];
     return observation;
 }
 
-- (TOKVOObservation *)to_observeChangesToKeyPaths:(NSArray *)keyPaths onQueue:(NSOperationQueue *)queue withBlock:(TOObservationBlock)block
+- (TOKVOObservation *)to_observeOwnChangesToKeyPaths:(NSArray *)keyPaths onQueue:(NSOperationQueue *)queue withBlock:(TOObservationBlock)block
 {
-    TOKVOObservation *observation = [[TOKVOObservation alloc] initWithObserver:nil object:self keyPaths:keyPaths options:0 onQueue:queue orGCDQueue:nil withBlock:block];
+    TOKVOObservation *observation = [[TOKVOObservation alloc] initWithObserver:self object:self keyPaths:keyPaths options:0 queue:queue gcdQueue:nil block:block];
     [observation register];
     return observation;
 }
 
-- (TOKVOObservation *)to_observeChangesToKeyPath:(NSString *)keyPath options:(int)options onGCDQueue:(dispatch_queue_t)queue withBlock:(TOObservationBlock)block
+- (TOKVOObservation *)to_observeOwnChangesToKeyPath:(NSString *)keyPath options:(int)options onGCDQueue:(dispatch_queue_t)queue withBlock:(TOObservationBlock)block
 {
-    TOKVOObservation *observation = [[TOKVOObservation alloc] initWithObserver:nil object:self keyPaths:@[keyPath] options:options onQueue:nil orGCDQueue:queue withBlock:block];
+    TOKVOObservation *observation = [[TOKVOObservation alloc] initWithObserver:self object:self keyPaths:@[keyPath] options:options queue:nil gcdQueue:queue block:block];
     [observation register];
     return observation;
 }
 
-- (TOKVOObservation *)to_observeChangesToKeyPaths:(NSArray *)keyPaths options:(int)options onGCDQueue:(dispatch_queue_t)queue withBlock:(TOObservationBlock)block
+- (TOKVOObservation *)to_observeOwnChangesToKeyPaths:(NSArray *)keyPaths options:(int)options onGCDQueue:(dispatch_queue_t)queue withBlock:(TOObservationBlock)block
 {
-    TOKVOObservation *observation = [[TOKVOObservation alloc] initWithObserver:nil object:self keyPaths:keyPaths options:options onQueue:nil orGCDQueue:queue withBlock:block];
+    TOKVOObservation *observation = [[TOKVOObservation alloc] initWithObserver:self object:self keyPaths:keyPaths options:options queue:nil gcdQueue:queue block:block];
     [observation register];
     return observation;
 }
 
-- (TOKVOObservation *)to_observeChangesToKeyPath:(NSString *)keyPath onGCDQueue:(dispatch_queue_t)queue withBlock:(TOObservationBlock)block
+- (TOKVOObservation *)to_observeOwnChangesToKeyPath:(NSString *)keyPath onGCDQueue:(dispatch_queue_t)queue withBlock:(TOObservationBlock)block
 {
-    TOKVOObservation *observation = [[TOKVOObservation alloc] initWithObserver:nil object:self keyPaths:@[keyPath] options:0 onQueue:nil orGCDQueue:queue withBlock:block];
+    TOKVOObservation *observation = [[TOKVOObservation alloc] initWithObserver:self object:self keyPaths:@[keyPath] options:0 queue:nil gcdQueue:queue block:block];
     [observation register];
     return observation;
 }
 
-- (TOKVOObservation *)to_observeChangesToKeyPaths:(NSArray *)keyPaths onGCDQueue:(dispatch_queue_t)queue withBlock:(TOObservationBlock)block
+- (TOKVOObservation *)to_observeOwnChangesToKeyPaths:(NSArray *)keyPaths onGCDQueue:(dispatch_queue_t)queue withBlock:(TOObservationBlock)block
 {
-    TOKVOObservation *observation = [[TOKVOObservation alloc] initWithObserver:nil object:self keyPaths:keyPaths options:0 onQueue:nil orGCDQueue:queue withBlock:block];
+    TOKVOObservation *observation = [[TOKVOObservation alloc] initWithObserver:self object:self keyPaths:keyPaths options:0 queue:nil gcdQueue:queue block:block];
+    [observation register];
+    return observation;
+}
+
+
+- (TOKVOObservation *)to_observeChangesToKeyPath:(NSString *)keyPath options:(int)options withBlock:(TOAnonymousObservationBlock)block
+{
+    TOKVOObservation *observation = [[TOKVOObservation alloc] initWithObject:self keyPaths:@[keyPath] options:options queue:nil gcdQueue:nil block:block];
+    [observation register];
+    return observation;
+}
+
+- (TOKVOObservation *)to_observeChangesToKeyPaths:(NSArray *)keyPaths options:(int)options withBlock:(TOAnonymousObservationBlock)block
+{
+    TOKVOObservation *observation = [[TOKVOObservation alloc] initWithObject:self keyPaths:keyPaths options:options queue:nil gcdQueue:nil block:block];
+    [observation register];
+    return observation;
+}
+
+- (TOKVOObservation *)to_observeChangesToKeyPath:(NSString *)keyPath withBlock:(TOAnonymousObservationBlock)block
+{
+    TOKVOObservation *observation = [[TOKVOObservation alloc] initWithObject:self keyPaths:@[keyPath] options:0 queue:nil gcdQueue:nil block:block];
+    [observation register];
+    return observation;
+}
+
+- (TOKVOObservation *)to_observeChangesToKeyPaths:(NSArray *)keyPaths withBlock:(TOAnonymousObservationBlock)block
+{
+    TOKVOObservation *observation = [[TOKVOObservation alloc] initWithObject:self keyPaths:keyPaths options:0 queue:nil gcdQueue:nil block:block];
+    [observation register];
+    return observation;
+}
+
+- (TOKVOObservation *)to_observeChangesToKeyPath:(NSString *)keyPath options:(int)options onQueue:(NSOperationQueue *)queue withBlock:(TOAnonymousObservationBlock)block
+{
+    TOKVOObservation *observation = [[TOKVOObservation alloc] initWithObject:self keyPaths:@[keyPath] options:options queue:queue gcdQueue:nil block:block];
+    [observation register];
+    return observation;
+}
+
+- (TOKVOObservation *)to_observeChangesToKeyPaths:(NSArray *)keyPaths options:(int)options onQueue:(NSOperationQueue *)queue withBlock:(TOAnonymousObservationBlock)block
+{
+    TOKVOObservation *observation = [[TOKVOObservation alloc] initWithObject:self keyPaths:keyPaths options:options queue:queue gcdQueue:nil block:block];
+    [observation register];
+    return observation;
+}
+
+- (TOKVOObservation *)to_observeChangesToKeyPath:(NSString *)keyPath onQueue:(NSOperationQueue *)queue withBlock:(TOAnonymousObservationBlock)block
+{
+    TOKVOObservation *observation = [[TOKVOObservation alloc] initWithObject:self keyPaths:@[keyPath] options:0 queue:queue gcdQueue:nil block:block];
+    [observation register];
+    return observation;
+}
+
+- (TOKVOObservation *)to_observeChangesToKeyPaths:(NSArray *)keyPaths onQueue:(NSOperationQueue *)queue withBlock:(TOAnonymousObservationBlock)block
+{
+    TOKVOObservation *observation = [[TOKVOObservation alloc] initWithObject:self keyPaths:keyPaths options:0 queue:queue gcdQueue:nil block:block];
+    [observation register];
+    return observation;
+}
+
+- (TOKVOObservation *)to_observeChangesToKeyPath:(NSString *)keyPath options:(int)options onGCDQueue:(dispatch_queue_t)queue withBlock:(TOAnonymousObservationBlock)block
+{
+    TOKVOObservation *observation = [[TOKVOObservation alloc] initWithObject:self keyPaths:@[keyPath] options:options queue:nil gcdQueue:queue block:block];
+    [observation register];
+    return observation;
+}
+
+- (TOKVOObservation *)to_observeChangesToKeyPaths:(NSArray *)keyPaths options:(int)options onGCDQueue:(dispatch_queue_t)queue withBlock:(TOAnonymousObservationBlock)block
+{
+    TOKVOObservation *observation = [[TOKVOObservation alloc] initWithObject:self keyPaths:keyPaths options:options queue:nil gcdQueue:queue block:block];
+    [observation register];
+    return observation;
+}
+
+- (TOKVOObservation *)to_observeChangesToKeyPath:(NSString *)keyPath onGCDQueue:(dispatch_queue_t)queue withBlock:(TOAnonymousObservationBlock)block
+{
+    TOKVOObservation *observation = [[TOKVOObservation alloc] initWithObject:self keyPaths:@[keyPath] options:0 queue:nil gcdQueue:queue block:block];
+    [observation register];
+    return observation;
+}
+
+- (TOKVOObservation *)to_observeChangesToKeyPaths:(NSArray *)keyPaths onGCDQueue:(dispatch_queue_t)queue withBlock:(TOAnonymousObservationBlock)block
+{
+    TOKVOObservation *observation = [[TOKVOObservation alloc] initWithObject:self keyPaths:keyPaths options:0 queue:nil gcdQueue:queue block:block];
     [observation register];
     return observation;
 }

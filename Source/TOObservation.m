@@ -5,6 +5,13 @@
 //  Created by Pierre Houston on 2015-10-15.
 //  Copyright (c) 2015 Pierre Houston. All rights reserved.
 //
+//  TODO:
+//  - consider using a global GCD queue when queue and cgdQueue both nil, either a private one or always
+//    the main queue, this is to avoid a triggered observation interrupting its own currenly-running
+//    observation block from changing its properties. possible?
+//  - alternately make observation object copyable and pass a copy the observation block instead of the
+//    original, this prevents that block from being able to compare observation instance pointers,
+//    which is probably of limited use anyhow
 
 #import "TOObservation.h"
 #import "TOObservation+Private.h"
@@ -24,8 +31,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readwrite, nullable) NSOperationQueue *queue;
 @property (nonatomic, readwrite, nullable) dispatch_queue_t gcdQueue;
 
-@property (nonatomic, readwrite, copy, nullable) TOObservationBlock block; // code enforces one of these will be nonnull
-@property (nonatomic, readwrite, copy, nullable) TOObjObservationBlock objectBlock;
+@property (nonatomic, readwrite, copy, nullable) TOAnonymousObservationBlock anonymousBlock; // code enforces one of these will be nonnull
+@property (nonatomic, readwrite, copy, nullable) TOObservationBlock objectBlock;
 
 @property (nonatomic, readwrite) BOOL registered;
 @end
@@ -43,7 +50,7 @@ static NSMutableSet *classesSwizzledSet = nil;
 - (instancetype)init
 {
     self = [super init];
-    // has this to prevent this from being used,
+    // had this to prevent this from being used,
     //[NSException raise:NSInternalInconsistencyException format:@"TOObservation base class must not be initialized"];
     // but now this *is* legitamitely used specifically when temporarily completing init of an observation
     // before discarding it and returning nil, which subclass can do using 'if (fail-condition) return [super init];'
@@ -59,20 +66,19 @@ static NSMutableSet *classesSwizzledSet = nil;
     _object = object;
     _queue = queue;
     _gcdQueue = cgdQueue;
-    _block = block;
+    _objectBlock = block;
     _removeAutomatically = YES;
     return self;
 }
 
-- (instancetype)initWithObserver:(nullable id)observer object:(nullable id)object queue:(nullable NSOperationQueue *)queue gcdQueue:(nullable dispatch_queue_t)cgdQueue objBlock:(TOObjObservationBlock)block
+- (instancetype)initWithObject:(nullable id)object queue:(nullable NSOperationQueue *)queue gcdQueue:(nullable dispatch_queue_t)cgdQueue block:(TOAnonymousObservationBlock)block
 {
     if (!(self = [super init]))
         return nil;
-    _observer = observer;
     _object = object;
     _queue = queue;
     _gcdQueue = cgdQueue;
-    _objectBlock = block;
+    _anonymousBlock = block;
     _removeAutomatically = YES;
     return self;
 }
@@ -100,8 +106,8 @@ static NSMutableSet *classesSwizzledSet = nil;
 
 - (void)invoke
 {
-    if (self.block != nil)
-        self.block(self);
+    if (self.anonymousBlock != nil)
+        self.anonymousBlock(self);
     else if (self.objectBlock != nil)
         self.objectBlock(self.observer, self);
     else
@@ -110,22 +116,22 @@ static NSMutableSet *classesSwizzledSet = nil;
 
 - (void)invokeOnQueueAfter:(void(^)(void))setup
 {
-    if (self.block != nil) {
+    if (self.anonymousBlock != nil) {
         if (self.queue != nil) {
             [self.queue addOperationWithBlock:^{
                 setup();
-                self.block(self);
+                self.anonymousBlock(self);
             }];
         }
         else if (self.gcdQueue != nil) {
             dispatch_async(self.gcdQueue, ^{
                 setup();
-                self.block(self);
+                self.anonymousBlock(self);
             });
         }
         else {
             setup();
-            self.block(self);
+            self.anonymousBlock(self);
         }
     }
     else if (self.objectBlock != nil) {
