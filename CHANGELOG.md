@@ -1,5 +1,12 @@
 # Change Log
 
+## [0.5.0](https://github.com/jpmhouston/TotalObserver/tree/0.5.0) (2016-03-14)
+
+- Added a bunch of headerdoc documentation
+- Fixed results from `to_observe` methods weren't marked `nullable`
+- Renamed internal typedefs of observation blocks with and without the first `obj` parameter
+- Renamed some internal `init` methods
+
 ## [0.4.0](https://github.com/jpmhouston/TotalObserver/tree/0.4.0) (2016-03-09)
 
 - Renamed some files and reorganized source file heirarchy
