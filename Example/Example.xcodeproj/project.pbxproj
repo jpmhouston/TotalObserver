@@ -22,6 +22,7 @@
 		873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 873B8AEA1B1F5CCA007FD442 /* Main.storyboard */; };
 		8F04535C1BED779A0078BE10 /* ModelObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FAC1A871BCF63AC0017C614 /* ModelObject.m */; };
 		8F0453621BEEC8850078BE10 /* TestShorthand.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F0453611BEEC8850078BE10 /* TestShorthand.m */; };
+		8F10A87D1C941C6900C11ED4 /* TotalObserver.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F4AFDC91C1AB73E005A334F /* TotalObserver.framework */; };
 		8F1F4E4D1C20F36D0061E8B9 /* TotalObserver.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F4AFDC91C1AB73E005A334F /* TotalObserver.framework */; };
 		8F4AFDAF1C1AB18D005A334F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F59D195388D20070C39A /* AppDelegate.m */; };
 		8F4AFDB01C1AB18D005A334F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F599195388D20070C39A /* main.m */; };
@@ -39,10 +40,16 @@
 		8FAC1A881BCF63AC0017C614 /* ModelObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FAC1A871BCF63AC0017C614 /* ModelObject.m */; };
 		8FF4FBA81C86C2E700283612 /* TestAppGroups.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FF4FBA71C86C2E600283612 /* TestAppGroups.m */; };
 		8FF4FBCB1C87CEE400283612 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F9C60BB1BF40BA9008C789F /* ViewController.swift */; };
-		8FF4FBCC1C88B88700283612 /* TotalObserver.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F4AFDC91C1AB73E005A334F /* TotalObserver.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		8F10A8801C941DE000C11ED4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6003F582195388D10070C39A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8F4AFDAB1C1AB18D005A334F;
+			remoteInfo = "Framework Example";
+		};
 		8F1F4E471C20EF160061E8B9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 8F4AFDC31C1AB73E005A334F /* TotalObserver.xcodeproj */;
@@ -63,13 +70,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = 8FB32B281C16E78100FD5041;
 			remoteInfo = TotalObserver_OSX;
-		};
-		8FF4FBB41C87CA3B00283612 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6003F582195388D10070C39A /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 8F4AFDAB1C1AB18D005A334F;
-			remoteInfo = "Framework Example";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -126,7 +126,7 @@
 				6003F5B0195388D20070C39A /* XCTest.framework in Frameworks */,
 				6003F5B2195388D20070C39A /* UIKit.framework in Frameworks */,
 				6003F5B1195388D20070C39A /* Foundation.framework in Frameworks */,
-				8FF4FBCC1C88B88700283612 /* TotalObserver.framework in Frameworks */,
+				8F10A87D1C941C6900C11ED4 /* TotalObserver.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -279,7 +279,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				8FF4FBB51C87CA3B00283612 /* PBXTargetDependency */,
+				8F10A8811C941DE000C11ED4 /* PBXTargetDependency */,
 			);
 			name = Tests;
 			productName = TotalObserverTests;
@@ -314,11 +314,6 @@
 				LastSwiftUpdateCheck = 0710;
 				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Pierre Houston";
-				TargetAttributes = {
-					6003F5AD195388D20070C39A = {
-						TestTargetID = 6003F589195388D20070C39A;
-					};
-				};
 			};
 			buildConfigurationList = 6003F585195388D10070C39A /* Build configuration list for PBXProject "Example" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -434,15 +429,15 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		8F10A8811C941DE000C11ED4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8F4AFDAB1C1AB18D005A334F /* Framework Example */;
+			targetProxy = 8F10A8801C941DE000C11ED4 /* PBXContainerItemProxy */;
+		};
 		8F1F4E481C20EF160061E8B9 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = TotalObserver_iOS;
 			targetProxy = 8F1F4E471C20EF160061E8B9 /* PBXContainerItemProxy */;
-		};
-		8FF4FBB51C87CA3B00283612 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 8F4AFDAB1C1AB18D005A334F /* Framework Example */;
-			targetProxy = 8FF4FBB41C87CA3B00283612 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -575,7 +570,6 @@
 		6003F5C3195388D20070C39A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ENABLE_MODULES = YES;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = YES;
@@ -587,7 +581,6 @@
 				PRODUCT_NAME = "TO Tests";
 				SWIFT_OBJC_BRIDGING_HEADER = "Example/Example-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TO Example.app/TO Example";
 				WRAPPER_EXTENSION = xctest;
 			};
 			name = Debug;
@@ -595,7 +588,6 @@
 		6003F5C4195388D20070C39A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ENABLE_MODULES = YES;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = YES;
@@ -606,7 +598,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "science.bananameter.totalobserver.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "TO Tests";
 				SWIFT_OBJC_BRIDGING_HEADER = "Example/Example-Bridging-Header.h";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TO Example.app/TO Example";
 				WRAPPER_EXTENSION = xctest;
 			};
 			name = Release;
