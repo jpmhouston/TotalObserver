@@ -28,10 +28,30 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface TOUIControlObservation : TOObservation
 
+/**
+ *  The control being observed. A synonym for the `object` property.
+ */
 @property (nonatomic, readonly) UIControl *control;
+
+/**
+ *  A bitmask of the events being observed.
+ */
 @property (nonatomic, readonly) UIControlEvents events;
+
+
+/**
+ *  Value of sender argument passed to internal action methods when observation triggered. Value undefined except
+ *  within call to an observation block.
+ *
+ *  Usually equal to `control`. (TBD: Perhaps always equal to `control`? If so, can probably remove this property)
+ */
 @property (nonatomic, readonly) id sender;
+
+/**
+ *  Value of event that triggered an observation. Value undefined except within call to an observation block.
+ */
 @property (nonatomic, readonly) UIEvent *event;
+
 
 /**
  *  Remove an observer with matching parameters. Can use this class method to look-up a previously registered

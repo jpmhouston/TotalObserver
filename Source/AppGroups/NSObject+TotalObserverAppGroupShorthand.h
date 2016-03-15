@@ -11,20 +11,23 @@
 
 #if __has_feature(nullability)
 NS_ASSUME_NONNULL_BEGIN
+#define TO_nullable nullable
+#else
+#define TO_nullable
 #endif
 
 @interface NSObject (TotalObserverAppGroupShorthand)
 
-- (TOAppGroupObservation *)observeAppGroupNotificationsNamed:(NSString *)name withBlock:(TOObservationBlock)block;
-- (TOAppGroupObservation *)observeNotificationsForAppGroup:(NSString *)groupIdentifier named:(NSString *)name withBlock:(TOObservationBlock)block;
-
-- (TOAppGroupObservation *)observeAppGroupNotificationsNamed:(NSString *)name onQueue:(NSOperationQueue *)queue withBlock:(TOObservationBlock)block;
-- (TOAppGroupObservation *)observeNotificationsForAppGroup:(NSString *)groupIdentifier named:(NSString *)name onQueue:(NSOperationQueue *)queue withBlock:(TOObservationBlock)block;
-
-- (TOAppGroupObservation *)observeAppGroupNotificationsNamed:(NSString *)name onGCDQueue:(dispatch_queue_t)queue withBlock:(TOObservationBlock)block;
-- (TOAppGroupObservation *)observeNotificationsForAppGroup:(NSString *)groupIdentifier named:(NSString *)name onGCDQueue:(dispatch_queue_t)queue withBlock:(TOObservationBlock)block;
+- (TO_nullable TOAppGroupObservation *)observeAppGroupNotificationsNamed:(NSString *)name withBlock:(TOObservationBlock)block;
+- (TO_nullable TOAppGroupObservation *)observeAppGroupNotificationsNamed:(NSString *)name onQueue:(NSOperationQueue *)queue withBlock:(TOObservationBlock)block;
+- (TO_nullable TOAppGroupObservation *)observeAppGroupNotificationsNamed:(NSString *)name onGCDQueue:(dispatch_queue_t)queue withBlock:(TOObservationBlock)block;
 
 - (BOOL)stopObservingAppGroupNotificationsNamed:(NSString *)name;
+
+- (TO_nullable TOAppGroupObservation *)observeNotificationsForAppGroup:(NSString *)groupIdentifier named:(NSString *)name withBlock:(TOObservationBlock)block;
+- (TO_nullable TOAppGroupObservation *)observeNotificationsForAppGroup:(NSString *)groupIdentifier named:(NSString *)name onQueue:(NSOperationQueue *)queue withBlock:(TOObservationBlock)block;
+- (TO_nullable TOAppGroupObservation *)observeNotificationsForAppGroup:(NSString *)groupIdentifier named:(NSString *)name onGCDQueue:(dispatch_queue_t)queue withBlock:(TOObservationBlock)block;
+
 - (BOOL)stopObservingNotificationsForAppGroup:(NSString *)groupIdentifier named:(NSString *)name;
 
 @end
@@ -62,4 +65,4 @@ NS_ASSUME_NONNULL_BEGIN
 #if __has_feature(nullability)
 NS_ASSUME_NONNULL_END
 #endif
-
+#undef TO_nullable

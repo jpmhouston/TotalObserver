@@ -27,16 +27,57 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface TOKVOObservation : TOObservation
 
+/**
+ *  An array of the key paths being observed.
+ */
 @property (nonatomic, readonly) NSArray *keyPaths;
+
+/**
+ *  The KVO options of an observation.
+ */
 @property (nonatomic, readonly) NSKeyValueObservingOptions options;
 
+
+/**
+ *  Key path that triggered a KVO observation. Value undefined except within call to an observation block.
+ */
 @property (nonatomic, readonly, copy) NSString *keyPath;
+
+/**
+ *  Change dictionary for a KVO observation. Value undefined except within call to an observation block.
+ */
 @property (nonatomic, readonly) NSDictionary *changeDict;
+
+/**
+ *  The kind of a KVO observation. Value undefined except within call to an observation block. A shortcut for
+ *  `changeDict[NSKeyValueChangeKindKey]`.
+ */
 @property (nonatomic, readonly) NSUInteger kind;
+
+/**
+ *  The "prior" flag of a KVO observation. Value undefined except within call to an observation block. A shortcut
+ *  for `changeDict[NSKeyValueChangeNotificationIsPriorKey]`.
+ */
 @property (nonatomic, readonly, getter=isPrior) BOOL prior;
+
+/**
+ *  The changed value of a KVO observation. Value undefined except within call to an observation block. A shortcut
+ *  for `changeDict[NSKeyValueChangeNewKey]`.
+ */
 @property (nonatomic, readonly, TO_nullable) id changedValue;
+
+/**
+ *  The old value of a KVO observation. Value undefined except within call to an observation block. A shortcut
+ *  for `changeDict[NSKeyValueChangeOldKey]`.
+ */
 @property (nonatomic, readonly, TO_nullable) id oldValue;
+
+/**
+ *  The indexes of a KVO observation. Value undefined except within call to an observation block. A shortcut
+ *  for `changeDict[NSKeyValueChangeIndexesKey]`.
+ */
 @property (nonatomic, readonly, TO_nullable) NSIndexSet *indexes;
+
 
 /**
  *  Remove an observer with matching parameters. Can use this class method to look-up a previously registered

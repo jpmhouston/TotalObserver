@@ -30,11 +30,28 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface TONotificationObservation : TOObservation
 
+/**
+ *  The notification name being observed.
+ */
 @property (nonatomic, readonly, copy) NSString *name;
 
+
+/**
+ *  A notification that triggered an observation. Value undefined except within call to an observation block.
+ */
 @property (nonatomic, readonly) NSNotification *notification;
+
+/**
+ *  The object that posted the notification. Value undefined except within call to an observation block.
+ */
 @property (nonatomic, readonly, TO_nullable) id postedObject;
+
+/**
+ *  The user info dictionary within a posted notification. Value undefined except within call to an observation
+ *  block. A shortcut for `notification.userInfo`.
+ */
 @property (nonatomic, readonly, TO_nullable) NSDictionary *userInfo;
+
 
 /**
  *  Remove an observer with matching parameters. Can use this class method to look-up a previously registered

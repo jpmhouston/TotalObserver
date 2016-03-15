@@ -47,6 +47,14 @@ static NSString * const TotalObserverCategoryPrefix = @"to_";
 + (NSArray *)classesToSwizzle
 {
     return @[ [NSObject class],
+              
+              [NSData class],       // app group notifications currently have category methods on these classes
+              [NSString class],     // since they are the ones supported by plist encoding
+              [NSArray class],      // if switching from plist encoding to nscoder encoding, then should remove these
+              [NSDictionary class],
+              [NSDate class],
+              [NSNumber class],
+              
 #if TARGET_OS_IPHONE
               [UIControl class]
 #endif

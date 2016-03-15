@@ -11,46 +11,48 @@
 
 #if __has_feature(nullability)
 NS_ASSUME_NONNULL_BEGIN
+#else
+#define nullable
 #endif
 
 @implementation NSObject (TotalObserverAppGroup)
 
-- (TOAppGroupObservation *)to_observeAppGroupNotificationsNamed:(NSString *)name withBlock:(TOObservationBlock)block
+- (nullable TOAppGroupObservation *)to_observeAppGroupNotificationsNamed:(NSString *)name withBlock:(TOObservationBlock)block
 {
     TOAppGroupObservation *observation = [[TOAppGroupObservation alloc] initWithObserver:self groupIdentifier:nil name:name queue:nil gcdQueue:nil block:block];
     [observation register];
     return observation;
 }
 
-- (TOAppGroupObservation *)to_observeNotificationsForAppGroup:(NSString *)groupIdentifier named:(NSString *)name withBlock:(TOObservationBlock)block
+- (nullable TOAppGroupObservation *)to_observeNotificationsForAppGroup:(NSString *)groupIdentifier named:(NSString *)name withBlock:(TOObservationBlock)block
 {
     TOAppGroupObservation *observation = [[TOAppGroupObservation alloc] initWithObserver:self groupIdentifier:groupIdentifier name:name queue:nil gcdQueue:nil block:block];
     [observation register];
     return observation;
 }
 
-- (TOAppGroupObservation *)to_observeAppGroupNotificationsNamed:(NSString *)name onQueue:(NSOperationQueue *)queue withBlock:(TOObservationBlock)block
+- (nullable TOAppGroupObservation *)to_observeAppGroupNotificationsNamed:(NSString *)name onQueue:(NSOperationQueue *)queue withBlock:(TOObservationBlock)block
 {
     TOAppGroupObservation *observation = [[TOAppGroupObservation alloc] initWithObserver:self groupIdentifier:nil name:name queue:queue gcdQueue:nil block:block];
     [observation register];
     return observation;
 }
 
-- (TOAppGroupObservation *)to_observeNotificationsForAppGroup:(NSString *)groupIdentifier named:(NSString *)name onQueue:(NSOperationQueue *)queue withBlock:(TOObservationBlock)block
+- (nullable TOAppGroupObservation *)to_observeNotificationsForAppGroup:(NSString *)groupIdentifier named:(NSString *)name onQueue:(NSOperationQueue *)queue withBlock:(TOObservationBlock)block
 {
     TOAppGroupObservation *observation = [[TOAppGroupObservation alloc] initWithObserver:self groupIdentifier:groupIdentifier name:name queue:queue gcdQueue:nil block:block];
     [observation register];
     return observation;
 }
 
-- (TOAppGroupObservation *)to_observeAppGroupNotificationsNamed:(NSString *)name onGCDQueue:(dispatch_queue_t)queue withBlock:(TOObservationBlock)block
+- (nullable TOAppGroupObservation *)to_observeAppGroupNotificationsNamed:(NSString *)name onGCDQueue:(dispatch_queue_t)queue withBlock:(TOObservationBlock)block
 {
     TOAppGroupObservation *observation = [[TOAppGroupObservation alloc] initWithObserver:self groupIdentifier:nil name:name queue:nil gcdQueue:queue block:block];
     [observation register];
     return observation;
 }
 
-- (TOAppGroupObservation *)to_observeNotificationsForAppGroup:(NSString *)groupIdentifier named:(NSString *)name onGCDQueue:(dispatch_queue_t)queue withBlock:(TOObservationBlock)block
+- (nullable TOAppGroupObservation *)to_observeNotificationsForAppGroup:(NSString *)groupIdentifier named:(NSString *)name onGCDQueue:(dispatch_queue_t)queue withBlock:(TOObservationBlock)block
 {
     TOAppGroupObservation *observation = [[TOAppGroupObservation alloc] initWithObserver:self groupIdentifier:groupIdentifier name:name queue:nil gcdQueue:queue block:block];
     [observation register];
@@ -156,4 +158,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 #if __has_feature(nullability)
 NS_ASSUME_NONNULL_END
+#else
+#undef nullable
 #endif

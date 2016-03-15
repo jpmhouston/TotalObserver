@@ -27,10 +27,25 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface TOAppGroupObservation : TOObservation
 
+/**
+ *  The notification name being observed.
+ */
 @property (nonatomic, readonly, copy) NSString *name;
+
+
+/**
+ *  Payload object from a posted app group notification. Value undefined except within call to an observation block.
+ */
 @property (nonatomic, readonly, TO_nullable) id payload;
 
+/**
+ *  Group identifier from a posted app group notification. Value undefined except within call to an observation block.
+ */
 @property (nonatomic, readonly, copy) NSString *groupIdentifier;
+
+/**
+ *  Timestamp from a posted app group notification. Value undefined except within call to an observation block.
+ */
 @property (nonatomic, readonly) NSDate *postedDate;
 
 

@@ -56,7 +56,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)action:(id)sender forEvent:(UIEvent *)event
 {
-    NSAssert3(sender == self.object, @"Action called with sender %@ doesn't match control %@ for %@", sender, self.object, self);
+    //NSAssert3(sender == self.object, @"Action called with sender %@ doesn't match control %@ for %@", sender, self.object, self); -- maybe this happens, and if not, probably can remove the sender property
     [self invokeOnQueueAfter:^{
         self.sender = sender;
         self.event = event;

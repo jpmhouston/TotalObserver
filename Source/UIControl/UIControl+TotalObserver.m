@@ -9,23 +9,29 @@
 #import "UIControl+TotalObserver.h"
 #import "TOObservation+Private.h"
 
+#if __has_feature(nullability)
+NS_ASSUME_NONNULL_BEGIN
+#else
+#define nullable
+#endif
+
 @implementation UIControl (TotalObserver)
 
-- (TOUIControlObservation *)to_observePressWithBlock:(TOAnonymousObservationBlock)block
+- (nullable TOUIControlObservation *)to_observePressWithBlock:(TOAnonymousObservationBlock)block
 {
     TOUIControlObservation *observation = [[TOUIControlObservation alloc] initWithControl:self events:UIControlEventTouchUpInside queue:nil gcdQueue:nil block:block];
     [observation register];
     return observation;
 }
 
-- (TOUIControlObservation *)to_observePressOnQueue:(NSOperationQueue *)queue withBlock:(TOAnonymousObservationBlock)block
+- (nullable TOUIControlObservation *)to_observePressOnQueue:(NSOperationQueue *)queue withBlock:(TOAnonymousObservationBlock)block
 {
     TOUIControlObservation *observation = [[TOUIControlObservation alloc] initWithControl:self events:UIControlEventTouchUpInside queue:queue gcdQueue:nil block:block];
     [observation register];
     return observation;
 }
 
-- (TOUIControlObservation *)to_observePressOnGCDQueue:(dispatch_queue_t)queue withBlock:(TOAnonymousObservationBlock)block
+- (nullable TOUIControlObservation *)to_observePressOnGCDQueue:(dispatch_queue_t)queue withBlock:(TOAnonymousObservationBlock)block
 {
     TOUIControlObservation *observation = [[TOUIControlObservation alloc] initWithControl:self events:UIControlEventTouchUpInside queue:nil gcdQueue:queue block:block];
     [observation register];
@@ -33,21 +39,21 @@
 }
 
 
-- (TOUIControlObservation *)to_observeValueWithBlock:(TOAnonymousObservationBlock)block
+- (nullable TOUIControlObservation *)to_observeValueWithBlock:(TOAnonymousObservationBlock)block
 {
     TOUIControlObservation *observation = [[TOUIControlObservation alloc] initWithControl:self events:UIControlEventValueChanged queue:nil gcdQueue:nil block:block];
     [observation register];
     return observation;
 }
 
-- (TOUIControlObservation *)to_observeValueOnQueue:(NSOperationQueue *)queue withBlock:(TOAnonymousObservationBlock)block
+- (nullable TOUIControlObservation *)to_observeValueOnQueue:(NSOperationQueue *)queue withBlock:(TOAnonymousObservationBlock)block
 {
     TOUIControlObservation *observation = [[TOUIControlObservation alloc] initWithControl:self events:UIControlEventValueChanged queue:queue gcdQueue:nil block:block];
     [observation register];
     return observation;
 }
 
-- (TOUIControlObservation *)to_observeValueOnGCDQueue:(dispatch_queue_t)queue withBlock:(TOAnonymousObservationBlock)block
+- (nullable TOUIControlObservation *)to_observeValueOnGCDQueue:(dispatch_queue_t)queue withBlock:(TOAnonymousObservationBlock)block
 {
     TOUIControlObservation *observation = [[TOUIControlObservation alloc] initWithControl:self events:UIControlEventValueChanged queue:nil gcdQueue:queue block:block];
     [observation register];
@@ -55,21 +61,21 @@
 }
 
 
-- (TOUIControlObservation *)to_observeEvents:(UIControlEvents)events withBlock:(TOAnonymousObservationBlock)block
+- (nullable TOUIControlObservation *)to_observeEvents:(UIControlEvents)events withBlock:(TOAnonymousObservationBlock)block
 {
     TOUIControlObservation *observation = [[TOUIControlObservation alloc] initWithControl:self events:events queue:nil gcdQueue:nil block:block];
     [observation register];
     return observation;
 }
 
-- (TOUIControlObservation *)to_observeEvents:(UIControlEvents)events onQueue:(NSOperationQueue *)queue withBlock:(TOAnonymousObservationBlock)block
+- (nullable TOUIControlObservation *)to_observeEvents:(UIControlEvents)events onQueue:(NSOperationQueue *)queue withBlock:(TOAnonymousObservationBlock)block
 {
     TOUIControlObservation *observation = [[TOUIControlObservation alloc] initWithControl:self events:events queue:queue gcdQueue:nil block:block];
     [observation register];
     return observation;
 }
 
-- (TOUIControlObservation *)to_observeEvents:(UIControlEvents)events onGCDQueue:(dispatch_queue_t)queue withBlock:(TOAnonymousObservationBlock)block
+- (nullable TOUIControlObservation *)to_observeEvents:(UIControlEvents)events onGCDQueue:(dispatch_queue_t)queue withBlock:(TOAnonymousObservationBlock)block
 {
     TOUIControlObservation *observation = [[TOUIControlObservation alloc] initWithControl:self events:events queue:nil gcdQueue:queue block:block];
     [observation register];
@@ -93,3 +99,9 @@
 }
 
 @end
+
+#if __has_feature(nullability)
+NS_ASSUME_NONNULL_END
+#else
+#undef nullable
+#endif

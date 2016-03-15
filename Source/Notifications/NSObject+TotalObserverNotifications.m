@@ -17,21 +17,21 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation NSObject (TotalObserverNotifications)
 
-- (TONotificationObservation *)to_observeForNotifications:(id)object named:(NSString *)name withBlock:(TOObservationBlock)block
+- (nullable TONotificationObservation *)to_observeForNotifications:(id)object named:(NSString *)name withBlock:(TOObservationBlock)block
 {
     TONotificationObservation *observation = [[TONotificationObservation alloc] initWithObserver:self object:object name:name queue:nil gcdQueue:nil block:block];
     [observation register];
     return observation;
 }
 
-- (TONotificationObservation *)to_observeForNotifications:(id)object named:(NSString *)name onQueue:(NSOperationQueue *)queue withBlock:(TOObservationBlock)block
+- (nullable TONotificationObservation *)to_observeForNotifications:(id)object named:(NSString *)name onQueue:(NSOperationQueue *)queue withBlock:(TOObservationBlock)block
 {
     TONotificationObservation *observation = [[TONotificationObservation alloc] initWithObserver:self object:object name:name queue:queue gcdQueue:nil block:block];
     [observation register];
     return observation;
 }
 
-- (TONotificationObservation *)to_observeForNotifications:(id)object named:(NSString *)name onGCDQueue:(dispatch_queue_t)queue withBlock:(TOObservationBlock)block
+- (nullable TONotificationObservation *)to_observeForNotifications:(id)object named:(NSString *)name onGCDQueue:(dispatch_queue_t)queue withBlock:(TOObservationBlock)block
 {
     TONotificationObservation *observation = [[TONotificationObservation alloc] initWithObserver:self object:object name:name queue:nil gcdQueue:queue block:block];
     [observation register];
@@ -39,21 +39,21 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 
-- (TONotificationObservation *)to_observeAllNotificationsNamed:(NSString *)name withBlock:(TOObservationBlock)block
+- (nullable TONotificationObservation *)to_observeAllNotificationsNamed:(NSString *)name withBlock:(TOObservationBlock)block
 {
     TONotificationObservation *observation = [[TONotificationObservation alloc] initWithObserver:self object:nil name:name queue:nil gcdQueue:nil block:block];
     [observation register];
     return observation;
 }
 
-- (TONotificationObservation *)to_observeAllNotificationsNamed:(NSString *)name onQueue:(NSOperationQueue *)queue withBlock:(TOObservationBlock)block
+- (nullable TONotificationObservation *)to_observeAllNotificationsNamed:(NSString *)name onQueue:(NSOperationQueue *)queue withBlock:(TOObservationBlock)block
 {
     TONotificationObservation *observation = [[TONotificationObservation alloc] initWithObserver:self object:nil name:name queue:queue gcdQueue:nil block:block];
     [observation register];
     return observation;
 }
 
-- (TONotificationObservation *)to_observeAllNotificationsNamed:(NSString *)name onGCDQueue:(dispatch_queue_t)queue withBlock:(TOObservationBlock)block
+- (nullable TONotificationObservation *)to_observeAllNotificationsNamed:(NSString *)name onGCDQueue:(dispatch_queue_t)queue withBlock:(TOObservationBlock)block
 {
     TONotificationObservation *observation = [[TONotificationObservation alloc] initWithObserver:self object:nil name:name queue:nil gcdQueue:queue block:block];
     [observation register];
@@ -61,21 +61,21 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 
-- (TONotificationObservation *)to_observeOwnNotificationsNamed:(NSString *)name withBlock:(TOObservationBlock)block
+- (nullable TONotificationObservation *)to_observeOwnNotificationsNamed:(NSString *)name withBlock:(TOObservationBlock)block
 {
     TONotificationObservation *observation = [[TONotificationObservation alloc] initWithObserver:self object:self name:name queue:nil gcdQueue:nil block:block];
     [observation register];
     return observation;
 }
 
-- (TONotificationObservation *)to_observeOwnNotificationsNamed:(NSString *)name onQueue:(NSOperationQueue *)queue withBlock:(TOObservationBlock)block
+- (nullable TONotificationObservation *)to_observeOwnNotificationsNamed:(NSString *)name onQueue:(NSOperationQueue *)queue withBlock:(TOObservationBlock)block
 {
     TONotificationObservation *observation = [[TONotificationObservation alloc] initWithObserver:self object:self name:name queue:queue gcdQueue:nil block:block];
     [observation register];
     return observation;
 }
 
-- (TONotificationObservation *)to_observeOwnNotificationsNamed:(NSString *)name onGCDQueue:(dispatch_queue_t)queue withBlock:(TOObservationBlock)block
+- (nullable TONotificationObservation *)to_observeOwnNotificationsNamed:(NSString *)name onGCDQueue:(dispatch_queue_t)queue withBlock:(TOObservationBlock)block
 {
     TONotificationObservation *observation = [[TONotificationObservation alloc] initWithObserver:self object:self name:name queue:nil gcdQueue:queue block:block];
     [observation register];
@@ -83,21 +83,21 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 
-- (TONotificationObservation *)to_observeNotificationsNamed:(NSString *)name withBlock:(TOAnonymousObservationBlock)block
+- (nullable TONotificationObservation *)to_observeNotificationsNamed:(NSString *)name withBlock:(TOAnonymousObservationBlock)block
 {
     TONotificationObservation *observation = [[TONotificationObservation alloc] initWithObject:self name:name queue:nil gcdQueue:nil block:block];
     [observation register];
     return observation;
 }
 
-- (TONotificationObservation *)to_observeNotificationsNamed:(NSString *)name onQueue:(NSOperationQueue *)queue withBlock:(TOAnonymousObservationBlock)block
+- (nullable TONotificationObservation *)to_observeNotificationsNamed:(NSString *)name onQueue:(NSOperationQueue *)queue withBlock:(TOAnonymousObservationBlock)block
 {
     TONotificationObservation *observation = [[TONotificationObservation alloc] initWithObject:self name:name queue:queue gcdQueue:nil block:block];
     [observation register];
     return observation;
 }
 
-- (TONotificationObservation *)to_observeNotificationsNamed:(NSString *)name onGCDQueue:(dispatch_queue_t)queue withBlock:(TOAnonymousObservationBlock)block
+- (nullable TONotificationObservation *)to_observeNotificationsNamed:(NSString *)name onGCDQueue:(dispatch_queue_t)queue withBlock:(TOAnonymousObservationBlock)block
 {
     TONotificationObservation *observation = [[TONotificationObservation alloc] initWithObject:self name:name queue:nil gcdQueue:queue block:block];
     [observation register];

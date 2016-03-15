@@ -11,24 +11,29 @@
 
 #if __has_feature(nullability)
 NS_ASSUME_NONNULL_BEGIN
+#define TO_nullable nullable
+#else
+#define TO_nullable
 #endif
 
 @interface UIControl (TotalObserverShorthand)
 
-- (TOUIControlObservation *)observePressWithBlock:(TOAnonymousObservationBlock)block;
-- (TOUIControlObservation *)observeValueWithBlock:(TOAnonymousObservationBlock)block;
-- (TOUIControlObservation *)observeEvents:(UIControlEvents)events withBlock:(TOAnonymousObservationBlock)block;
-
-- (TOUIControlObservation *)observePressOnQueue:(NSOperationQueue *)queue withBlock:(TOAnonymousObservationBlock)block;
-- (TOUIControlObservation *)observeValueOnQueue:(NSOperationQueue *)queue withBlock:(TOAnonymousObservationBlock)block;
-- (TOUIControlObservation *)observeEvents:(UIControlEvents)events onQueue:(NSOperationQueue *)queue withBlock:(TOAnonymousObservationBlock)block;
-
-- (TOUIControlObservation *)observePressOnGCDQueue:(dispatch_queue_t)queue withBlock:(TOAnonymousObservationBlock)block;
-- (TOUIControlObservation *)observeValueOnGCDQueue:(dispatch_queue_t)queue withBlock:(TOAnonymousObservationBlock)block;
-- (TOUIControlObservation *)observeEvents:(UIControlEvents)events onGCDQueue:(dispatch_queue_t)queue withBlock:(TOAnonymousObservationBlock)block;
+- (TO_nullable TOUIControlObservation *)observePressWithBlock:(TOAnonymousObservationBlock)block;
+- (TO_nullable TOUIControlObservation *)observePressOnQueue:(NSOperationQueue *)queue withBlock:(TOAnonymousObservationBlock)block;
+- (TO_nullable TOUIControlObservation *)observePressOnGCDQueue:(dispatch_queue_t)queue withBlock:(TOAnonymousObservationBlock)block;
 
 - (BOOL)stopObservingForPress;
+
+- (TO_nullable TOUIControlObservation *)observeValueWithBlock:(TOAnonymousObservationBlock)block;
+- (TO_nullable TOUIControlObservation *)observeValueOnQueue:(NSOperationQueue *)queue withBlock:(TOAnonymousObservationBlock)block;
+- (TO_nullable TOUIControlObservation *)observeValueOnGCDQueue:(dispatch_queue_t)queue withBlock:(TOAnonymousObservationBlock)block;
+
 - (BOOL)stopObservingForValue;
+
+- (TO_nullable TOUIControlObservation *)observeEvents:(UIControlEvents)events withBlock:(TOAnonymousObservationBlock)block;
+- (TO_nullable TOUIControlObservation *)observeEvents:(UIControlEvents)events onQueue:(NSOperationQueue *)queue withBlock:(TOAnonymousObservationBlock)block;
+- (TO_nullable TOUIControlObservation *)observeEvents:(UIControlEvents)events onGCDQueue:(dispatch_queue_t)queue withBlock:(TOAnonymousObservationBlock)block;
+
 - (BOOL)stopObservingForEvents:(UIControlEvents)events;
 
 @end
@@ -36,3 +41,4 @@ NS_ASSUME_NONNULL_BEGIN
 #if __has_feature(nullability)
 NS_ASSUME_NONNULL_END
 #endif
+#undef TO_nullable
