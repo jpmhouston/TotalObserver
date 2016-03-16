@@ -9,7 +9,7 @@ A simplified Objective-C API for using NSNotifications and KVO with consistent t
 
 Uses blocks exclusively, but unlike NSNotification's blocks API, allows removal using matching parameters instead of requiring storage of an observation object. Supports automatic removal when either observer or observee is deallocated. Can optionally omit the “to_” prefix on all the category methods.
 
-Extensible to other styles of observers, an included example is a wrapper for UIControl event actions.
+Extensible to other styles of observers, included are a wrapper for UIControl event actions, and another for darwin notifications across app groups (still a work in progress).
 
 TotalObserver's feature set is heavily influenced by [MAKVONotificationCenter](http://github.com/mikeash/MAKVONotificationCenter), and also adapts its rock-solid solution for automatic removal.
 

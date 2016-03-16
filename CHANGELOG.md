@@ -3,7 +3,7 @@
 ## [0.5.0](https://github.com/jpmhouston/TotalObserver/tree/0.5.0) (2016-03-15)
 
 - Moved some private declarations to some more new private headers
-- Podspec mentions app group notifications
+- Podspec and readme mention app group notifications
 
 ## [0.5.0](https://github.com/jpmhouston/TotalObserver/tree/0.5.0) (2016-03-14)
 

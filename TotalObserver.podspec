@@ -12,10 +12,10 @@ Pod::Spec.new do |s|
   s.summary          = 'Simplified Objective-C blocks API for NSNotifications, KVO, and more.'
   
   s.description      = <<-DESC
-  A simplified Objective-C API for using (primarily) NSNotifications and KVO with consistent terminology and useful convenience features.
+  A simplified Objective-C API for using NSNotifications and KVO with consistent terminology and useful convenience features.
   Uses blocks exclusively, but unlike NSNotification's blocks API, allows manual removal without requiring storage of an observation object.
-  Supports automatic removal when either observer or observee is deallocated, and an easy shorthand header when imported lets you omit method prefixes.
-  Extensible to other styles of observers, included are a wrapper for UIControl event actions, and darwin notifications across app groups.
+  Supports automatic removal when either observer or observee is deallocated, and an easy shorthand header which lets you omit method prefixes.
+  Extensible to other styles of observers, included are a wrapper for UIControl event actions, and another for darwin notifications across app groups.
                        DESC
   
   s.homepage         = 'https://github.com/jpmhouston/TotalObserver'
