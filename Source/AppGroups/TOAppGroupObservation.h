@@ -129,12 +129,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface TOAppGroupObservation (Private)
-// perhaps these belong in a +Private.h header, there's no reason for users of TO normally to be creating these objects themselves
-// and perhaps removeForObserver:.. should also be private
-- (instancetype)initWithObserver:(TO_nullable id)observer groupIdentifier:(TO_nullable NSString *)identifier name:(NSString *)name queue:(TO_nullable NSOperationQueue *)queue gcdQueue:(TO_nullable dispatch_queue_t)gcdQueue block:(TOObservationBlock)block;
-@end
-
 #if __has_feature(nullability)
 NS_ASSUME_NONNULL_END
 #endif

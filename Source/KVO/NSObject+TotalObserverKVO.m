@@ -7,6 +7,7 @@
 //
 
 #import "NSObject+TotalObserverKVO.h"
+#import "TOKVOObservation+Private.h"
 #import "TOObservation+Private.h"
 
 #if __has_feature(nullability)

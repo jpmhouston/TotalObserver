@@ -7,6 +7,7 @@
 //
 
 #import "UIControl+TotalObserver.h"
+#import "TOUIControlObservation+Private.h"
 #import "TOObservation+Private.h"
 
 #if __has_feature(nullability)

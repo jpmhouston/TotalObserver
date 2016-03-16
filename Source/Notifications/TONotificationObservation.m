@@ -7,6 +7,7 @@
 //
 
 #import "TONotificationObservation.h"
+#import "TONotificationObservation+Private.h"
 #import "TOObservation+Private.h"
 
 #if __has_feature(nullability)

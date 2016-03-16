@@ -7,6 +7,7 @@
 //
 
 #import "NSObject+TotalObserverAppGroup.h"
+#import "TOAppGroupObservation+Private.h"
 #import "TOObservation+Private.h"
 
 #if __has_feature(nullability)

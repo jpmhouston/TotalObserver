@@ -97,13 +97,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface TOKVOObservation (Private)
-// perhaps these belong in a +Private.h header, there's no reason for users of TO normally to be creating these objects themselves
-// and perhaps removeForObserver:.. should also be private
-- (instancetype)initWithObserver:(nullable id)observer object:(id)object keyPaths:(NSArray *)keyPaths options:(int)options queue:(nullable NSOperationQueue *)queue gcdQueue:(nullable dispatch_queue_t)gcdQueue block:(TOObservationBlock)block;
-- (instancetype)initWithObject:(id)object keyPaths:(NSArray *)keyPaths options:(int)options queue:(nullable NSOperationQueue *)queue gcdQueue:(nullable dispatch_queue_t)gcdQueue block:(TOAnonymousObservationBlock)block;
-@end
-
 #if __has_feature(nullability)
 NS_ASSUME_NONNULL_END
 #endif

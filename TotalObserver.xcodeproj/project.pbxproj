@@ -8,6 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		8F10A87B1C941ADA00C11ED4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FB32B011C15F8C400FD5041 /* Foundation.framework */; };
+		8F10A8871C99509600C11ED4 /* TOAppGroupObservation+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 8F10A8831C994F8A00C11ED4 /* TOAppGroupObservation+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		8F10A8881C99509700C11ED4 /* TOAppGroupObservation+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 8F10A8831C994F8A00C11ED4 /* TOAppGroupObservation+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		8F10A8891C99510800C11ED4 /* TOKVOObservation+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 8F10A8861C99506F00C11ED4 /* TOKVOObservation+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		8F10A88A1C99510800C11ED4 /* TOKVOObservation+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 8F10A8861C99506F00C11ED4 /* TOKVOObservation+Private.h */; };
+		8F10A88C1C99513100C11ED4 /* TONotificationObservation+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 8F10A88B1C99513100C11ED4 /* TONotificationObservation+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		8F10A88D1C99513100C11ED4 /* TONotificationObservation+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 8F10A88B1C99513100C11ED4 /* TONotificationObservation+Private.h */; };
+		8F10A88F1C99519F00C11ED4 /* TOUIControlObservation+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 8F10A88E1C99519F00C11ED4 /* TOUIControlObservation+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		8F10A8901C99519F00C11ED4 /* TOUIControlObservation+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 8F10A88E1C99519F00C11ED4 /* TOUIControlObservation+Private.h */; };
 		8F1F4E3E1C20EDF00061E8B9 /* ShorthandAutosetup.h in Headers */ = {isa = PBXBuildFile; fileRef = 8FB32B091C16DE9C00FD5041 /* ShorthandAutosetup.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		8F1F4E3F1C20EE120061E8B9 /* TotalObserverShorthand.h in Headers */ = {isa = PBXBuildFile; fileRef = 8FB32B101C16DE9C00FD5041 /* TotalObserverShorthand.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8F1F4E401C20EE180061E8B9 /* TOObservation+Shorthand.h in Headers */ = {isa = PBXBuildFile; fileRef = 8FB32B0B1C16DE9C00FD5041 /* TOObservation+Shorthand.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -71,6 +79,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8F10A8831C994F8A00C11ED4 /* TOAppGroupObservation+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "TOAppGroupObservation+Private.h"; path = "AppGroups/TOAppGroupObservation+Private.h"; sourceTree = "<group>"; };
+		8F10A8861C99506F00C11ED4 /* TOKVOObservation+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "TOKVOObservation+Private.h"; path = "KVO/TOKVOObservation+Private.h"; sourceTree = "<group>"; };
+		8F10A88B1C99513100C11ED4 /* TONotificationObservation+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "TONotificationObservation+Private.h"; path = "Notifications/TONotificationObservation+Private.h"; sourceTree = "<group>"; };
+		8F10A88E1C99519F00C11ED4 /* TOUIControlObservation+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "TOUIControlObservation+Private.h"; path = "UIControl/TOUIControlObservation+Private.h"; sourceTree = "<group>"; };
 		8F1F4E3C1C20EB5D0061E8B9 /* iOS_Map.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = iOS_Map.modulemap; sourceTree = "<group>"; };
 		8F1F4E3D1C20EB6E0061E8B9 /* OSX_Map.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = OSX_Map.modulemap; sourceTree = "<group>"; };
 		8F4F84811C3EE044008B5019 /* TOKVOObservation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = TOKVOObservation.h; path = KVO/TOKVOObservation.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -179,6 +191,7 @@
 				8FB32B0C1C16DE9C00FD5041 /* TOObservation+Shorthand.m */,
 				8FB32B091C16DE9C00FD5041 /* ShorthandAutosetup.h */,
 				8FF4FBBB1C87CABB00283612 /* TOAppGroupObservation.h */,
+				8F10A8831C994F8A00C11ED4 /* TOAppGroupObservation+Private.h */,
 				8FF4FBBC1C87CABB00283612 /* TOAppGroupObservation.m */,
 				8FF4FBB91C87CABB00283612 /* TOAppGroupNotificationManager.h */,
 				8FF4FBBA1C87CABB00283612 /* TOAppGroupNotificationManager.m */,
@@ -186,16 +199,19 @@
 				8FF4FBB71C87CABB00283612 /* NSObject+TotalObserverAppGroup.m */,
 				8FF4FBB81C87CABB00283612 /* NSObject+TotalObserverAppGroupShorthand.h */,
 				8F4F84811C3EE044008B5019 /* TOKVOObservation.h */,
+				8F10A8861C99506F00C11ED4 /* TOKVOObservation+Private.h */,
 				8F4F84821C3EE044008B5019 /* TOKVOObservation.m */,
 				8F4F848D1C3EE319008B5019 /* NSObject+TotalObserverKVO.h */,
 				8F4F848E1C3EE319008B5019 /* NSObject+TotalObserverKVO.m */,
 				8F4F84A51C3F0C1E008B5019 /* NSObject+TotalObserverKVOShorthand.h */,
 				8F4F84871C3EE056008B5019 /* TONotificationObservation.h */,
+				8F10A88B1C99513100C11ED4 /* TONotificationObservation+Private.h */,
 				8F4F84881C3EE056008B5019 /* TONotificationObservation.m */,
 				8F4F84931C3EE3EF008B5019 /* NSObject+TotalObserverNotifications.h */,
 				8F4F84941C3EE3EF008B5019 /* NSObject+TotalObserverNotifications.m */,
 				8FB32B081C16DE9C00FD5041 /* NSObject+TotalObserverNotificationsShorthand.h */,
 				8F4F84A11C3F06F5008B5019 /* TOUIControlObservation.h */,
+				8F10A88E1C99519F00C11ED4 /* TOUIControlObservation+Private.h */,
 				8F4F84A21C3F06F5008B5019 /* TOUIControlObservation.m */,
 				8F4F84991C3F05AA008B5019 /* NSObject+TotalObserverUIControl.h */,
 				8F4F849A1C3F05AA008B5019 /* NSObject+TotalObserverUIControl.m */,
@@ -244,6 +260,10 @@
 				8F1F4E421C20EE200061E8B9 /* UIControl+TotalObserverShorthand.h in Headers */,
 				8F1F4E3E1C20EDF00061E8B9 /* ShorthandAutosetup.h in Headers */,
 				8FB32B181C16DE9C00FD5041 /* TOObservation+Private.h in Headers */,
+				8F10A8881C99509700C11ED4 /* TOAppGroupObservation+Private.h in Headers */,
+				8F10A8891C99510800C11ED4 /* TOKVOObservation+Private.h in Headers */,
+				8F10A88C1C99513100C11ED4 /* TONotificationObservation+Private.h in Headers */,
+				8F10A88F1C99519F00C11ED4 /* TOUIControlObservation+Private.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -257,16 +277,20 @@
 				8F1F4E441C20EE2F0061E8B9 /* TOObservation+Shorthand.h in Headers */,
 				8FF4FBC71C87CC2D00283612 /* TOAppGroupObservation.h in Headers */,
 				8FF4FBC81C87CC2D00283612 /* TOAppGroupNotificationManager.h in Headers */,
+				8F10A8871C99509600C11ED4 /* TOAppGroupObservation+Private.h in Headers */,
 				8FF4FBC91C87CC2D00283612 /* NSObject+TotalObserverAppGroup.h in Headers */,
+				8F10A8901C99519F00C11ED4 /* TOUIControlObservation+Private.h in Headers */,
 				8FF4FBCA1C87CC2D00283612 /* NSObject+TotalObserverAppGroupShorthand.h in Headers */,
 				8F4F84841C3EE044008B5019 /* TOKVOObservation.h in Headers */,
 				8F4F84901C3EE319008B5019 /* NSObject+TotalObserverKVO.h in Headers */,
+				8F10A88D1C99513100C11ED4 /* TONotificationObservation+Private.h in Headers */,
 				8F4F84A81C3F0C1E008B5019 /* NSObject+TotalObserverKVOShorthand.h in Headers */,
 				8F4F848A1C3EE056008B5019 /* TONotificationObservation.h in Headers */,
 				8F4F84961C3EE3EF008B5019 /* NSObject+TotalObserverNotifications.h in Headers */,
 				8F1F4E451C20EE330061E8B9 /* NSObject+TotalObserverNotificationsShorthand.h in Headers */,
 				8F1F4E461C20EE350061E8B9 /* ShorthandAutosetup.h in Headers */,
 				8F4AFDA41C1AAFFF005A334F /* TOObservation+Private.h in Headers */,
+				8F10A88A1C99510800C11ED4 /* TOKVOObservation+Private.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -7,6 +7,7 @@
 //
 
 #import "TOAppGroupObservation.h"
+#import "TOAppGroupObservation+Private.h"
 #import "TOObservation+Private.h"
 #import "TOAppGroupNotificationManager.h"
 
