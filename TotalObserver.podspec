@@ -8,14 +8,14 @@
 
 Pod::Spec.new do |s|
   s.name             = 'TotalObserver'
-  s.version          = '0.5.0'
+  s.version          = '0.5.1'
   s.summary          = 'Simplified Objective-C blocks API for NSNotifications, KVO, and more.'
   
   s.description      = <<-DESC
-  A simplified Objective-C API for using NSNotifications and KVO with consistent terminology and useful convenience features.
+  A simplified Objective-C API for using (primarily) NSNotifications and KVO with consistent terminology and useful convenience features.
   Uses blocks exclusively, but unlike NSNotification's blocks API, allows manual removal without requiring storage of an observation object.
   Supports automatic removal when either observer or observee is deallocated, and an easy shorthand header when imported lets you omit method prefixes.
-  Extensible to other styles of observers, an included example is a wrapper for UIControl event actions.
+  Extensible to other styles of observers, included are a wrapper for UIControl event actions, and darwin notifications across app groups.
                        DESC
   
   s.homepage         = 'https://github.com/jpmhouston/TotalObserver'
@@ -31,25 +31,20 @@ Pod::Spec.new do |s|
   
   s.default_subspec = 'Core'
   s.subspec 'Core' do |cs|
-    cs.ios.source_files = "Source/*.{h,m}", "Source/KVO/*.{h,m}", "Source/Notifications/*.{h,m}", "Source/AppGroups/*.{h,m}", "Source/UIControl/*.{h,m}"
-    cs.osx.source_files = "Source/*.{h,m}", "Source/KVO/*.{h,m}", "Source/Notifications/*.{h,m}", "Source/AppGroups/*.{h,m}"
-    
-    cs.ios.public_header_files = "Source/TotalObserver.h", "Source/TOObservation.h", "Source/KVO/*.h", "Source/Notifications/*.h", "Source/AppGroups/*.h", "Source/UIControl/*.h"
-    cs.osx.public_header_files = "Source/TotalObserver.h", "Source/TOObservation.h", "Source/KVO/*.h", "Source/Notifications/*.h", "Source/AppGroups/*.h"
-    cs.private_header_files = "Source/TOObservation+Private.h", "Source/AppGroups/TOAppGroupNotificationManager.h"
-    
-    cs.exclude_files = "Source/*Shorthand.{h,m}", "Source/ShorthandAutosetup.h", "Source/KVO/*Shorthand.h", "Source/Notifications/*Shorthand.h", "Source/AppGroups/*Shorthand.h", "Source/UIControl/*Shorthand.h"
+    cs.source_files = "Source/**/*.{h,m}"
+    cs.public_header_files = "Source/**/*.h"
+    cs.private_header_files = "Source/**/*+Private.h", "Source/AppGroups/TOAppGroupNotificationManager.h"
+    cs.ios.exclude_files = "Source/ShorthandAutosetup.h", "Source/**/*Shorthand.{h,m}"
+    cs.osx.exclude_files = "Source/ShorthandAutosetup.h", "Source/**/*Shorthand.{h,m}", "Source/UIControl/*"
   end
   
   s.subspec 'Shorthand' do |shs|
     shs.dependency 'TotalObserver/Core'
     
-    shs.ios.source_files = "Source/*Shorthand.{h,m}", "Source/ShorthandAutosetup.h", "Source/KVO/*Shorthand.h", "Source/Notifications/*Shorthand.h", "Source/AppGroups/*Shorthand.h", "Source/UIControl/*Shorthand.h"
-    shs.osx.source_files = "Source/*Shorthand.{h,m}", "Source/ShorthandAutosetup.h", "Source/KVO/*Shorthand.h", "Source/Notifications/*Shorthand.h", "Source/AppGroups/*Shorthand.h"
-    
-    shs.ios.public_header_files = "Source/*Shorthand.h", "Source/KVO/*Shorthand.h", "Source/Notifications/*Shorthand.h", "Source/AppGroups/*Shorthand.h", "Source/UIControl/*Shorthand.h"
-    shs.osx.public_header_files = "Source/*Shorthand.h", "Source/KVO/*Shorthand.h", "Source/Notifications/*Shorthand.h", "Source/AppGroups/*Shorthand.h"
+    shs.source_files = "Source/ShorthandAutosetup.h", "Source/**/*Shorthand.h"
+    shs.public_header_files = "Source/**/*Shorthand.h"
     shs.private_header_files = "Source/ShorthandAutosetup.h"
+    shs.osx.exclude_files = "Source/UIControl/*Shorthand.h"
   end
   
 end
