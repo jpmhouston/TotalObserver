@@ -37,33 +37,31 @@ static NSString * const appGroupId2 = @"2222222222.totalobservertest.appgroup2";
     m.permitPostsWhenNoSubscribers = YES;
     m.cleanupFrequencyRandomFactor = 0; // don't cleanup posts automatically
     // add default app group
-    [m addGroupIdentifier:appGroupId1];
 }
 
 - (void)tearDown
 {
-    [[TOAppGroupNotificationManager sharedManager] removeGroupIdentifier:appGroupId1];
     [[NSFileManager defaultManager] removeItemAtURL:self.tempFolderURL error:NULL];
     [super tearDown];
 }
 
-- (NSString *)randomPayload
-{
-    return [NSString stringWithFormat:@"%c%c%c", 'a'+arc4random_uniform(26), 'a'+arc4random_uniform(26), 'a'+arc4random_uniform(26)];
-}
+// would do these, except that it would just be testing our injected notification delivery, which currently never rejects a group id
+//- (void)testSubscribeWithNoGroup
+//{
+//    BOOL subscribed = [[TOAppGroupNotificationManager sharedManager] subscribeToNotificationsForGroupIdentifier:appGroupId1 named:@"a" queued:NO withBlock:^(NSString *identifier, NSString *name, id payload, NSDate *postDate) { }];
+//    XCTAssertFalse(subscribed);
+//}
+//
+//- (void)testPostWithNoGroup
+//{
+//    BOOL posted = [[TOAppGroupNotificationManager sharedManager] postNotificationForGroupIdentifier:appGroupId1 named:@"a" payload:[self randomPayload]];
+//    XCTAssertFalse(posted);
+//}
 
-- (NSString *)clearFolder
+- (void)testReceivingObservation
 {
-    if ([self directoryContentsForURL:self.tempFolderURL].length > 0)
-        for (NSURL *leftoverURL in [[NSFileManager defaultManager] contentsOfDirectoryAtURL:self.tempFolderURL includingPropertiesForKeys:nil options:NSDirectoryEnumerationSkipsHiddenFiles error:NULL]) {
-            [[NSFileManager defaultManager] removeItemAtURL:leftoverURL error:NULL];
-        };
-    NSString *str = [self directoryContentsForURL:self.tempFolderURL];
-    return str.length > 0 ? str : nil;
-}
-
-- (void)testRoundtripObservation
-{
+    [[TOAppGroupNotificationManager sharedManager] addGroupIdentifier:appGroupId1];
+    
     XCTestExpectation *expectation = [self expectationWithDescription:@"AppGroup Notification"];
     NSString *notificationName = @"a";
     NSString *payloadString = [self randomPayload];
@@ -79,11 +77,15 @@ static NSString * const appGroupId2 = @"2222222222.totalobservertest.appgroup2";
     
     NSTimeInterval timeout = 2.0;
     [self waitForExpectationsWithTimeout:timeout handler:nil];
+    
+    [[TOAppGroupNotificationManager sharedManager] removeGroupIdentifier:appGroupId1];
 }
 
 - (void)testSequenceNumbers
 {
     XCTAssertNil([self clearFolder], @"temp directory couldn't be emptied, test will likely have further spurious assertion failures");
+    
+    [[TOAppGroupNotificationManager sharedManager] addGroupIdentifier:appGroupId1];
     
     XCTestExpectation *expectation = [self expectationWithDescription:@"AppGroup Sequence Numbers"];
     NSString *notificationName = @"a";
@@ -115,12 +117,15 @@ static NSString * const appGroupId2 = @"2222222222.totalobservertest.appgroup2";
     
     NSTimeInterval timeout = 2.0;
     [self waitForExpectationsWithTimeout:timeout handler:nil];
+    
+    [[TOAppGroupNotificationManager sharedManager] removeGroupIdentifier:appGroupId1];
 }
 
 - (void)testPosts
 {
     XCTAssertNil([self clearFolder], @"temp directory couldn't be emptied, test will likely have further spurious assertion failures");
     
+    [[TOAppGroupNotificationManager sharedManager] addGroupIdentifier:appGroupId1];
     [[TOAppGroupNotificationManager sharedManager] addGroupIdentifier:appGroupId2]; // also setup this app group
     
     NSString *notificationName1 = @"a";
@@ -149,12 +154,15 @@ static NSString * const appGroupId2 = @"2222222222.totalobservertest.appgroup2";
     NSLog(@"dir contents = %@", actualDirectoryContents);
     XCTAssertEqualObjects(actualDirectoryContents, expectedDirectoryContents);
     
+    [[TOAppGroupNotificationManager sharedManager] removeGroupIdentifier:appGroupId1];
     [[TOAppGroupNotificationManager sharedManager] removeGroupIdentifier:appGroupId2];
 }
 
 - (void)testPostsCleanup
 {
     XCTAssertNil([self clearFolder], @"temp directory couldn't be emptied, test will likely have further spurious assertion failures");
+    
+    [[TOAppGroupNotificationManager sharedManager] addGroupIdentifier:appGroupId1];
     
     XCTestExpectation *expectation = [self expectationWithDescription:@"AppGroup Posts Cleanup"];
     NSString *notificationName = @"a";
@@ -196,6 +204,7 @@ static NSString * const appGroupId2 = @"2222222222.totalobservertest.appgroup2";
     NSTimeInterval timeout = 4.0;
     [self waitForExpectationsWithTimeout:timeout handler:nil];
     
+    [[TOAppGroupNotificationManager sharedManager] removeGroupIdentifier:appGroupId1];
 }
 
 - (void)testManyAppsWithCleanup
@@ -211,6 +220,8 @@ static NSString * const appGroupId2 = @"2222222222.totalobservertest.appgroup2";
 - (void)doTestManyAppsWithCount:(int)numEvents usingCleanup:(BOOL)cleanupOn
 {
     XCTAssertNil([self clearFolder], @"temp directory couldn't be emptied, test will likely have further spurious assertion failures");
+    
+    [[TOAppGroupNotificationManager sharedManager] addGroupIdentifier:appGroupId1];
     
     XCTestExpectation *expectation = [self expectationWithDescription:[NSString stringWithFormat:@"AppGroup Many Apps Posting & Receiving%s", cleanupOn?" With Cleanup":""]];
     
@@ -360,6 +371,25 @@ static NSString * const appGroupId2 = @"2222222222.totalobservertest.appgroup2";
     m.bundleIdHelper = nil;
     
     NSLog(@"dir contents = %@", [self directoryContentsForURL:self.tempFolderURL]);
+    
+    [[TOAppGroupNotificationManager sharedManager] removeGroupIdentifier:appGroupId1];
+}
+
+#pragma mark -
+
+- (NSString *)randomPayload
+{
+    return [NSString stringWithFormat:@"%c%c%c", 'a'+arc4random_uniform(26), 'a'+arc4random_uniform(26), 'a'+arc4random_uniform(26)];
+}
+
+- (NSString *)clearFolder
+{
+    if ([self directoryContentsForURL:self.tempFolderURL].length > 0)
+        for (NSURL *leftoverURL in [[NSFileManager defaultManager] contentsOfDirectoryAtURL:self.tempFolderURL includingPropertiesForKeys:nil options:NSDirectoryEnumerationSkipsHiddenFiles error:NULL]) {
+            [[NSFileManager defaultManager] removeItemAtURL:leftoverURL error:NULL];
+        };
+    NSString *str = [self directoryContentsForURL:self.tempFolderURL];
+    return str.length > 0 ? str : nil;
 }
 
 - (NSString *)directoryContentsForURL:(NSURL *)url
