@@ -1,6 +1,14 @@
 # Change Log
 
-## [0.5.0](https://github.com/jpmhouston/TotalObserver/tree/0.5.0) (2016-03-15)
+## [0.6.0](https://github.com/jpmhouston/TotalObserver/tree/0.6.0) (2016-03-16)
+
+- Made app group notification convenience post methods return success or failure
+- Filled in some missing headerdoc documentation
+- Script to generate shorthand headers (though nothing invokes it automatically yet)
+- Shorthand headers now include same headerdoc comments as the base header they're generated from
+- Fixed version references in change log (this file)
+
+## [0.5.1](https://github.com/jpmhouston/TotalObserver/tree/0.5.1) (2016-03-15)
 
 - Moved some private declarations to some more new private headers
 - Podspec and readme mention app group notifications
