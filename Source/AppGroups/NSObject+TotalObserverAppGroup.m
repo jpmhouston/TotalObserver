@@ -75,84 +75,84 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation NSData (TotalObserverAppGroup)
 
-- (void)to_postWithinAppGroupNotificationNamed:(NSString *)name
+- (BOOL)to_postWithinAppGroupNotificationNamed:(NSString *)name
 {
-    [TOAppGroupObservation postNotificationNamed:name payload:self];
+    return [TOAppGroupObservation postNotificationNamed:name payload:self];
 }
 
-- (void)to_postWithinNotificationToAppGroup:(NSString *)groupIdentifier named:(NSString *)name
+- (BOOL)to_postWithinNotificationToAppGroup:(NSString *)groupIdentifier named:(NSString *)name
 {
-    [TOAppGroupObservation postNotificationForAppGroup:groupIdentifier named:name payload:self];
+    return [TOAppGroupObservation postNotificationForAppGroup:groupIdentifier named:name payload:self];
 }
 
 @end
 
 @implementation NSString (TotalObserverAppGroup)
 
-- (void)to_postWithinAppGroupNotificationNamed:(NSString *)name
+- (BOOL)to_postWithinAppGroupNotificationNamed:(NSString *)name
 {
-    [TOAppGroupObservation postNotificationNamed:name payload:self];
+    return [TOAppGroupObservation postNotificationNamed:name payload:self];
 }
 
-- (void)to_postWithinNotificationToAppGroup:(NSString *)groupIdentifier named:(NSString *)name
+- (BOOL)to_postWithinNotificationToAppGroup:(NSString *)groupIdentifier named:(NSString *)name
 {
-    [TOAppGroupObservation postNotificationForAppGroup:groupIdentifier named:name payload:self];
+    return [TOAppGroupObservation postNotificationForAppGroup:groupIdentifier named:name payload:self];
 }
 
 @end
 
 @implementation NSArray (TotalObserverAppGroup)
 
-- (void)to_postWithinAppGroupNotificationNamed:(NSString *)name
+- (BOOL)to_postWithinAppGroupNotificationNamed:(NSString *)name
 {
-    [TOAppGroupObservation postNotificationNamed:name payload:self];
+    return [TOAppGroupObservation postNotificationNamed:name payload:self];
 }
 
-- (void)to_postWithinNotificationToAppGroup:(NSString *)groupIdentifier named:(NSString *)name
+- (BOOL)to_postWithinNotificationToAppGroup:(NSString *)groupIdentifier named:(NSString *)name
 {
-    [TOAppGroupObservation postNotificationForAppGroup:groupIdentifier named:name payload:self];
+    return [TOAppGroupObservation postNotificationForAppGroup:groupIdentifier named:name payload:self];
 }
 
 @end
 
 @implementation NSDictionary (TotalObserverAppGroup)
 
-- (void)to_postWithinAppGroupNotificationNamed:(NSString *)name
+- (BOOL)to_postWithinAppGroupNotificationNamed:(NSString *)name
 {
-    [TOAppGroupObservation postNotificationNamed:name payload:self];
+    return [TOAppGroupObservation postNotificationNamed:name payload:self];
 }
 
-- (void)to_postWithinNotificationToAppGroup:(NSString *)groupIdentifier named:(NSString *)name
+- (BOOL)to_postWithinNotificationToAppGroup:(NSString *)groupIdentifier named:(NSString *)name
 {
-    [TOAppGroupObservation postNotificationForAppGroup:groupIdentifier named:name payload:self];
+    return [TOAppGroupObservation postNotificationForAppGroup:groupIdentifier named:name payload:self];
 }
 
 @end
 
 @implementation NSDate (TotalObserverAppGroup)
 
-- (void)to_postWithinAppGroupNotificationNamed:(NSString *)name
+- (BOOL)to_postWithinAppGroupNotificationNamed:(NSString *)name
 {
-    [TOAppGroupObservation postNotificationNamed:name payload:self];
+    return [TOAppGroupObservation postNotificationNamed:name payload:self];
 }
 
-- (void)to_postWithinNotificationToAppGroup:(NSString *)groupIdentifier named:(NSString *)name
+- (BOOL)to_postWithinNotificationToAppGroup:(NSString *)groupIdentifier named:(NSString *)name
 {
-    [TOAppGroupObservation postNotificationForAppGroup:groupIdentifier named:name payload:self];
+    return [TOAppGroupObservation postNotificationForAppGroup:groupIdentifier named:name payload:self];
 }
 
 @end
 
 @implementation NSNumber (TotalObserverAppGroup)
 
-- (void)to_postWithinAppGroupNotificationNamed:(NSString *)name
+- (BOOL)to_postWithinAppGroupNotificationNamed:(NSString *)name
 {
-    [TOAppGroupObservation postNotificationNamed:name payload:self];
+    return [TOAppGroupObservation postNotificationNamed:name payload:self];
 }
 
-- (void)to_postWithinNotificationToAppGroup:(NSString *)groupIdentifier named:(NSString *)name
+- (BOOL)to_postWithinNotificationToAppGroup:(NSString *)groupIdentifier named:(NSString *)name
 {
-    [TOAppGroupObservation postNotificationForAppGroup:groupIdentifier named:name payload:self];
+    return [TOAppGroupObservation postNotificationForAppGroup:groupIdentifier named:name payload:self];
 }
 
 @end

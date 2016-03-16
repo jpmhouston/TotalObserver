@@ -81,7 +81,8 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param name The notification name to stop observing.
  *
- *  @return `YES` if a default app group was setup and was previously observing notification on this name, `NO` otherwise.
+ *  @return `YES` if a default app group was registered and was previously observing notification on this name, `NO`
+ *          otherwise.
  */
 - (BOOL)to_stopObservingAppGroupNotificationsNamed:(NSString *)name;
 
@@ -146,54 +147,204 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Receiver stops observing notifications on a given name within the given app group.
  *
- *  Call on the same object on which you called one of the `to_observe..` methods. Useful if you want to stop observing sometime
- *  before the receiver is deallocated. Alternately, can save the observation object returned from the `to_observe..` method,
- *  and call its `remove` method.
+ *  Call on the same object on which you called one of the `to_observe..` methods. Useful if you want to stop observing
+ *  sometime before the receiver is deallocated. Alternately, can save the observation object returned from the
+ *  `to_observe..` method, and call its `remove` method.
  *
  *  @param groupIdentifier The app group identifier in which `name` was being observed.
  *  @param name            The notification name to stop observing.
  *
- *  @return `YES` if a given app group was setup and was previously observing notification on this name, `NO` otherwise.
+ *  @return `YES` if the given app group was registered and was previously observing notification on this name, `NO`
+ *          otherwise.
  */
 - (BOOL)to_stopObservingNotificationsForAppGroup:(NSString *)groupIdentifier named:(NSString *)name;
 
 @end
 
 
-#pragma mark - Convenince posting methods
+#pragma mark - Convenience posting methods
 
-// receiver is used as the payload
-// not methods on NSObject since not all objects are plist compatible, perhaps support NSCoding too? instead?
-// alternately use TOAppGroupObservation class methods postNotificationNamed:payload: or postNotificationForAppGroup:named:payload:
+// Posting methods for which the receiver is the payload. These aren't methods on NSObject since not all objects
+// are plist compatible.
+// TODO: consider supporting NSCoding instead, or also, to permit more kinds of payload objects
 
 @interface NSData (TotalObserverAppGroup)
-- (void)to_postWithinAppGroupNotificationNamed:(NSString *)name;
-- (void)to_postWithinNotificationToAppGroup:(NSString *)groupIdentifier named:(NSString *)name;
+/**
+ *  Post notification to the default app group with given name with the receiver as the payload.
+ *
+ *  To post without a payload, instead use +[TOAppGroupObservation postNotificationNamed:payload:] or
+ *  +[TOAppGroupObservation postNotificationForAppGroup:named:payload:]
+ *
+ *  @param name The notification name to post.
+ *
+ *  @return `YES` if a default app group was registered and notification was successfully posted, `NO` there's no
+ *          default app group or the receiver was unable to be serialized.
+ */
+- (BOOL)to_postWithinAppGroupNotificationNamed:(NSString *)name;
+
+/**
+ *  Post notification to the given app group with given name with the receiver as the payload.
+ *
+ *  To post without a payload, instead use +[TOAppGroupObservation postNotificationNamed:payload:] or
+ *  +[TOAppGroupObservation postNotificationForAppGroup:named:payload:]
+ *
+ *  @param groupIdentifier The app group identifier.
+ *  @param name            The notification name to post.
+ *
+ *  @return `YES` if the given app group has been registered and notification was successfully posted, `NO` if the
+ *          app group has not been registered or the receiver was unable to be serialized.
+ */
+- (BOOL)to_postWithinNotificationToAppGroup:(NSString *)groupIdentifier named:(NSString *)name;
 @end
+
 
 @interface NSString (TotalObserverAppGroup)
-- (void)to_postWithinAppGroupNotificationNamed:(NSString *)name;
-- (void)to_postWithinNotificationToAppGroup:(NSString *)groupIdentifier named:(NSString *)name;
+/**
+ *  Post notification to the default app group with given name with the receiver as the payload.
+ *
+ *  To post without a payload, instead use +[TOAppGroupObservation postNotificationNamed:payload:] or
+ *  +[TOAppGroupObservation postNotificationForAppGroup:named:payload:]
+ *
+ *  @param name The notification name to post.
+ *
+ *  @return `YES` if a default app group was registered and notification was successfully posted, `NO` there's no
+ *          default app group or the receiver was unable to be serialized.
+ */
+- (BOOL)to_postWithinAppGroupNotificationNamed:(NSString *)name;
+
+/**
+ *  Post notification to the given app group with given name with the receiver as the payload.
+ *
+ *  To post without a payload, instead use +[TOAppGroupObservation postNotificationNamed:payload:] or
+ *  +[TOAppGroupObservation postNotificationForAppGroup:named:payload:]
+ *
+ *  @param groupIdentifier The app group identifier.
+ *  @param name            The notification name to post.
+ *
+ *  @return `YES` if the given app group has been registered and notification was successfully posted, `NO` if the
+ *          app group has not been registered or the receiver was unable to be serialized.
+ */
+- (BOOL)to_postWithinNotificationToAppGroup:(NSString *)groupIdentifier named:(NSString *)name;
 @end
+
 
 @interface NSArray (TotalObserverAppGroup)
-- (void)to_postWithinAppGroupNotificationNamed:(NSString *)name;
-- (void)to_postWithinNotificationToAppGroup:(NSString *)groupIdentifier named:(NSString *)name;
+/**
+ *  Post notification to the default app group with given name with the receiver as the payload.
+ *
+ *  To post without a payload, instead use +[TOAppGroupObservation postNotificationNamed:payload:] or
+ *  +[TOAppGroupObservation postNotificationForAppGroup:named:payload:]
+ *
+ *  @param name The notification name to post.
+ *
+ *  @return `YES` if a default app group was registered and notification was successfully posted, `NO` there's no
+ *          default app group or the receiver was unable to be serialized.
+ */
+- (BOOL)to_postWithinAppGroupNotificationNamed:(NSString *)name;
+
+/**
+ *  Post notification to the given app group with given name with the receiver as the payload.
+ *
+ *  To post without a payload, instead use +[TOAppGroupObservation postNotificationNamed:payload:] or
+ *  +[TOAppGroupObservation postNotificationForAppGroup:named:payload:]
+ *
+ *  @param groupIdentifier The app group identifier.
+ *  @param name            The notification name to post.
+ *
+ *  @return `YES` if the given app group has been registered and notification was successfully posted, `NO` if the
+ *          app group has not been registered or the receiver was unable to be serialized.
+ */
+- (BOOL)to_postWithinNotificationToAppGroup:(NSString *)groupIdentifier named:(NSString *)name;
 @end
+
 
 @interface NSDictionary (TotalObserverAppGroup)
-- (void)to_postWithinAppGroupNotificationNamed:(NSString *)name;
-- (void)to_postWithinNotificationToAppGroup:(NSString *)groupIdentifier named:(NSString *)name;
+/**
+ *  Post notification to the default app group with given name with the receiver as the payload.
+ *
+ *  To post without a payload, instead use +[TOAppGroupObservation postNotificationNamed:payload:] or
+ *  +[TOAppGroupObservation postNotificationForAppGroup:named:payload:]
+ *
+ *  @param name The notification name to post.
+ *
+ *  @return `YES` if a default app group was registered and notification was successfully posted, `NO` there's no
+ *          default app group or the receiver was unable to be serialized.
+ */
+- (BOOL)to_postWithinAppGroupNotificationNamed:(NSString *)name;
+
+/**
+ *  Post notification to the given app group with given name with the receiver as the payload.
+ *
+ *  To post without a payload, instead use +[TOAppGroupObservation postNotificationNamed:payload:] or
+ *  +[TOAppGroupObservation postNotificationForAppGroup:named:payload:]
+ *
+ *  @param groupIdentifier The app group identifier.
+ *  @param name            The notification name to post.
+ *
+ *  @return `YES` if the given app group has been registered and notification was successfully posted, `NO` if the
+ *          app group has not been registered or the receiver was unable to be serialized.
+ */
+- (BOOL)to_postWithinNotificationToAppGroup:(NSString *)groupIdentifier named:(NSString *)name;
 @end
+
 
 @interface NSDate (TotalObserverAppGroup)
-- (void)to_postWithinAppGroupNotificationNamed:(NSString *)name;
-- (void)to_postWithinNotificationToAppGroup:(NSString *)groupIdentifier named:(NSString *)name;
+/**
+ *  Post notification to the default app group with given name with the receiver as the payload.
+ *
+ *  To post without a payload, instead use +[TOAppGroupObservation postNotificationNamed:payload:] or
+ *  +[TOAppGroupObservation postNotificationForAppGroup:named:payload:]
+ *
+ *  @param name The notification name to post.
+ *
+ *  @return `YES` if a default app group was registered and notification was successfully posted, `NO` there's no
+ *          default app group or the receiver was unable to be serialized.
+ */
+- (BOOL)to_postWithinAppGroupNotificationNamed:(NSString *)name;
+
+/**
+ *  Post notification to the given app group with given name with the receiver as the payload.
+ *
+ *  To post without a payload, instead use +[TOAppGroupObservation postNotificationNamed:payload:] or
+ *  +[TOAppGroupObservation postNotificationForAppGroup:named:payload:]
+ *
+ *  @param groupIdentifier The app group identifier.
+ *  @param name            The notification name to post.
+ *
+ *  @return `YES` if the given app group has been registered and notification was successfully posted, `NO` if the
+ *          app group has not been registered or the receiver was unable to be serialized.
+ */
+- (BOOL)to_postWithinNotificationToAppGroup:(NSString *)groupIdentifier named:(NSString *)name;
 @end
 
+
 @interface NSNumber (TotalObserverAppGroup)
-- (void)to_postWithinAppGroupNotificationNamed:(NSString *)name;
-- (void)to_postWithinNotificationToAppGroup:(NSString *)groupIdentifier named:(NSString *)name;
+/**
+ *  Post notification to the default app group with given name with the receiver as the payload.
+ *
+ *  To post without a payload, instead use +[TOAppGroupObservation postNotificationNamed:payload:] or
+ *  +[TOAppGroupObservation postNotificationForAppGroup:named:payload:]
+ *
+ *  @param name The notification name to post.
+ *
+ *  @return `YES` if a default app group was registered and notification was successfully posted, `NO` there's no
+ *          default app group or the receiver was unable to be serialized.
+ */
+- (BOOL)to_postWithinAppGroupNotificationNamed:(NSString *)name;
+
+/**
+ *  Post notification to the given app group with given name with the receiver as the payload.
+ *
+ *  To post without a payload, instead use +[TOAppGroupObservation postNotificationNamed:payload:] or
+ *  +[TOAppGroupObservation postNotificationForAppGroup:named:payload:]
+ *
+ *  @param groupIdentifier The app group identifier.
+ *  @param name            The notification name to post.
+ *
+ *  @return `YES` if the given app group has been registered and notification was successfully posted, `NO` if the
+ *          app group has not been registered or the receiver was unable to be serialized.
+ */
+- (BOOL)to_postWithinNotificationToAppGroup:(NSString *)groupIdentifier named:(NSString *)name;
 @end
 
 #if __has_feature(nullability)
