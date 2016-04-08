@@ -1,5 +1,12 @@
 # Change Log
 
+## [0.7.0](https://github.com/jpmhouston/TotalObserver/tree/0.7.0) (2016-04-08)
+
+- Significantly improved app group notification, reworking attempted "queued" functionality into "reliable observations"
+- Fixed some possible race conditions when received posts while improving efficiency of calling observation blocks
+- Expose reliable observations to external API
+- Fixed some init methods that had the wrong signature
+
 ## [0.6.0](https://github.com/jpmhouston/TotalObserver/tree/0.6.0) (2016-03-16)
 
 - Made app group notification convenience post methods return success or failure
