@@ -14,15 +14,15 @@ FOUNDATION_EXPORT double TotalObserverVersionNumber;
 //! Project version string for TotalObserver.
 FOUNDATION_EXPORT const unsigned char TotalObserverVersionString[];
 
-#import <TotalObserver/TOObservation.h>
-#import <TotalObserver/TOKVOObservation.h>
-#import <TotalObserver/NSObject+TotalObserverKVO.h>
-#import <TotalObserver/TONotificationObservation.h>
-#import <TotalObserver/NSObject+TotalObserverNotifications.h>
-#import <TotalObserver/TOAppGroupObservation.h>
-#import <TotalObserver/NSObject+TotalObserverAppGroup.h>
+#import "TOObservation.h"
+#import "TOKVOObservation.h"
+#import "NSObject+TotalObserverKVO.h"
+#import "TONotificationObservation.h"
+#import "NSObject+TotalObserverNotifications.h"
+#import "TOAppGroupObservation.h"
+#import "NSObject+TotalObserverAppGroup.h"
 #if TARGET_OS_IPHONE
-#import <TotalObserver/TOUIControlObservation.h>
-#import <TotalObserver/NSObject+TotalObserverUIControl.h>
-#import <TotalObserver/UIControl+TotalObserver.h>
+#import "TOUIControlObservation.h"
+#import "NSObject+TotalObserverUIControl.h"
+#import "UIControl+TotalObserver.h"
 #endif

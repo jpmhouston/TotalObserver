@@ -15,23 +15,23 @@
 //    at least one .m file, instead include <TotalObserver/ShorthandAutosetup.h>
 //
 
-#import <TotalObserver/TOObservation.h>
-#import <TotalObserver/TOObservation+Shorthand.h>
-#import <TotalObserver/TOKVOObservation.h>
-#import <TotalObserver/NSObject+TotalObserverKVO.h>
-#import <TotalObserver/NSObject+TotalObserverKVOShorthand.h>
-#import <TotalObserver/TONotificationObservation.h>
-#import <TotalObserver/NSObject+TotalObserverNotifications.h>
-#import <TotalObserver/NSObject+TotalObserverNotificationsShorthand.h>
-#import <TotalObserver/TOAppGroupObservation.h>
-#import <TotalObserver/NSObject+TotalObserverAppGroup.h>
-#import <TotalObserver/NSObject+TotalObserverAppGroupShorthand.h>
+#import "TOObservation.h"
+#import "TOObservation+Shorthand.h"
+#import "TOKVOObservation.h"
+#import "NSObject+TotalObserverKVO.h"
+#import "NSObject+TotalObserverKVOShorthand.h"
+#import "TONotificationObservation.h"
+#import "NSObject+TotalObserverNotifications.h"
+#import "NSObject+TotalObserverNotificationsShorthand.h"
+#import "TOAppGroupObservation.h"
+#import "NSObject+TotalObserverAppGroup.h"
+#import "NSObject+TotalObserverAppGroupShorthand.h"
 #if TARGET_OS_IPHONE
-#import <TotalObserver/TOUIControlObservation.h>
-#import <TotalObserver/NSObject+TotalObserverUIControl.h>
-#import <TotalObserver/NSObject+TotalObserverUIControlShorthand.h>
-#import <TotalObserver/UIControl+TotalObserver.h>
-#import <TotalObserver/UIControl+TotalObserverShorthand.h>
+#import "TOUIControlObservation.h"
+#import "NSObject+TotalObserverUIControl.h"
+#import "NSObject+TotalObserverUIControlShorthand.h"
+#import "UIControl+TotalObserver.h"
+#import "UIControl+TotalObserverShorthand.h"
 #endif
 
 #define TO_IMPORTED_SHORTHAND_UMBRELLA_HEADER 1
