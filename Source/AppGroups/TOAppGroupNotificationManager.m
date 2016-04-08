@@ -488,7 +488,7 @@ static const u_int32_t defaultCleanupFrequencyRandomFactor = 20;
                     NSDictionary *subscriptions = self.subscriptionsPerGroupIdentifier[identifier];
                     TOAppGroupSubscriptionState *updatedSubscription = subscriptions[name]; // should equal the parameter if it isn't nil, perhaps assert that
                     
-                    NSAssert3(updatedSubscription == subscription, @"since not nil, expected re-fetched subscription for \"%@\" %p to equal parameter %@", name, updatedSubscription, subscription);
+                    NSAssert3(updatedSubscription == nil || updatedSubscription == subscription, @"since not nil, expected re-fetched subscription for \"%@\" %p to equal parameter %@", name, updatedSubscription, subscription);
                     NSAssert2(subscription.collatedBlock != nil, @"expected subscription for \"%@\" to have collatedBlock property set: %@", name, subscription);
                     
                     //if (subscription == nil)
@@ -496,7 +496,7 @@ static const u_int32_t defaultCleanupFrequencyRandomFactor = 20;
                     //else if (post.sequenceNumber <= subscription.lastReceivedSequenceNumber)
                     //    NSLog(@"for group %@, name \"%@\" caught case while handling post #%d where subscription # suddenly advanced to %d", identifier, name, (int)post.sequenceNumber, (int)subscription.lastReceivedSequenceNumber);
                     
-                    if (subscription == nil) {
+                    if (updatedSubscription == nil) {
                         return;
                     }
                     if (post.sequenceNumber <= subscription.lastReceivedSequenceNumber) {
