@@ -8,8 +8,8 @@
 
 Pod::Spec.new do |s|
   s.name             = 'TotalObserver'
-  s.version          = '0.6.0'
-  s.summary          = 'Simplified Objective-C blocks API for NSNotifications, KVO, and more.'
+  s.version          = '0.7.0'
+  s.summary          = 'Consistent blocks API for disparate Cocoa observers: KVO, NSNotification, cross-app Darwin Notifications, and more.'
   
   s.description      = <<-DESC
   A simplified Objective-C API for using NSNotifications and KVO with consistent terminology and useful convenience features.
