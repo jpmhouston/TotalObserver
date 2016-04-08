@@ -9,11 +9,13 @@ A simplified Objective-C API for using NSNotifications and KVO with consistent t
 
 Uses blocks exclusively, but unlike NSNotification's blocks API, allows removal using matching parameters instead of requiring storage of an observation object. Supports automatic removal when either observer or observee is deallocated. Can optionally omit the “to_” prefix on all the category methods.
 
-Extensible to other styles of observers, included are a wrapper for UIControl event actions, and another for darwin notifications across app groups (still a work in progress).
+Extensible to other styles of observers, included are a wrapper for UIControl event actions, and another for darwin notifications across app groups.
 
-TotalObserver's feature set is heavily influenced by [MAKVONotificationCenter](http://github.com/mikeash/MAKVONotificationCenter), and also adapts its rock-solid solution for automatic removal.
+TotalObserver's feature set is heavily influenced by [MAKVONotificationCenter](https://github.com/mikeash/MAKVONotificationCenter), and also adapts its rock-solid solution for automatic removal. Inspiration for app groups notifications comes from [MMWormhole](https://github.com/mutualmobile/MMWormhole).
 
 Written in Objective-C but tested to verify it's usable from Swift.
+
+Most every external classes, properties, methods are documented, but could very well do with some proofreading and improvements. Attempts to build documentation using [jazzy](https://github.com/realm/jazzy) are currently blocked by its [issue #158](https://github.com/realm/jazzy/issues/518), sadly.
 
 Pull requests welcome.
 
@@ -77,13 +79,36 @@ There are additional methods which:
 - observe an object's own KVO changes or notifications
 - call the observation block on a specific NSOperationQueue or GCD queue
 
-TotalObserver can be easily extended to other flavor of observations. For example, I've added capability to observe UIControl event actions:
+### Also
+
+TotalObserver can be easily extended to other flavor of observations. For example, I've added these capabilities:
+
+#### UIControl Events
 
 ```objective-c
 [self to_observeControlForPress:self.button withBlock:^(id obj, TOControlObservation *obs) {
 }];
+
 [self.field to_observeEvents:UIControlEventEditingDidBegin withBlock:^(TOControlObservation *obs) {
 }];
+```
+
+#### Cross-App Group Darwin Notifications
+
+```objective-c
+[TOAppGroupObservation registerAppGroup:groupId];
+
+[self to_observeAppGroupNotificationsNamed:@"name" withBlock:^(id obj, TOControlObservation *obs) {
+  // called with latest post
+  NSLog(@"%@", obs.payload);
+}];
+
+[self to_observeReliablyAppGroupNotificationsNamed:@"updates" withBlock:^(id obj, NSArray *observations) {
+  // called with all posts made between last observation
+  // even if app was inactive or quit in the meantime
+}];
+
+[self.data to_postWithinAppGroupNotificationNamed:@"x"];
 ```
 
 ## Installation
