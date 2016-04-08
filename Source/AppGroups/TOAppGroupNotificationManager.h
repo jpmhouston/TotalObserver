@@ -5,11 +5,10 @@
 //  Created by Pierre Houston on 2016-02-23.
 //  Copyright © 2016 Pierre Houston. All rights reserved.
 //
-//  Subscriptions with queued=YES mean the block is called for every posted notification,
-//  in correct order, even if posted in rapid succession or while app is inactive,
-//  vs NO which only delivers the most recent notification in those instances.
+//  Reliable subscriptions mean the block is called with array of every posted notification,
+//  in correct order, even if posted in rapid succession or while app is inactive.
+//  Otherwise only delivers the most recent notification in those instances.
 //
-//  TODO: rename queued parameter
 //  TODO: maybe change payload back to id<NSCoding> and use that instead of Plist encoding
 //  TODO: move testing injection properties etc to a private-ish header
 
@@ -23,6 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 #endif
 
 typedef void (^TOAppGroupSubscriberBlock)(NSString *identifier, NSString *name, id payload, NSDate *postDate);
+typedef void (^TOAppGroupReliableSubscriberBlock)(NSString *identifier, NSString *name, NSArray *postDatesAndPayloads);
 
 @interface TOAppGroupNotificationManager : NSObject
 
@@ -35,8 +35,11 @@ typedef void (^TOAppGroupSubscriberBlock)(NSString *identifier, NSString *name, 
 
 @property (nonatomic, readonly, nullable) NSString *defaultGroupIdentifier; // the last identifier added
 
-- (BOOL)subscribeToNotificationsForGroupIdentifier:(NSString *)identifier named:(NSString *)name queued:(BOOL)queued withBlock:(TOAppGroupSubscriberBlock)block;
+- (BOOL)subscribeToNotificationsForGroupIdentifier:(NSString *)identifier named:(NSString *)name withBlock:(TOAppGroupSubscriberBlock)block;
 - (BOOL)unsubscribeFromNotificationsForGroupIdentifier:(NSString *)identifier named:(NSString *)name;
+
+- (BOOL)subscribeToReliableNotificationsForGroupIdentifier:(NSString *)identifier named:(NSString *)name withBlock:(TOAppGroupReliableSubscriberBlock)block;
+- (BOOL)unsubscribeFromReliableNotificationsForGroupIdentifier:(NSString *)identifier named:(NSString *)name allowingReliableResumption:(BOOL)retainState;
 
 - (BOOL)postNotificationForGroupIdentifier:(NSString *)identifier named:(NSString *)name payload:(TO_nullable id)payload;
 

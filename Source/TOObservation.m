@@ -58,7 +58,7 @@ static NSMutableSet *classesSwizzledSet = nil;
     return nil;
 }
 
-- (instancetype)initWithObserver:(nullable id)observer object:(nullable id)object queue:(nullable NSOperationQueue *)queue gcdQueue:(nullable dispatch_queue_t)cgdQueue block:(TOObservationBlock)block
+- (instancetype)initWithObserver:(nullable id)observer object:(nullable id)object queue:(nullable NSOperationQueue *)queue gcdQueue:(nullable dispatch_queue_t)cgdQueue block:(nullable TOObservationBlock)block
 {
     if (!(self = [super init]))
         return nil;
@@ -71,7 +71,7 @@ static NSMutableSet *classesSwizzledSet = nil;
     return self;
 }
 
-- (instancetype)initWithObject:(nullable id)object queue:(nullable NSOperationQueue *)queue gcdQueue:(nullable dispatch_queue_t)cgdQueue block:(TOAnonymousObservationBlock)block
+- (instancetype)initWithObject:(nullable id)object queue:(nullable NSOperationQueue *)queue gcdQueue:(nullable dispatch_queue_t)cgdQueue block:(nullable TOAnonymousObservationBlock)block
 {
     if (!(self = [super init]))
         return nil;
@@ -114,43 +114,38 @@ static NSMutableSet *classesSwizzledSet = nil;
         [NSException raise:NSInternalInconsistencyException format:@"Nil 'block' & 'objectBlock' properties when invoking observation %@", self];
 }
 
+- (void)invokeOnQueueAfter:(void(^)(void))setup by:(void(^)(void))invoke
+{
+    if (self.queue != nil) {
+        [self.queue addOperationWithBlock:^{
+            setup();
+            invoke();
+        }];
+    }
+    else if (self.gcdQueue != nil) {
+        dispatch_async(self.gcdQueue, ^{
+            setup();
+            invoke();
+        });
+    }
+    else {
+        setup();
+        invoke();
+    }
+}
+
+
 - (void)invokeOnQueueAfter:(void(^)(void))setup
 {
     if (self.anonymousBlock != nil) {
-        if (self.queue != nil) {
-            [self.queue addOperationWithBlock:^{
-                setup();
-                self.anonymousBlock(self);
-            }];
-        }
-        else if (self.gcdQueue != nil) {
-            dispatch_async(self.gcdQueue, ^{
-                setup();
-                self.anonymousBlock(self);
-            });
-        }
-        else {
-            setup();
+        [self invokeOnQueueAfter:setup by:^{
             self.anonymousBlock(self);
-        }
+        }];
     }
     else if (self.objectBlock != nil) {
-        if (self.queue != nil) {
-            [self.queue addOperationWithBlock:^{
-                setup();
-                self.objectBlock(self.observer, self);
-            }];
-        }
-        else if (self.gcdQueue != nil) {
-            dispatch_async(self.gcdQueue, ^{
-                setup();
-                self.objectBlock(self.observer, self);
-            });
-        }
-        else {
-            setup();
+        [self invokeOnQueueAfter:setup by:^{
             self.objectBlock(self.observer, self);
-        }
+        }];
     }
     else
         [NSException raise:NSInternalInconsistencyException format:@"Nil 'block' & 'objectBlock' properties when invoking observation %@", self];

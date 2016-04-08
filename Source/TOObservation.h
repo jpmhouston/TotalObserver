@@ -23,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  A block called when an observation is triggered, if that observation has a observing object.
  *
- *  @param obj The observing object. Often this can be used in place of a weak `self` capture.
+ *  @param obj         The observing object. Often this can be used in place of a weak `self` capture.
  *  @param observation The triggered observation object. Details about the observation that was triggered,
  *                     plus any payload or associated metadata will be properties of this object.
  */
@@ -35,7 +35,7 @@ typedef void (^TOObservationBlock)(id obj, TOObservation *observation);
  *  @param observation The triggered observation object. Details about what triggered the observation and
  *                     any payload or associated metadata will be properties of this object.
  */
-typedef void (^TOAnonymousObservationBlock)(TOObservation *);
+typedef void (^TOAnonymousObservationBlock)(TOObservation *observation);
 
 
 #pragma mark -
@@ -91,7 +91,7 @@ typedef void (^TOAnonymousObservationBlock)(TOObservation *);
 
 /**
  *  The block provided when the observation was created, which will be executed when the observation is triggered.
- *  Can be `nil` if the observation was created with no observer, and thus the other form of block. (read-only)
+ *  Can be `nil` if the observation was created with no observer, and thus uses the other block property. (read-only)
  *
  *  What events trigger an observation is left up to subclasses.
  *
@@ -101,8 +101,8 @@ typedef void (^TOAnonymousObservationBlock)(TOObservation *);
 
 /**
  *  The anonymous block provided when the observation was created, which will be executed when the observation is
- *  triggered. Can be `nil` if an observation was created with an observer object, and thus the other form of block.
- *  (read-only)
+ *  triggered. Can be `nil` if an observation was created with an observer object, and thus uses the other block
+ *  property. (read-only)
  *
  *  What events trigger an observation is left up to subclasses.
  *

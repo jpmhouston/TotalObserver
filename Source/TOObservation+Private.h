@@ -28,6 +28,12 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface TOObservation (PrivateForSubclassesToUse)
+
+/**
+ *  Normally subclasses don't need to, and shouldn't set.
+ */
+@property (nonatomic, readwrite) BOOL registered;
+
 /**
  *  Initializes and returns a newly allocated observation object with an observer. A designated initializer, don't
  *  call plain `init`.
@@ -40,11 +46,13 @@ NS_ASSUME_NONNULL_BEGIN
  *                  deallocated, the observation to be removed automatically.
  *  @param queue    An operation queue on which to call the observer block, or `nil` to use no specific operation queue.
  *  @param cgdQueue A GCD queue on which to call the observer block, or `nil` to use no specific operation queue.
- *  @param block    The observation block to be called when the observation is triggered.
+ *  @param block    The observation block to be called when the observation is triggered. Normally `nil` not permitted
+ *                  and a subclass should itself enforce this (only ok if the subclass adds another type of block
+ *                  property).
  *
  *  @return An initialized TOObservation object.
  */
-- (instancetype)initWithObserver:(TO_nullable id)observer object:(TO_nullable id)object queue:(TO_nullable NSOperationQueue *)queue gcdQueue:(TO_nullable dispatch_queue_t)cgdQueue block:(TOObservationBlock)block;
+- (instancetype)initWithObserver:(TO_nullable id)observer object:(TO_nullable id)object queue:(TO_nullable NSOperationQueue *)queue gcdQueue:(TO_nullable dispatch_queue_t)cgdQueue block:(TO_nullable TOObservationBlock)block;
 
 /**
  *  Initializes and returns a newly allocated observation object with no observer. A designated initializer, don't
@@ -56,11 +64,13 @@ NS_ASSUME_NONNULL_BEGIN
  *                  method will be observed and cause the observation to be removed automatically.
  *  @param queue    An operation queue on which to call the observer block, or `nil` to use no specific operation queue.
  *  @param cgdQueue A GCD queue on which to call the observer block, or `nil` to use no specific operation queue.
- *  @param block    The observation block to be called when the observation is triggered.
+ *  @param block    The observation block to be called when the observation is triggered. Normally `nil` not permitted
+ *                  and a subclass should itself enforce this (only ok if the subclass adds another type of block
+ *                  property).
  *
  *  @return An initialized TOObservation object.
  */
-- (instancetype)initWithObject:(TO_nullable id)object queue:(TO_nullable NSOperationQueue *)queue gcdQueue:(TO_nullable dispatch_queue_t)cgdQueue block:(TOAnonymousObservationBlock)block;
+- (instancetype)initWithObject:(TO_nullable id)object queue:(TO_nullable NSOperationQueue *)queue gcdQueue:(TO_nullable dispatch_queue_t)cgdQueue block:(TO_nullable TOAnonymousObservationBlock)block;
 
 
 /**
@@ -82,6 +92,19 @@ NS_ASSUME_NONNULL_BEGIN
  *               between multiple observations occurring in rapid succession.
  */
 - (void)invokeOnQueueAfter:(void(^)(void))setup;
+
+/**
+ *  Cause the observation block to be called on the correct queue with custom invoking code.
+ *
+ *  If both `queue` and `cgdQueue` are `nil`, then this the `setup` block and then the `invoke` block will be
+ *  called synchronously before this method returns.
+ *
+ *  @param setup  See `invokeOnQueueAfter:`
+ *  @param invoke A block called to perform invocation.
+ *
+ */
+- (void)invokeOnQueueAfter:(void(^)(void))setup by:(void(^)(void))invoke;
+
 
 /**
  *  Look-up an observation based on the same parameters used in its creation.

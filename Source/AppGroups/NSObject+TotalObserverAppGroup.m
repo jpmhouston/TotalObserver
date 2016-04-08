@@ -39,6 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
     return observation;
 }
 
+
 - (nullable TOAppGroupObservation *)to_observeNotificationsForAppGroup:(NSString *)groupIdentifier named:(NSString *)name onQueue:(NSOperationQueue *)queue withBlock:(TOObservationBlock)block
 {
     TOAppGroupObservation *observation = [[TOAppGroupObservation alloc] initWithObserver:self groupIdentifier:groupIdentifier name:name queue:queue gcdQueue:nil block:block];
@@ -60,14 +61,70 @@ NS_ASSUME_NONNULL_BEGIN
     return observation;
 }
 
+
 - (BOOL)to_stopObservingAppGroupNotificationsNamed:(NSString *)name
 {
-    return [TOAppGroupObservation removeForObserver:self groupIdentifier:nil name:name];
+    return [TOAppGroupObservation removeForObserver:self groupIdentifier:nil name:name retainingState:NO];
 }
 
 - (BOOL)to_stopObservingNotificationsForAppGroup:(NSString *)groupIdentifier named:(NSString *)name
 {
-    return [TOAppGroupObservation removeForObserver:self groupIdentifier:groupIdentifier name:name];
+    return [TOAppGroupObservation removeForObserver:self groupIdentifier:groupIdentifier name:name retainingState:NO];
+}
+
+
+- (nullable TOAppGroupObservation *)to_observeReliablyAppGroupNotificationsNamed:(NSString *)name withBlock:(TOCollatedObservationBlock)block
+{
+    TOAppGroupObservation *observation = [[TOAppGroupObservation alloc] initForReliableDeliveryWithObserver:self groupIdentifier:nil name:name queue:nil gcdQueue:nil block:block];
+    [observation register];
+    return observation;
+}
+
+- (nullable TOAppGroupObservation *)to_observeReliablyNotificationsForAppGroup:(NSString *)groupIdentifier named:(NSString *)name withBlock:(TOCollatedObservationBlock)block
+{
+    TOAppGroupObservation *observation = [[TOAppGroupObservation alloc] initForReliableDeliveryWithObserver:self groupIdentifier:groupIdentifier name:name queue:nil gcdQueue:nil block:block];
+    [observation register];
+    return observation;
+}
+
+- (nullable TOAppGroupObservation *)to_observeReliablyAppGroupNotificationsNamed:(NSString *)name onQueue:(NSOperationQueue *)queue withBlock:(TOCollatedObservationBlock)block
+{
+    TOAppGroupObservation *observation = [[TOAppGroupObservation alloc] initForReliableDeliveryWithObserver:self groupIdentifier:nil name:name queue:queue gcdQueue:nil block:block];
+    [observation register];
+    return observation;
+}
+
+
+- (nullable TOAppGroupObservation *)to_observeReliablyNotificationsForAppGroup:(NSString *)groupIdentifier named:(NSString *)name onQueue:(NSOperationQueue *)queue withBlock:(TOCollatedObservationBlock)block
+{
+    TOAppGroupObservation *observation = [[TOAppGroupObservation alloc] initForReliableDeliveryWithObserver:self groupIdentifier:groupIdentifier name:name queue:queue gcdQueue:nil block:block];
+    [observation register];
+    return observation;
+}
+
+- (nullable TOAppGroupObservation *)to_observeReliablyAppGroupNotificationsNamed:(NSString *)name onGCDQueue:(dispatch_queue_t)queue withBlock:(TOCollatedObservationBlock)block
+{
+    TOAppGroupObservation *observation = [[TOAppGroupObservation alloc] initForReliableDeliveryWithObserver:self groupIdentifier:nil name:name queue:nil gcdQueue:queue block:block];
+    [observation register];
+    return observation;
+}
+
+- (nullable TOAppGroupObservation *)to_observeReliablyNotificationsForAppGroup:(NSString *)groupIdentifier named:(NSString *)name onGCDQueue:(dispatch_queue_t)queue withBlock:(TOCollatedObservationBlock)block
+{
+    TOAppGroupObservation *observation = [[TOAppGroupObservation alloc] initForReliableDeliveryWithObserver:self groupIdentifier:groupIdentifier name:name queue:nil gcdQueue:queue block:block];
+    [observation register];
+    return observation;
+}
+
+
+- (BOOL)to_pauseObservingReliablyAppGroupNotificationsNamed:(NSString *)name
+{
+    return [TOAppGroupObservation removeForObserver:self groupIdentifier:nil name:name retainingState:YES];
+}
+
+- (BOOL)to_pauseObservingReliablyNotificationsForAppGroup:(NSString *)groupIdentifier named:(NSString *)name
+{
+    return [TOAppGroupObservation removeForObserver:self groupIdentifier:groupIdentifier name:name retainingState:YES];
 }
 
 @end

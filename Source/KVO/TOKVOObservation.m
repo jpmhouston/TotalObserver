@@ -44,7 +44,7 @@ static void *TOKVOObservationContext = (void *)&TOKVOObservationContextVar;
     return self;
 }
 
-- (instancetype)initWithObject:(id)object keyPaths:(NSArray *)keyPaths options:(int)options onQueue:(nullable NSOperationQueue *)queue gcdQueue:(nullable dispatch_queue_t)gcdQueue block:(TOAnonymousObservationBlock)block
+- (instancetype)initWithObject:(id)object keyPaths:(NSArray *)keyPaths options:(int)options queue:(nullable NSOperationQueue *)queue gcdQueue:(nullable dispatch_queue_t)gcdQueue block:(TOAnonymousObservationBlock)block
 {
     if (!(self = [super initWithObject:object queue:queue gcdQueue:gcdQueue block:block]))
         return nil;

@@ -17,9 +17,11 @@ static NSString * const appBundleId = @"science.bananameter.totalobserver.test";
 static NSString * const appGroupId1 = @"1234567890.totalobservertest.appgroup1";
 static NSString * const appGroupId2 = @"2222222222.totalobservertest.appgroup2";
 
+typedef NSString *(^BundleIdMapperBlock)(NSString *name);
+
 @interface TestAppGroupManager : XCTestCase <TOAppGroupURLProviding, TOAppGroupBundleIdProviding, TOAppGroupGlobalNotificationHandling>
 @property (nonatomic) NSURL *tempFolderURL;
-@property (nonatomic, copy) NSString *(^bundleIdMapper)(NSString *name);
+@property (nonatomic, copy) BundleIdMapperBlock bundleIdMapper;
 @end
 
 @implementation TestAppGroupManager
@@ -36,11 +38,14 @@ static NSString * const appGroupId2 = @"2222222222.totalobservertest.appgroup2";
     m.notificationHelper = self;
     m.permitPostsWhenNoSubscribers = YES;
     m.cleanupFrequencyRandomFactor = 0; // don't cleanup posts automatically
-    // add default app group
+    [[TOAppGroupNotificationManager sharedManager] addGroupIdentifier:appGroupId1];
+    [[TOAppGroupNotificationManager sharedManager] addGroupIdentifier:appGroupId2];
 }
 
 - (void)tearDown
 {
+    [[TOAppGroupNotificationManager sharedManager] removeGroupIdentifier:appGroupId1];
+    [[TOAppGroupNotificationManager sharedManager] removeGroupIdentifier:appGroupId2];
     [[NSFileManager defaultManager] removeItemAtURL:self.tempFolderURL error:NULL];
     [super tearDown];
 }
@@ -48,7 +53,7 @@ static NSString * const appGroupId2 = @"2222222222.totalobservertest.appgroup2";
 // would do these, except that it would just be testing our injected notification delivery, which currently never rejects a group id
 //- (void)testSubscribeWithNoGroup
 //{
-//    BOOL subscribed = [[TOAppGroupNotificationManager sharedManager] subscribeToNotificationsForGroupIdentifier:appGroupId1 named:@"a" queued:NO withBlock:^(NSString *identifier, NSString *name, id payload, NSDate *postDate) { }];
+//    BOOL subscribed = [[TOAppGroupNotificationManager sharedManager] subscribeToNotificationsForGroupIdentifier:appGroupId1 named:@"a" withBlock:^(NSString *identifier, NSString *name, id payload, NSDate *postDate) { }];
 //    XCTAssertFalse(subscribed);
 //}
 //
@@ -60,13 +65,11 @@ static NSString * const appGroupId2 = @"2222222222.totalobservertest.appgroup2";
 
 - (void)testReceivingObservation
 {
-    [[TOAppGroupNotificationManager sharedManager] addGroupIdentifier:appGroupId1];
-    
     XCTestExpectation *expectation = [self expectationWithDescription:@"AppGroup Notification"];
     NSString *notificationName = @"a";
     NSString *payloadString = [self randomPayload];
     
-    [[TOAppGroupNotificationManager sharedManager] subscribeToNotificationsForGroupIdentifier:appGroupId1 named:notificationName queued:NO withBlock:^(NSString *identifier, NSString *name, id payload, NSDate *postDate) {
+    [[TOAppGroupNotificationManager sharedManager] subscribeToNotificationsForGroupIdentifier:appGroupId1 named:notificationName withBlock:^(NSString *identifier, NSString *name, id payload, NSDate *postDate) {
         NSLog(@"received notification %@ / %@", name, payload);
         XCTAssertEqualObjects(payload, payloadString);
         [expectation fulfill];
@@ -77,15 +80,11 @@ static NSString * const appGroupId2 = @"2222222222.totalobservertest.appgroup2";
     
     NSTimeInterval timeout = 2.0;
     [self waitForExpectationsWithTimeout:timeout handler:nil];
-    
-    [[TOAppGroupNotificationManager sharedManager] removeGroupIdentifier:appGroupId1];
 }
 
 - (void)testSequenceNumbers
 {
     XCTAssertNil([self clearFolder], @"temp directory couldn't be emptied, test will likely have further spurious assertion failures");
-    
-    [[TOAppGroupNotificationManager sharedManager] addGroupIdentifier:appGroupId1];
     
     XCTestExpectation *expectation = [self expectationWithDescription:@"AppGroup Sequence Numbers"];
     NSString *notificationName = @"a";
@@ -93,19 +92,23 @@ static NSString * const appGroupId2 = @"2222222222.totalobservertest.appgroup2";
     
     __block NSMutableArray *received = [NSMutableArray array];
     __weak typeof(self) welf = self;
-    [[TOAppGroupNotificationManager sharedManager] subscribeToNotificationsForGroupIdentifier:appGroupId1 named:notificationName queued:NO withBlock:^(NSString *identifier, NSString *name, id payload, NSDate *postDate) {
+    [[TOAppGroupNotificationManager sharedManager] subscribeToNotificationsForGroupIdentifier:appGroupId1 named:notificationName withBlock:^(NSString *identifier, NSString *name, id payload, NSDate *postDate) {
         NSLog(@"received notification %@ / %@", name, payload);
         [received addObject:payload];
         if (received.count < 3) return;
         
-        // expect directory to contain: 1234567890.totalobservertest.appgroup1: a|1.post=xxx a|2.post=xxx a|3.post=xxx subscribers: science.bananameter.totalobserver.test: a.seqnum=3
-        NSString *actualDirectoryContents = [welf directoryContentsForURL:welf.tempFolderURL];
-        NSString *expectedDirectoryContents = [NSString stringWithFormat:@"%@: %@|1.post=%@ %@|2.post=%@ %@|3.post=%@ subscribers: %@: %@.seqnum=3",
-                                               appGroupId1, notificationName, received[0], notificationName, received[1], notificationName, received[2], appBundleId, notificationName];
-        NSLog(@"dir contents = %@", actualDirectoryContents);
-        XCTAssertEqualObjects(actualDirectoryContents, expectedDirectoryContents);
-        
-        [expectation fulfill];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{ // delay enough to let writes to filesystem to finish
+            
+            // expect directory to contain: 1234567890.totalobservertest.appgroup1: a|1.post=xxx a|2.post=xxx a|3.post=xxx subscribers: science.bananameter.totalobserver.test: a.seqnum=3
+            NSString *actualDirectoryContents = [welf directoryContentsForURL:welf.tempFolderURL];
+            NSString *expectedDirectoryContents = [NSString stringWithFormat:@"%@: %@|1.post=%@ %@|2.post=%@ %@|3.post=%@ subscribers: %@: %@.seqnum=3",
+                                                   appGroupId1, notificationName, received[0], notificationName, received[1], notificationName, received[2], appBundleId, notificationName];
+            NSLog(@"dir contents = %@", actualDirectoryContents);
+            XCTAssertEqualObjects(actualDirectoryContents, expectedDirectoryContents);
+            
+            [expectation fulfill];
+            
+        });
     }];
     
     payloadString = [self randomPayload]; NSLog(@"posting notification %@ / %@", notificationName, payloadString);
@@ -117,16 +120,11 @@ static NSString * const appGroupId2 = @"2222222222.totalobservertest.appgroup2";
     
     NSTimeInterval timeout = 2.0;
     [self waitForExpectationsWithTimeout:timeout handler:nil];
-    
-    [[TOAppGroupNotificationManager sharedManager] removeGroupIdentifier:appGroupId1];
 }
 
 - (void)testPosts
 {
     XCTAssertNil([self clearFolder], @"temp directory couldn't be emptied, test will likely have further spurious assertion failures");
-    
-    [[TOAppGroupNotificationManager sharedManager] addGroupIdentifier:appGroupId1];
-    [[TOAppGroupNotificationManager sharedManager] addGroupIdentifier:appGroupId2]; // also setup this app group
     
     NSString *notificationName1 = @"a";
     NSString *notificationName2 = notificationName1;
@@ -146,23 +144,18 @@ static NSString * const appGroupId2 = @"2222222222.totalobservertest.appgroup2";
     NSLog(@"posting notification %@ / %@", notificationName4, payloadString4);
     [[TOAppGroupNotificationManager sharedManager] postNotificationForGroupIdentifier:appGroupId2 named:notificationName4 payload:payloadString4];
     
-    // expect directory to contain: 1234567890.totalobservertest.appgroup1: a|0.post=xxx a|1.post=xxx 2222222222.totalobservertest.appgroup2: b|0.post=xxx c|0.post=xxx
+    // expect directory to contain: 1234567890.totalobservertest.appgroup1: a|1.post=xxx a|2.post=xxx 2222222222.totalobservertest.appgroup2: b|1.post=xxx c|1.post=xxx
     // posts start at 0 instead of 1 when there are no subscribers
     NSString *actualDirectoryContents = [self directoryContentsForURL:self.tempFolderURL];
-    NSString *expectedDirectoryContents = [NSString stringWithFormat:@"%@: %@|0.post=%@ %@|1.post=%@ %@: %@|0.post=%@ %@|0.post=%@",
+    NSString *expectedDirectoryContents = [NSString stringWithFormat:@"%@: %@|1.post=%@ %@|2.post=%@ %@: %@|1.post=%@ %@|1.post=%@",
                                            appGroupId1, notificationName1, payloadString1, notificationName2, payloadString2, appGroupId2, notificationName3, payloadString3, notificationName4, payloadString4];
     NSLog(@"dir contents = %@", actualDirectoryContents);
     XCTAssertEqualObjects(actualDirectoryContents, expectedDirectoryContents);
-    
-    [[TOAppGroupNotificationManager sharedManager] removeGroupIdentifier:appGroupId1];
-    [[TOAppGroupNotificationManager sharedManager] removeGroupIdentifier:appGroupId2];
 }
 
 - (void)testPostsCleanup
 {
     XCTAssertNil([self clearFolder], @"temp directory couldn't be emptied, test will likely have further spurious assertion failures");
-    
-    [[TOAppGroupNotificationManager sharedManager] addGroupIdentifier:appGroupId1];
     
     XCTestExpectation *expectation = [self expectationWithDescription:@"AppGroup Posts Cleanup"];
     NSString *notificationName = @"a";
@@ -170,7 +163,7 @@ static NSString * const appGroupId2 = @"2222222222.totalobservertest.appgroup2";
     
     __block NSMutableArray *received = [NSMutableArray array];
     __weak typeof(self) welf = self;
-    [[TOAppGroupNotificationManager sharedManager] subscribeToNotificationsForGroupIdentifier:appGroupId1 named:notificationName queued:NO withBlock:^(NSString *identifier, NSString *name, id payload, NSDate *postDate) {
+    [[TOAppGroupNotificationManager sharedManager] subscribeToNotificationsForGroupIdentifier:appGroupId1 named:notificationName withBlock:^(NSString *identifier, NSString *name, id payload, NSDate *postDate) {
         NSLog(@"received notification %@ / %@", name, payload);
         [received addObject:payload];
         if (received.count < 3) return;
@@ -203,26 +196,107 @@ static NSString * const appGroupId2 = @"2222222222.totalobservertest.appgroup2";
     
     NSTimeInterval timeout = 4.0;
     [self waitForExpectationsWithTimeout:timeout handler:nil];
-    
-    [[TOAppGroupNotificationManager sharedManager] removeGroupIdentifier:appGroupId1];
 }
 
-- (void)testManyAppsWithCleanup
-{
-    [self doTestManyAppsWithCount:50 usingCleanup:YES];
-}
-
-- (void)testManyAppsWithoutCleanup
-{
-    [self doTestManyAppsWithCount:1000 usingCleanup:NO];
-}
-
-- (void)doTestManyAppsWithCount:(int)numEvents usingCleanup:(BOOL)cleanupOn
+- (void)testMultipleApps
 {
     XCTAssertNil([self clearFolder], @"temp directory couldn't be emptied, test will likely have further spurious assertion failures");
     
-    [[TOAppGroupNotificationManager sharedManager] addGroupIdentifier:appGroupId1];
+    [self doTestManyAppsWithCount:50 usingCleanup:NO];
+}
+
+- (void)testMultipleAppsWithCleanup
+{
+    XCTAssertNil([self clearFolder], @"temp directory couldn't be emptied, test will likely have further spurious assertion failures");
     
+    [self doTestManyAppsWithCount:50 usingCleanup:YES];
+}
+
+- (void)testManyPostsByMultipleApps
+{
+    XCTAssertNil([self clearFolder], @"temp directory couldn't be emptied, test will likely have further spurious assertion failures");
+    
+    [self doTestManyAppsWithCount:1000 usingCleanup:NO];
+}
+
+- (void)testReliableObserver
+{
+    XCTAssertNil([self clearFolder], @"temp directory couldn't be emptied, test will likely have further spurious assertion failures");
+    
+    TOAppGroupNotificationManager *m = [TOAppGroupNotificationManager sharedManager];
+    
+    NSString *observerId = @"R";
+    NSString *observeName = @"e"; // known to be the otherwise unobserved notification name posted by helper method doTestManyAppsWithCount:usingCleanup:
+    
+    m.bundleIdHelper = self;
+    m.appIdentifier = nil; // force use of bundleIdHelper, our protocol methods will call the following block:
+    self.bundleIdMapper = ^(NSString *name) {
+        if ([name isEqualToString:observeName])
+            return [appBundleId stringByAppendingString:observerId];
+        NSLog(@"subscription name \"%@\" not found in our mockApps struct, can't map to bundle id for this test", name);
+        return appBundleId;
+    };
+    
+    // observe a few posts and then stop
+    NSLog(@"A observing '%@'", observeName);
+    
+    int haltCount = 3;
+    __block int count = 0;
+    __block NSString *lastReceviedPayload = nil;
+    [m subscribeToReliableNotificationsForGroupIdentifier:appGroupId1 named:observeName withBlock:^(NSString *identifier, NSString *name, NSArray *postDatesAndPayloads) {
+        for (NSArray *post in postDatesAndPayloads) NSLog(@"%@<- %@ received '%@'", post.lastObject, observerId, name);
+        
+        if ((count += postDatesAndPayloads.count) >= haltCount) { // count receipt until a certain number received
+            NSLog(@"%@ stopping observation after receiving '%@'", observerId, ((NSArray *)postDatesAndPayloads.lastObject).lastObject);
+            
+            [m unsubscribeFromReliableNotificationsForGroupIdentifier:appGroupId1 named:observeName allowingReliableResumption:YES];
+            lastReceviedPayload = ((NSArray *)postDatesAndPayloads.lastObject).lastObject;
+        }
+    }];
+    
+    // perform posts
+    NSArray *postLog = [self doTestManyAppsWithCount:200 usingCleanup:YES];
+    
+    XCTAssertNotNil(lastReceviedPayload, @"not enough posts named '%@'", observeName);
+    if (!lastReceviedPayload) return;
+    
+    // find which payload should be received once we resume observing
+    NSString *nextExpectedPayload = nil;
+    BOOL found = NO; // found lastReceviedPayload
+    for (NSArray *loggedPost in postLog) {
+        if (!found && [loggedPost.lastObject isEqualToString:lastReceviedPayload]) found = YES;
+        else if (found && [loggedPost.firstObject isEqualToString:observeName]) {
+            nextExpectedPayload = loggedPost.lastObject;
+            break;
+        }
+    }
+    XCTAssert(found, @"unable to find last received post %@ in the returned log array", lastReceviedPayload);
+    XCTAssertNotNil(nextExpectedPayload, @"not enough posts named '%@' (needed 1 more)", observeName);
+    if (!nextExpectedPayload) return;
+    NSLog(@"expect %@ to receive '%@' next", observerId, nextExpectedPayload);
+    
+    // resume observing
+    XCTestExpectation *expectation = [self expectationWithDescription:[NSString stringWithFormat:@"AppGroup Reliable Observer Resumed"]];
+    
+    [m subscribeToReliableNotificationsForGroupIdentifier:appGroupId1 named:observeName withBlock:^(NSString *identifier, NSString *name, NSArray *postDatesAndPayloads) {
+        NSArray *firstPost = postDatesAndPayloads.firstObject;
+        NSArray *lastPost = postDatesAndPayloads.lastObject;
+        if (postDatesAndPayloads.count > 0) NSLog(@"%@<- %@ received '%@'", firstPost.lastObject, observerId, name);
+        if (postDatesAndPayloads.count > 2) NSLog(@"... (%d more)", (int)postDatesAndPayloads.count - 2);
+        if (postDatesAndPayloads.count > 1) NSLog(@"%@<- %@ received '%@'", lastPost.lastObject, observerId, name);
+        
+        [m unsubscribeFromReliableNotificationsForGroupIdentifier:appGroupId1 named:observeName allowingReliableResumption:YES];
+        
+        XCTAssert([firstPost.lastObject isEqualToString:nextExpectedPayload], @"first receveived in re-observation is %@, expected %@", firstPost.lastObject, nextExpectedPayload);
+        [expectation fulfill];
+    }];
+    
+    NSTimeInterval timeout = 1.0;
+    [self waitForExpectationsWithTimeout:timeout handler:nil];
+}
+
+- (NSArray *)doTestManyAppsWithCount:(int)numEvents usingCleanup:(BOOL)cleanupOn
+{
     XCTestExpectation *expectation = [self expectationWithDescription:[NSString stringWithFormat:@"AppGroup Many Apps Posting & Receiving%s", cleanupOn?" With Cleanup":""]];
     
     struct NameAndCount { char *name; int count; };
@@ -232,6 +306,7 @@ static NSString * const appGroupId2 = @"2222222222.totalobservertest.appgroup2";
         { (char*)[appBundleId stringByAppendingString:@"X"].UTF8String, 2, {{"a",0}, {"b",0}}, 1, {{"c",0}} },
         { (char*)[appBundleId stringByAppendingString:@"Y"].UTF8String, 1, {{"c",0}},          2, {{"a",0}, {"d",0}} },
         { (char*)[appBundleId stringByAppendingString:@"Z"].UTF8String, 2, {{"d",0}, {"e",0}}, 1, {{"b",0}} }
+        //                                              ^ bundle-id           ^ notifies             ^ observes
     };
     int numNames = 5; char *names[] = {"a","b","c","d","e"};
     
@@ -239,17 +314,20 @@ static NSString * const appGroupId2 = @"2222222222.totalobservertest.appgroup2";
     mockAppsStatic = mockApps; // the blocks below can't access 'mockApps' struct, can access 'mockAppsStatic' however
     
     TOAppGroupNotificationManager *m = [TOAppGroupNotificationManager sharedManager];
+    if (cleanupOn) m.permitPostsWhenNoSubscribers = YES; // if cleaning up, don't leave behind all the unobserved 'e' posts, OR...
     if (cleanupOn) m.cleanupFrequencyRandomFactor = 8;
     
     // make the TOAppGroupNotificationManager call back to map subscription names to bundle id's
     m.bundleIdHelper = self;
     m.appIdentifier = nil; // force use of bundleIdHelper, our protocol methods will call the following block:
+    __block BundleIdMapperBlock previousMapper = self.bundleIdMapper;
     self.bundleIdMapper = ^(NSString *name) {
         struct MockApp *mockApps = mockAppsStatic; // can't reference this array except via this global^Wstatic var
         for (int k = 0; k < numMockApps; ++k)
             for (int l = 0; l < mockApps[k].numObservations; ++l)
                 if ([[NSString stringWithCString:mockApps[k].observations[l].name encoding:NSUTF8StringEncoding] isEqualToString:name])
                     return [NSString stringWithCString:mockApps[k].bundleId encoding:NSUTF8StringEncoding];;
+        if (previousMapper) return previousMapper(name);
         NSLog(@"subscription name \"%@\" not found in our mockApps struct, can't map to bundle id for this test", name);
         return appBundleId;
     };
@@ -268,8 +346,8 @@ static NSString * const appGroupId2 = @"2222222222.totalobservertest.appgroup2";
             char *subscriberShortBundleId = mockApps[k].bundleId + strlen(mockApps[k].bundleId)-1;
             NSLog(@"%s observing '%@'", subscriberShortBundleId, name);
             
-            [m subscribeToNotificationsForGroupIdentifier:appGroupId1 named:name queued:NO withBlock:^(NSString *identifier, NSString *name, id payload, NSDate *postDate) {
-                //NSLog(@"%@<- %s received '%@'", payload, subscriberShortBundleId, name);
+            [m subscribeToNotificationsForGroupIdentifier:appGroupId1 named:name withBlock:^(NSString *identifier, NSString *name, id payload, NSDate *postDate) {
+//                NSLog(@"%@<- %s received '%@'", payload, subscriberShortBundleId, name);
                 *pcount += 1; // count receipt
                 if (validate != nil)
                     validate();
@@ -281,8 +359,10 @@ static NSString * const appGroupId2 = @"2222222222.totalobservertest.appgroup2";
         for (int j = 0; j < mockApps[i].numNotifications; ++j)
             NSLog(@" %s will post '%s'", mockApps[i].bundleId + strlen(mockApps[i].bundleId)-1, mockApps[i].notifications[j].name);
     
+    NSMutableArray *postLog = [NSMutableArray array];
+    
     // make posts to a random one of the names many times, set callbackMockBundleIdentifiers so
-    NSLog(@"performing %d posts...", numEvents);
+    NSLog(@"sending %d posts...", numEvents);
     
     for (int eventCount = 0; eventCount < numEvents; ++eventCount) {
         int r = arc4random_uniform(numNames);
@@ -309,22 +389,75 @@ static NSString * const appGroupId2 = @"2222222222.totalobservertest.appgroup2";
                 if (strcmp(names[r], mockApps[k].observations[l].name) == 0) {
                     receiverShortBundleId = mockApps[k].bundleId + strlen(mockApps[k].bundleId)-1;
                 }
-        //if (!receiverShortBundleId) NSLog(@"%@-> %s posting '%@'", payload, senderShortBundleId, name);
-        //else NSLog(@"%@-> %s posting '%@' to %s", payload, senderShortBundleId, name, receiverShortBundleId);
+//        if (!receiverShortBundleId) NSLog(@"%@-> %s posting '%@'", payload, senderShortBundleId, name);
+//        else NSLog(@"%@-> %s posting '%@' to %s", payload, senderShortBundleId, name, receiverShortBundleId);
         *pcount += 1; // count post
         [m postNotificationForGroupIdentifier:appGroupId1 named:name payload:payload];
+        
+        [postLog addObject:@[name, payload]];
         
         if (eventCount == numEvents / 2 || (numEvents > 50 && (eventCount == 3 * numEvents / 4 || eventCount == numEvents / 4)) || (numEvents > 80 && eventCount == numEvents - 10))
             NSLog(@"%d posts remaining to send", numEvents - eventCount);
     }
     
-    NSLog(@"all sent, waiting for all to be received...");
+    NSLog(@"all sent");
     
-    // after doing all the posts, set validate block for the upcoming final few receive blocks to call (see subscribeToNotifications.. above)
-    validate = ^{
-        struct MockApp *mockApps = mockAppsStatic; // can't reference this array except via this global^Wstatic var
-        static int skiplogging = 0;
-        int undelivered = 0;
+    // see if we've got them all already
+    int undelivered = 0;
+    for (int i = 0; i < numMockApps; ++i)
+        for (int j = 0; j < mockApps[i].numNotifications; ++j)
+            for (int k = 0; k < numMockApps; ++k)
+                for (int l = 0; l < mockApps[k].numObservations; ++l)
+                    if (strcmp(mockApps[i].notifications[j].name, mockApps[k].observations[l].name) == 0)
+                        if (mockApps[i].notifications[j].count > mockApps[k].observations[l].count)
+                            undelivered += mockApps[i].notifications[j].count - mockApps[k].observations[l].count;
+    // all delivered is what we want to have happen, earlier versions weren't so good though and we needed the validate block to count the stragglers
+    // when there's a validate block defined, its called in every subscription block (see subscribeToNotifications.. above)
+    if (undelivered == 0) {
+        NSLog(@"all received without waiting!");
+        [expectation fulfill];
+    } else
+        validate = ^{
+            struct MockApp *mockApps = mockAppsStatic; // can't reference this array except via this global^Wstatic var
+            static int skiplogging = 0;
+            int undelivered = 0;
+            for (int i = 0; i < numMockApps; ++i)
+                for (int j = 0; j < mockApps[i].numNotifications; ++j)
+                    for (int k = 0; k < numMockApps; ++k)
+                        for (int l = 0; l < mockApps[k].numObservations; ++l)
+                            if (strcmp(mockApps[i].notifications[j].name, mockApps[k].observations[l].name) == 0)
+                                if (mockApps[i].notifications[j].count > mockApps[k].observations[l].count)
+                                    undelivered += mockApps[i].notifications[j].count - mockApps[k].observations[l].count;
+            if (undelivered == 0) {
+                NSLog(@"all received");
+                [expectation fulfill];
+            }
+            else if (skiplogging > 0)
+                --skiplogging;
+            else {
+                NSLog(@"%d posts still not received yet:", undelivered);
+                for (int i = 0; i < numMockApps; ++i)
+                    for (int j = 0; j < mockApps[i].numNotifications; ++j)
+                        for (int k = 0; k < numMockApps; ++k)
+                            for (int l = 0; l < mockApps[k].numObservations; ++l)
+                                if (strcmp(mockApps[i].notifications[j].name, mockApps[k].observations[l].name) == 0) {
+                                    char *senderShortBundleId = mockApps[i].bundleId + strlen(mockApps[i].bundleId)-1;
+                                    char *receiverShortBundleId = mockApps[k].bundleId + strlen(mockApps[k].bundleId)-1;
+                                    NSLog(@"'%s': %d sent from %s, %d received by %s", mockApps[i].notifications[j].name, mockApps[i].notifications[j].count, senderShortBundleId, mockApps[k].observations[l].count, receiverShortBundleId);
+                                }
+                if (undelivered > 200) skiplogging = (undelivered - 1) / 8;
+                else if (undelivered > 25) skiplogging = (undelivered - 1) / 2;
+                else skiplogging = undelivered - 2;
+            }
+        };
+    
+    [self waitForExpectationsWithTimeout:5.0 handler:nil];
+    
+    // total # seconds reported for 1000 posts might be ~= the duration in milliseconds for 1 post .. roughly 14, is that bad?
+    
+    // if had some stragglers before waiting, check again
+    if (undelivered > 0) {
+        undelivered = 0;
         for (int i = 0; i < numMockApps; ++i)
             for (int j = 0; j < mockApps[i].numNotifications; ++j)
                 for (int k = 0; k < numMockApps; ++k)
@@ -332,47 +465,36 @@ static NSString * const appGroupId2 = @"2222222222.totalobservertest.appgroup2";
                         if (strcmp(mockApps[i].notifications[j].name, mockApps[k].observations[l].name) == 0)
                             if (mockApps[i].notifications[j].count > mockApps[k].observations[l].count)
                                 undelivered += mockApps[i].notifications[j].count - mockApps[k].observations[l].count;
-        if (undelivered == 0) {
-            NSLog(@"all received");
-            [expectation fulfill];
-        }
-        else if (skiplogging > 0)
-            --skiplogging;
-        else {
-            NSLog(@"%d posts not received yet:", undelivered);
-            for (int i = 0; i < numMockApps; ++i)
-                for (int j = 0; j < mockApps[i].numNotifications; ++j)
-                    for (int k = 0; k < numMockApps; ++k)
-                        for (int l = 0; l < mockApps[k].numObservations; ++l)
-                            if (strcmp(mockApps[i].notifications[j].name, mockApps[k].observations[l].name) == 0) {
-                                char *senderShortBundleId = mockApps[i].bundleId + strlen(mockApps[i].bundleId)-1;
-                                char *receiverShortBundleId = mockApps[k].bundleId + strlen(mockApps[k].bundleId)-1;
-                                NSLog(@"'%s': %d sent from %s, %d received by %s", mockApps[i].notifications[j].name, mockApps[i].notifications[j].count, senderShortBundleId, mockApps[k].observations[l].count, receiverShortBundleId);
-                            }
-            if (undelivered > 200) skiplogging = (undelivered - 1) / 8;
-            else if (undelivered > 25) skiplogging = (undelivered - 1) / 2;
-            else skiplogging = undelivered - 2;
-        }
-        
-    };
+        if (undelivered > 0) NSLog(@"after timeout, %d posts still not received:", undelivered);
+    }
+    for (int i = 0; i < numMockApps; ++i)
+        for (int j = 0; j < mockApps[i].numNotifications; ++j)
+            for (int k = 0; k < numMockApps; ++k)
+                for (int l = 0; l < mockApps[k].numObservations; ++l)
+                    if (strcmp(mockApps[i].notifications[j].name, mockApps[k].observations[l].name) == 0) {
+                        char *senderShortBundleId = mockApps[i].bundleId + strlen(mockApps[i].bundleId)-1;
+                        char *receiverShortBundleId = mockApps[k].bundleId + strlen(mockApps[k].bundleId)-1;
+                        NSLog(@"'%s': %d sent from %s, %d received by %s", mockApps[i].notifications[j].name, mockApps[i].notifications[j].count, senderShortBundleId, mockApps[k].observations[l].count, receiverShortBundleId);
+                    }
     
-    NSTimeInterval timeout = 10.0;
-    [self waitForExpectationsWithTimeout:timeout handler:nil];
+    NSLog(@"dir contents (cleanup %s) = %@", cleanupOn?"ON":"OFF", [self directoryContentsForURL:self.tempFolderURL]);
     
-    // total # seconds reported for 1000 posts might be ~= the duration in milliseconds for 1 post .. roughly 14, is that bad?
-    
-    // cleanup to prevent calls to any of the blocks above after method exits until tearDown runs
+    // unsubscribe to prevent calls to any of the subscription blocks being called between this method exiting and tearDown called
     for (int k = 0; k < numMockApps; ++k)
         for (int l = 0; l < mockApps[k].numObservations; ++l) {
             NSString *name = [NSString stringWithCString:mockApps[k].observations[l].name encoding:NSUTF8StringEncoding];
             [m unsubscribeFromNotificationsForGroupIdentifier:appGroupId1 named:name];
         }
-    m.appIdentifier = appBundleId;
-    m.bundleIdHelper = nil;
     
-    NSLog(@"dir contents = %@", [self directoryContentsForURL:self.tempFolderURL]);
+    if (previousMapper) {
+        self.bundleIdMapper = previousMapper;
+    } else {
+        self.bundleIdMapper = nil;
+        m.bundleIdHelper = nil;
+        m.appIdentifier = appBundleId;
+    }
     
-    [[TOAppGroupNotificationManager sharedManager] removeGroupIdentifier:appGroupId1];
+    return postLog;
 }
 
 #pragma mark -
