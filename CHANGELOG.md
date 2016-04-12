@@ -1,5 +1,9 @@
 # Change Log
 
+## [0.7.1](https://github.com/jpmhouston/TotalObserver/tree/0.7.1) (2016-04-12)
+
+- Fixed app group notification shorthand header needed regenerating
+
 ## [0.7.0](https://github.com/jpmhouston/TotalObserver/tree/0.7.0) (2016-04-08)
 
 - Significantly improved app group notification, reworking attempted "queued" functionality into "reliable observations"

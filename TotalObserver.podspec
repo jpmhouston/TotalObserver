@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'TotalObserver'
-  s.version          = '0.7.0'
+  s.version          = '0.7.1'
   s.summary          = 'Consistent blocks API for disparate Cocoa observers: KVO, NSNotification, cross-app Darwin Notifications, and more.'
   
   s.description      = <<-DESC
